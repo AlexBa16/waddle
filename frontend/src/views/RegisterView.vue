@@ -20,8 +20,8 @@
 
 <script setup>
 import Input from '@/components/Input.vue';
-import LogoLight from '@/assets/waddle-logo-light.svg';
-import MountainsLight from '@/assets/waddle-mountains-light.svg';
+import LogoLight from '@/assets/logo-light.svg';
+import MountainsLight from '@/assets/mountains-light.svg';
 </script>
 
 <style scoped>

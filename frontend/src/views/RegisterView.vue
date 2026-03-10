@@ -12,6 +12,7 @@
                     <Input type="email" label="E-Mail" class="w-90" />
                     <Input type="password" label="Passwort" class="w-90" />
                     <Input type="password" label="Passwort bestätigen" class="w-90" />
+                    <Button>Registrieren</Button>
                 </form>
             </div>
         </div>
@@ -20,6 +21,7 @@
 
 <script setup>
 import Input from '@/components/Input.vue';
+import Button from '@/components/Button.vue';
 import LogoLight from '@/assets/logo-light.svg';
 import MountainsLight from '@/assets/mountains-light.svg';
 </script>

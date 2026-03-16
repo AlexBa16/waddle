@@ -38,7 +38,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     // Wird NICHT gespeichert – nur für Validierung beim Registrieren
     #[Assert\NotBlank(message: 'Password cannot be empty.')]
-    #[Assert\Length(min: 8, message: 'Password must have at least 8 characters.')]
+    #[Assert\Length(min: 8, minMessage: 'Password must have at least 8 characters.')]
     private ?string $plainPassword = null;
 
     public function getId(): ?int { return $this->id; }

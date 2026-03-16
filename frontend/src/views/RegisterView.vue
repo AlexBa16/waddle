@@ -1,7 +1,7 @@
 <template>
     <div class="relative w-screen h-screen">
         <img :src="MountainsLight" alt="" class="absolute bottom-0 left-1/6 w-2/3 object-center z-0" />
-        <div class="fixed inset-0 bg-slate-200/75 flex items-center justify-center z-10">
+        <div class="fixed inset-0 bg-slate-200/66 flex items-center justify-center z-10 backdrop-blur">
             <div>
                 <div class="logo-section flex flex-row items-center gap-6 justify-center mb-10">
                     <img :src="LogoLight" alt="Waddle Logo" class="w-12 h-auto" />

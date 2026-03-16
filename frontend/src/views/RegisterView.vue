@@ -1,11 +1,11 @@
 <template>
     <div class="relative w-screen h-screen">
-        <img :src="MountainsLight" alt="" class="absolute bottom-0 left-0 w-full object-center z-0" />
+        <img :src="MountainsLight" alt="" class="absolute bottom-0 left-1/6 w-2/3 object-center z-0" />
         <div class="fixed inset-0 bg-slate-200/75 flex items-center justify-center z-10">
             <div>
                 <div class="logo-section flex flex-row items-center gap-6 justify-center mb-10">
                     <img :src="LogoLight" alt="Waddle Logo" class="w-12 h-auto" />
-                    <span class="text-5xl font-bold">Waddle</span>
+                    <span class="text-5xl pop-reg font-bold">Waddle</span>
                 </div>
                 <form class="form flex flex-col gap-1">
                     <Input type="text" label="Benutzername" class="w-90" />
@@ -14,6 +14,9 @@
                     <Input type="password" label="Passwort bestätigen" class="w-90" />
                     <Button>Registrieren</Button>
                 </form>
+                <div class="text-center mt-4">
+                    <a href="/login" class="text-sm underline text-slate-600 hover:text-slate-800">Bereits ein Konto? Hier anmelden</a>
+                </div>
             </div>
         </div>
     </div>

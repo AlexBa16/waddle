@@ -1,1 +1,65 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+@utility pop-thin {
+  font-family: "Poppins", sans-serif;
+  font-weight: 100;
+}
+
+@utility pop-extralight {
+  font-family: "Poppins", sans-serif;
+  font-weight: 200;
+}
+
+@utility pop-light {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+}
+
+@utility pop-reg {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+}
+
+@utility pop-med {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+}
+
+@utility pop-semibold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+}
+
+@utility pop-bold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+}
+
+@utility pop-extrabold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+}
+
+@utility pop-black {
+  font-family: "Poppins", sans-serif;
+  font-weight: 900;
+}
+
+@utility pop-reg-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+@utility pop-med-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+@utility pop-bold-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}

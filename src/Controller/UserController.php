@@ -63,16 +63,24 @@ final class UserController extends AbstractController
         ], Response::HTTP_CREATED);
     }
 
-    // Symfony's json_login übernimmt den Login automatisch
-    #[Route('/login', name: 'app_login', methods: ['POST'])]
-    public function login(): never
+    #[Route('/login', methods: ['POST'])]
+    public function login(Request $request): JsonResponse
     {
-        throw new \LogicException('Handled by firewall.');
-    }
+        $data = json_decode($request->getContent(), true);
 
-    #[Route('/logout', name: 'app_logout', methods: ['POST'])]
-    public function logout(): never
-    {
-        throw new \LogicException('Handled by firewall.');
+        $user = $this->em->getRepository(User::class)
+            ->findOneBy(['username' => $data['username']]);
+
+        if (!$user) {
+            return $this->json(['error' => 'User not found'], 401);
+        }
+
+        if (!$this->passwordHasher->isPasswordValid($user, $data['password'])) {
+            return $this->json(['error' => 'Wrong password'], 401);
+        }
+
+        return $this->json([
+            'message' => 'Login erfolgreich'
+        ]);
     }
 }

@@ -35,7 +35,7 @@
                     <form class="flex flex-col gap-3 w-full">
                         <Input type="text" label="Benutzername" class="w-full" />
                         <Input type="password" label="Passwort" class="w-full" />
-                        <Button class="w-full">Einloggen</Button>
+                        <Button @click="goToDash" class="w-full">Einloggen</Button>
                     </form>
 
                     <!-- Register -->
@@ -55,11 +55,18 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
 import Input from '@/components/Input.vue'
 import Button from '@/components/Button.vue'
 import LogoLight from '@/assets/logo-light.svg'
 import MountainsSmallLight from '@/assets/mountain-small-light.svg'
 import MountainsBigLight from '@/assets/mountain-big-light.svg'
+
+const router = useRouter()
+
+function goToDash() {
+    router.push('/dashboard')
+}
 </script>
 
 <style scoped>

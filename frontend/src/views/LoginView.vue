@@ -1,5 +1,5 @@
 <template>
-    <div class="absolute inset-0 bg-orange-50 overflow-hidden dark:bg-slate-950 dark:text-orange-50">
+    <div class="absolute inset-0 bg-orange-50 overflow-hidden dark:bg-slate-950">
         <div class="relative w-screen h-screen">
 
             <img :src="MountainsBigLight" alt=""
@@ -15,8 +15,9 @@
                 <div class="bg-slate-200/75 rounded-2xl w-full max-w-md p-8 md:p-10 backdrop-blur shadow-lg dark:bg-slate-600/75">
 
                     <div class="flex items-center justify-center gap-6 mb-10">
-                        <img :src="LogoLight" alt="Waddle Logo" class="w-10 md:w-12 h-auto" />
-                        <span class="text-4xl md:text-5xl font-bold pop-reg">Waddle</span>
+                        <img :src="LogoLight" alt="Waddle Logo" class="w-12 h-auto dark:hidden" />
+                        <img :src="LogoDark" alt="Waddle Logo" class="w-12 h-auto hidden dark:block" />
+                        <span class="text-4xl md:text-5xl font-bold pop-reg text-slate-700 dark:text-orange-50">Waddle</span>
                     </div>
 
                     <form class="flex flex-col gap-3 w-full" @submit.prevent="login">
@@ -47,6 +48,7 @@ import { useRouter } from 'vue-router'
 import Input from '@/components/Input.vue'
 import Button from '@/components/Button.vue'
 import LogoLight from '@/assets/logo-light.svg'
+import LogoDark from '@/assets/logo-dark.svg'
 import MountainsSmallLight from '@/assets/mountain-small-light.svg'
 import MountainsBigLight from '@/assets/mountain-big-light.svg'
 import MountainsSmallDark from '@/assets/mountain-small-dark.svg'

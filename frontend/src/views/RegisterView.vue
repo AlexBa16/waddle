@@ -15,6 +15,16 @@
                     <Input v-model="form.email" type="email" label="E-Mail" class="w-90" />
                     <Input v-model="form.password" type="password" label="Passwort" class="w-90" />
                     <Input v-model="form.passwordConfirm" type="password" label="Passwort bestätigen" class="w-90" />
+
+                    <!--Errors-->
+                    <div v-if="errors" class="text-red-500 text-sm mt-1">
+                        <p v-for="(msg, field) in errors" :key="field">{{ msg }}</p>
+                    </div>
+                    <p v-if="generalError" class="text-red-500 text-sm mt-1">{{ generalError }}</p>
+
+                    <Button :disabled="loading" class="mt-2 w-full">
+                        {{ loading ? 'Wird registriert...' : 'Registrieren' }}
+                    </Button>
                 </form>
 
                 <div class="text-center mt-4">

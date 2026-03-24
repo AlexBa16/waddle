@@ -16,6 +16,12 @@
                     <Input v-model="form.password" type="password" label="Passwort" class="w-90" />
                     <Input v-model="form.passwordConfirm" type="password" label="Passwort bestätigen" class="w-90" />
                 </form>
+
+                <div class="text-center mt-4">
+                    <a href="/login"
+                        class="text-sm underline text-slate-600 hover:text-slate-800 dark:text-orange-50 dark:hover:text-indigo-100">Bereits
+                        ein Konto? Hier anmelden</a>
+                </div>
             </div>
         </div>
     </div>

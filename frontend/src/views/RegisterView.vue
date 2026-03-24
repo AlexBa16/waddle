@@ -18,43 +18,6 @@
                 </form>
             </div>
         </div>
-        <!-- Overlay -->
-        <div class="fixed inset-0 bg-slate-200/70 flex items-center justify-center z-10 backdrop-blur px-4">
-            <div class="w-full max-w-md">
-
-                <!-- Logo -->
-                <div class="flex flex-row items-center gap-4 justify-center mb-8 sm:mb-10">
-                    <img :src="LogoLight" alt="Waddle Logo" class="w-10 sm:w-12 h-auto" />
-                    <span class="text-3xl sm:text-5xl pop-reg font-bold">Waddle</span>
-                </div>
-
-                <!-- Form -->
-                <form class="flex flex-col gap-3" @submit.prevent="register">
-                    <Input v-model="form.username" type="text" label="Benutzername" class="w-full" />
-                    <Input v-model="form.email" type="email" label="E-Mail" class="w-full" />
-                    <Input v-model="form.password" type="password" label="Passwort" class="w-full" />
-                    <Input v-model="form.passwordConfirm" type="password" label="Passwort bestätigen" class="w-full" />
-
-                    <!-- Errors -->
-                    <div v-if="errors" class="text-red-500 text-sm mt-1">
-                        <p v-for="(msg, field) in errors" :key="field">{{ msg }}</p>
-                    </div>
-                    <p v-if="generalError" class="text-red-500 text-sm mt-1">{{ generalError }}</p>
-
-                    <Button :disabled="loading" class="mt-2 w-full">
-                        {{ loading ? 'Wird registriert...' : 'Registrieren' }}
-                    </Button>
-                </form>
-
-                <!-- Login link -->
-                <div class="text-center mt-4">
-                    <a href="/login"
-                        class="text-sm underline text-slate-600 hover:text-slate-800 dark:text-orange-50 dark:hover:text-indigo-100">Bereits
-                        ein Konto? Hier anmelden</a>
-                </div>
-
-            </div>
-        </div>
     </div>
 </template>
 

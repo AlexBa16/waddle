@@ -45,6 +45,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 import Input from '@/components/Input.vue'
 import Button from '@/components/Button.vue'
 import LogoLight from '@/assets/logo-light.svg'
@@ -54,15 +55,20 @@ import MountainsBigLight from '@/assets/mountain-big-light.svg'
 import MountainsSmallDark from '@/assets/mountain-small-dark.svg'
 import MountainsBigDark from '@/assets/mountain-big-dark.svg'
 
-const router = useRouter()
 
 const form = ref({
     username: '',
     password: '',
 })
 
+const router = useRouter()
+const auth = useAuthStore()
+
 const error = ref(null)
 const loading = ref(false)
+
+
+
 
 async function login() {
     error.value = null
@@ -72,7 +78,6 @@ async function login() {
         const response = await fetch('https://localhost/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            // credentials: 'include',  // Session-Cookie speichern
             body: JSON.stringify({
                 username: form.value.username,
                 password: form.value.password,
@@ -84,6 +89,8 @@ async function login() {
             return
         }
 
+        const data = await response.json()
+        auth.setToken(data.token)
         router.push('/dashboard')
 
     } catch (e) {

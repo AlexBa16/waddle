@@ -3,6 +3,33 @@ security:
         App\Entity\User:
             algorithm: auto
 
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: username
+
     firewalls:
-        main:
-            lazy: true
+        login:
+            pattern: ^/login
+            stateless: true
+            json_login:
+                check_path: /login
+                username_path: username
+                password_path: password
+                success_handler: App\Security\AuthenticationSuccessHandler
+
+        register:
+            pattern: ^/register
+            stateless: true
+            security: false
+
+        api:
+            pattern: ^/
+            stateless: true
+            jwt: ~
+
+    access_control:
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/register, roles: PUBLIC_ACCESS }
+        - { path: ^/, roles: ROLE_USER }

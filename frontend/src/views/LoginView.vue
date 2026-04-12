@@ -5,11 +5,11 @@
             <img :src="MountainsBigLight" alt=""
                 class="absolute bottom-0 left-[40%] w-[50vw] object-contain z-0 dark:hidden" />
             <img :src="MountainsSmallLight" alt=""
-                class="absolute bottom-0 left-[20%] w-[32vw] object-contain z-20 small-z-back dark:hidden" />
+                class="absolute bottom-0 left-[20%] w-[32vw] object-contain z-20 small-z-back dark:hidden pointer-events-none" />
             <img :src="MountainsBigDark" alt=""
                 class="absolute bottom-0 left-[40%] w-[50vw] object-contain z-0 hidden dark:block" />
             <img :src="MountainsSmallDark" alt=""
-                class="absolute bottom-0 left-[20%] w-[32vw] object-contain z-20 small-z-back hidden dark:block" />
+                class="absolute bottom-0 left-[20%] w-[32vw] object-contain z-20 small-z-back hidden dark:block pointer-events-none" />
 
             <div class="fixed inset-0 flex items-center justify-center z-10 px-4">
                 <div class="bg-slate-200/75 rounded-2xl w-full max-w-md p-8 md:p-10 backdrop-blur shadow-lg dark:bg-slate-600/75">

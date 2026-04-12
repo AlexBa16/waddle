@@ -1,0 +1,206 @@
+<template>
+    <Teleport to="body">
+      <Transition name="modal">
+        <div
+          v-if="modelValue"
+          class="fixed inset-0 z-[100] flex items-center justify-center"
+          @mousedown.self="$emit('update:modelValue', false)"
+        >
+          <!-- Backdrop -->
+          <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" />
+  
+          <!-- Panel -->
+          <div class="relative w-full max-w-md mx-4 bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden">
+  
+            <!-- Header bar -->
+            <div class="bg-[#7C86FF] px-8 py-6 flex items-center justify-between">
+              <h2 class="text-white text-xl font-semibold tracking-tight">Neues Projekt</h2>
+              <button
+                class="text-white/70 hover:text-white transition-colors duration-150 cursor-pointer"
+                @click="$emit('update:modelValue', false)"
+              >
+                <svg class="w-5 h-5 cursor-pointer" viewBox="0 0 24 24" fill="none">
+                  <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                  <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                </svg>
+              </button>
+            </div>
+  
+            <!-- Body -->
+            <div class="px-8 py-7 flex flex-col gap-6">
+  
+              <!-- Name -->
+              <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                  Name
+                </label>
+                <input
+                  ref="nameInputRef"
+                  v-model="form.name"
+                  type="text"
+                  placeholder="z. B. Website Relaunch"
+                  class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-white placeholder-slate-400 text-sm font-medium outline-none focus:border-[#7C86FF] transition-colors duration-150"
+                />
+              </div>
+  
+              <!-- Description -->
+              <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                  Beschreibung
+                </label>
+                <textarea
+                  v-model="form.description"
+                  placeholder="Worum geht es in diesem Projekt?"
+                  rows="3"
+                  class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-white placeholder-slate-400 text-sm font-medium outline-none focus:border-[#7C86FF] transition-colors duration-150 resize-none"
+                />
+              </div>
+  
+              <!-- Identifier switch -->
+              <div class="flex items-start justify-between gap-4 py-1">
+                <div class="flex flex-col gap-1">
+                  <span class="text-sm font-semibold text-slate-700 dark:text-slate-200">
+                    Kennung für Zeiteinträge
+                  </span>
+                  <span class="text-xs text-slate-400 dark:text-slate-500 leading-snug">
+                    Fügt jedem Zeiteintrag dieses Projekts einen Bezeichner hinzu.
+                  </span>
+                </div>
+                <!-- Toggle switch -->
+                <button
+                  type="button"
+                  role="switch"
+                  :aria-checked="form.useIdentifier"
+                  class="relative shrink-0 mt-0.5 w-11 h-6 rounded-full transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-[#7C86FF] focus-visible:ring-offset-2 cursor-pointer"
+                  :class="form.useIdentifier ? 'bg-[#7C86FF]' : 'bg-slate-300 dark:bg-slate-600'"
+                  @click="form.useIdentifier = !form.useIdentifier"
+                >
+                  <span
+                    class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200"
+                    :class="form.useIdentifier ? 'translate-x-5' : 'translate-x-0'"
+                  />
+                </button>
+              </div>
+  
+              <!-- Identifier input (revealed when switch is on) -->
+              <Transition name="slide-down">
+                <div v-if="form.useIdentifier" class="flex flex-col gap-2 -mt-2">
+                  <label class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                    Kennung
+                  </label>
+                  <input
+                    v-model="form.identifier"
+                    type="text"
+                    placeholder="z. B. WEB-001"
+                    maxlength="20"
+                    class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-white placeholder-slate-400 text-sm font-medium outline-none focus:border-[#7C86FF] transition-colors duration-150"
+                  />
+                </div>
+              </Transition>
+            </div>
+  
+            <!-- Footer -->
+            <div class="px-8 pb-7 flex items-center justify-end gap-3">
+              <button
+                class="cursor-pointer px-5 py-2.5 rounded-xl text-sm font-semibold text-slate-500 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 dark:hover:text-slate-200 transition-colors duration-150"
+                @click="$emit('update:modelValue', false)"
+              >
+                Abbrechen
+              </button>
+              <button
+                class="cursor-pointer px-6 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-150 shadow-md"
+                :class="canSubmit ? 'bg-[#7C86FF] hover:bg-[#6c75e8] shadow-[#7C86FF]/30' : 'bg-slate-300 dark:bg-slate-600 cursor-not-allowed'"
+                :disabled="!canSubmit"
+                @click="submit"
+              >
+                Projekt erstellen
+              </button>
+            </div>
+  
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
+  </template>
+  
+  <script setup>
+  import { ref, computed, watch, nextTick } from 'vue'
+  
+  const props = defineProps({
+    modelValue: { type: Boolean, default: false },
+  })
+  
+  const emit = defineEmits(['update:modelValue', 'create'])
+  
+  const nameInputRef = ref(null)
+  
+  const defaultForm = () => ({
+    name: '',
+    description: '',
+    useIdentifier: false,
+    identifier: '',
+  })
+  
+  const form = ref(defaultForm())
+  
+  const canSubmit = computed(() => form.value.name.trim().length > 0)
+  
+  // Auto-focus name input when modal opens; reset form when it closes
+  watch(
+    () => props.modelValue,
+    (val) => {
+      if (val) {
+        nextTick(() => nameInputRef.value?.focus())
+      } else {
+        form.value = defaultForm()
+      }
+    }
+  )
+  
+  function submit() {
+    if (!canSubmit.value) return
+    emit('create', {
+      name: form.value.name.trim(),
+      description: form.value.description.trim(),
+      useIdentifier: form.value.useIdentifier,
+      identifier: form.value.useIdentifier ? form.value.identifier.trim() : null,
+    })
+    emit('update:modelValue', false)
+  }
+  </script>
+  
+  <style scoped>
+  .modal-enter-active,
+  .modal-leave-active {
+    transition: opacity 0.2s ease;
+  }
+  .modal-enter-active .relative,
+  .modal-leave-active .relative {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .modal-enter-from,
+  .modal-leave-to {
+    opacity: 0;
+  }
+  .modal-enter-from .relative {
+    transform: translateY(12px) scale(0.98);
+    opacity: 0;
+  }
+  .modal-leave-to .relative {
+    transform: translateY(6px) scale(0.99);
+    opacity: 0;
+  }
+  
+  .slide-down-enter-active,
+  .slide-down-leave-active {
+    transition: opacity 0.18s ease, transform 0.18s ease, max-height 0.2s ease;
+    max-height: 100px;
+    overflow: hidden;
+  }
+  .slide-down-enter-from,
+  .slide-down-leave-to {
+    opacity: 0;
+    transform: translateY(-6px);
+    max-height: 0;
+  }
+  </style>

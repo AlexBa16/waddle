@@ -89,7 +89,7 @@
             </div>
             <div
               class="w-11 h-6 rounded-full relative cursor-pointer transition-colors"
-              :class="item.enabled ? 'bg-orange-400' : 'bg-slate-300 dark:bg-slate-500'"
+              :class="item.enabled ? 'bg-indigo-400' : 'bg-slate-300 dark:bg-slate-500'"
               @click="item.enabled = !item.enabled"
             >
               <div

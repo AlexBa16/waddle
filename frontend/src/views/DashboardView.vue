@@ -1,9 +1,12 @@
 <template>
-    <div>
-        Du bist eingeloggt🎉
+    <div class="flex h-screen overflow-hidden">
+        <Sidebar />
+        <main class="flex-1 overflow-y-auto bg-white dark:bg-slate-800">
+            <RouterView /> 
+        </main>
     </div>
 </template>
 
 <script setup>
-
+import Sidebar from '@/components/Sidebar.vue';
 </script>

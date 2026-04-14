@@ -1,49 +1,77 @@
 <template>
     <div class="relative w-full" ref="wrapperRef">
-      <!-- Trigger Button -->
+      
+      <!-- Button -->
       <button
-        class="cursor-pointer w-full flex items-center justify-between px-6 py-4 rounded-2xl text-white font-medium text-lg transition-all duration-200 shadow-lg"
-        :class="isOpen ? 'bg-indigo-400 dark:bg-slate-800' : 'bg-indigo-300 hover:bg-indigo-400 dark:bg-slate-700 dark:hover:bg-slate-800'"
+        class="w-full flex items-center justify-between
+               px-4 sm:px-5 lg:px-6
+               py-3 sm:py-4
+               rounded-xl sm:rounded-2xl
+               text-sm sm:text-base lg:text-lg
+               text-white font-medium
+               transition-all duration-200 shadow-lg"
+        :class="isOpen
+          ? 'bg-indigo-400 dark:bg-slate-800'
+          : 'bg-indigo-300 hover:bg-indigo-400 dark:bg-slate-700 dark:hover:bg-slate-800'"
         @click="toggle"
       >
-        <span>{{ selectedLabel }}</span>
+        <span class="truncate">{{ selectedLabel }}</span>
+  
         <svg
-          class="w-5 h-5 transition-transform duration-250"
+          class="w-4 h-4 sm:w-5 sm:h-5 transition-transform"
           :class="{ 'rotate-180': isOpen }"
           viewBox="0 0 24 24"
-          fill="none"
         >
-          <polyline points="6 9 12 15 18 9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+          <polyline points="6 9 12 15 18 9"
+            stroke="currentColor"
+            stroke-width="2.5"
+            fill="none"
+          />
         </svg>
       </button>
   
-      <!-- Dropdown Panel -->
+      <!-- Panel -->
       <Transition name="dropdown">
         <div
           v-if="isOpen"
-          class="absolute top-[calc(100%+8px)] left-0 right-0 bg-indigo-400 dark:bg-slate-800 rounded-2xl px-4 pt-5 pb-4 z-50 shadow-xl"
+          class="absolute left-0 right-0 mt-2
+                 bg-indigo-400 dark:bg-slate-800
+                 rounded-xl sm:rounded-2xl
+                 px-3 sm:px-4 pt-4 pb-3
+                 z-50 shadow-xl
+                 max-h-64 overflow-y-auto"
         >
-          <ul class="flex flex-col gap-1 list-none m-0 p-0">
+          <ul class="flex flex-col gap-1">
             <li
               v-for="option in options"
               :key="option.id"
-              class="px-4 py-3 rounded-xl text-white cursor-pointer transition-colors duration-150"
-              :class="modelValue === option.id ? 'bg-indigo-300 dark:bg-slate-600 font-medium' : 'hover:bg-white/20'"
+              class="px-3 sm:px-4 py-2 sm:py-3
+                     rounded-lg sm:rounded-xl
+                     text-sm sm:text-base
+                     text-white cursor-pointer transition"
+              :class="modelValue === option.id
+                ? 'bg-indigo-300 dark:bg-slate-600 font-medium'
+                : 'hover:bg-white/20'"
               @click="select(option)"
             >
               {{ option.name }}
             </li>
           </ul>
   
-          <div class="my-3 border-t border-white/30" />
+          <div class="my-2 border-t border-white/30" />
   
           <button
-            class="w-full flex items-center gap-2 px-4 py-3 rounded-xl text-white/90 font-medium cursor-pointer transition-colors duration-150 hover:bg-white/20 hover:text-white"
+            class="w-full flex items-center gap-2
+                   px-3 sm:px-4 py-2 sm:py-3
+                   rounded-lg sm:rounded-xl
+                   text-sm sm:text-base
+                   text-white/90 font-medium
+                   hover:bg-white/20 hover:text-white transition"
             @click="onCreateClick"
           >
-            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none">
-              <line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-              <line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+            <svg class="w-4 h-4" viewBox="0 0 24 24">
+              <line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="2.5"/>
+              <line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2.5"/>
             </svg>
             Projekt erstellen
           </button>

@@ -16,9 +16,6 @@ class Project
     #[ORM\Column(length: 255)]
     private ?string $projectName = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
-
     #[ORM\ManyToOne(inversedBy: 'projects')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $admin = null;
@@ -42,18 +39,6 @@ class Project
     public function setProjectName(string $projectName): static
     {
         $this->projectName = $projectName;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): static
-    {
-        $this->name = $name;
 
         return $this;
     }

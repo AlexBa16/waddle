@@ -54,7 +54,7 @@
                 : 'hover:bg-white/20'"
               @click="select(option)"
             >
-              {{ option.name }}
+              {{ option.projectName }}
             </li>
           </ul>
   
@@ -96,7 +96,7 @@
   
   const selectedLabel = computed(() => {
     const found = props.options.find((o) => o.id === props.modelValue)
-    return found ? found.name : props.placeholder
+    return found ? found.projectName : props.placeholder
   })
   
   function toggle() { isOpen.value = !isOpen.value }

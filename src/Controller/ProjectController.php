@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Entity\Project;
@@ -44,13 +45,9 @@ final class ProjectController extends AbstractController
 
         $project = new Project();
         $project->setAdmin($this->getUser());
-        $project->setName(trim($data['name']));
+        $project->setProjectName(trim($data['name']));
         $project->setDescription(!empty($data['description']) ? trim($data['description']) : null);
         $project->setTimeEntriesHaveIdentifier((bool) ($data['useIdentifier'] ?? false));
-        // projectName = der Identifier-Kürzel (z. B. "WEB-001"), nullable wenn nicht verwendet
-        $project->setProjectName(
-            !empty($data['identifier']) ? trim($data['identifier']) : trim($data['name'])
-        );
 
         $this->em->persist($project);
         $this->em->flush();
@@ -78,7 +75,6 @@ final class ProjectController extends AbstractController
     {
         return [
             'id'                      => $p->getId(),
-            'name'                    => $p->getName(),
             'projectName'             => $p->getProjectName(),
             'description'             => $p->getDescription(),
             'timeEntriesHaveIdentifier' => $p->isTimeEntriesHaveIdentifier(),

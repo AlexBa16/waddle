@@ -40,7 +40,6 @@
 
 <script setup>
 import { ref } from 'vue'
-import { ref } from 'vue'
 import LogoLight from '@/assets/logo-light.svg'
 import LogoDark  from '@/assets/logo-dark.svg'
 import Dropdown          from '@/components/Dropdown.vue'

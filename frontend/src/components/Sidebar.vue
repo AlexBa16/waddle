@@ -48,7 +48,7 @@
             <CreateProjectForm v-model="showCreateForm" @create="handleCreate" />
 
             <!-- Main nav -->
-            <nav class="mt-6 flex flex-col gap-1 mb-50">
+            <nav class="mt-6 flex flex-col gap-1 mb-auto">
                 <RouterLink v-for="item in navItems" :key="item.to" :to="item.to" @click="isOpen = false" class="flex items-center gap-3 px-4 py-3 rounded-xl
                            text-slate-700 dark:text-orange-50
                            hover:bg-slate-300 dark:hover:bg-slate-500 transition-colors"
@@ -72,7 +72,6 @@
             </nav>
         </div>
     </Transition>
-    <img :src="MountainsLight" alt="" class="absolute -left-32 translate-y-180 z-100 w-150" />
 </template>
 
 <script setup>

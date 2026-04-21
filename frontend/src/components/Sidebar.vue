@@ -51,7 +51,7 @@
             <nav class="mt-6 flex flex-col gap-1 mb-auto">
                 <RouterLink v-for="item in navItems" :key="item.to" :to="item.to" @click="isOpen = false" class="flex items-center gap-3 px-4 py-3 rounded-xl
                            text-slate-700 dark:text-orange-50
-                           hover:bg-slate-300 dark:hover:bg-slate-500 transition-colors"
+                           hover:bg-indigo-300 dark:hover:bg-slate-500 transition-colors"
                     active-class="bg-indigo-300 dark:bg-slate-500 font-semibold">
                     <img :src="item.iconPathLight" alt="" class="w-5 h-5 shrink-0 block dark:hidden" />
                     <img :src="item.iconPathDark" alt="" class="w-5 h-5 shrink-0 hidden dark:block" />

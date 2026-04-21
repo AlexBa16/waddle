@@ -9,7 +9,7 @@
                rounded-xl sm:rounded-2xl
                text-sm sm:text-base lg:text-lg
                text-white font-medium
-               transition-all duration-200 shadow-lg"
+               transition-all duration-200 shadow-lg cursor-pointer"
         :class="isOpen
           ? 'bg-indigo-400 dark:bg-slate-800'
           : 'bg-indigo-300 hover:bg-indigo-400 dark:bg-slate-700 dark:hover:bg-slate-800'"
@@ -66,7 +66,7 @@
                    rounded-lg sm:rounded-xl
                    text-sm sm:text-base
                    text-white/90 font-medium
-                   hover:bg-white/20 hover:text-white transition"
+                   hover:bg-white/20 hover:text-white transition cursor-pointer"
             @click="onCreateClick"
           >
             <svg class="w-4 h-4" viewBox="0 0 24 24">

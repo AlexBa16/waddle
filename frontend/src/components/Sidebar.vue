@@ -1,6 +1,6 @@
 <template>
     <!-- Burger button (visible when sidebar is closed) -->
-    <button v-if="!isOpen" @click="isOpen = true" class="fixed z-50 p-2 transition-colors shadow-md top-4 left-4 rounded-xl bg-slate-200 dark:bg-slate-600 hover:bg-slate-300 dark:hover:bg-slate-500 lg:hidden">
+    <button v-if="!isOpen" @click="isOpen = true" class="fixed z-50 p-2 transition-colors shadow-md cursor-pointer top-4 left-4 rounded-xl bg-slate-200 dark:bg-slate-600 hover:bg-slate-300 dark:hover:bg-slate-500 lg:hidden">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-slate-700 dark:text-orange-50" fill="none"
             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -25,7 +25,7 @@
                 </div>
                 <button @click="isOpen = false"
                     class="p-1 transition-colors rounded-lg lg:hidden hover:bg-slate-300 dark:hover:bg-slate-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-700 dark:text-orange-50"
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 cursor-pointer text-slate-700 dark:text-orange-50"
                         fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>

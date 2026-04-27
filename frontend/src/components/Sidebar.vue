@@ -1,7 +1,6 @@
 <template>
     <!-- Burger button (visible when sidebar is closed) -->
-    <button v-if="!isOpen" @click="isOpen = true" class="fixed top-4 left-4 z-50 p-2 rounded-xl bg-slate-200 dark:bg-slate-600
-               shadow-md hover:bg-slate-300 dark:hover:bg-slate-500 transition-colors lg:hidden">
+    <button v-if="!isOpen" @click="isOpen = true" class="fixed z-50 p-2 transition-colors shadow-md top-4 left-4 rounded-xl bg-slate-200 dark:bg-slate-600 hover:bg-slate-300 dark:hover:bg-slate-500 lg:hidden">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-slate-700 dark:text-orange-50" fill="none"
             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -15,18 +14,17 @@
 
     <!-- Sidebar -->
     <Transition name="slide">
-        <div v-if="isOpen || isDesktop" class="fixed lg:relative z-50 flex flex-col bg-slate-200 dark:bg-slate-600
-                   h-screen w-72 lg:w-85 p-8 shrink-0 shadow-xl lg:shadow-none">
+        <div v-if="isOpen || isDesktop" class="fixed z-50 flex flex-col h-screen p-8 shadow-xl lg:relative bg-slate-200 dark:bg-slate-600 w-72 lg:w-85 shrink-0 lg:shadow-none">
 
             <!-- Header: logo + close button -->
             <div class="flex items-center justify-between mb-10">
                 <div class="flex items-center gap-4">
                     <img :src="LogoLight" alt="Waddle Logo" class="w-10 h-auto dark:hidden shrink-0" />
-                    <img :src="LogoDark" alt="Waddle Logo" class="w-10 h-auto hidden dark:block shrink-0" />
-                    <span class="text-3xl pop-reg font-bold text-slate-700 dark:text-orange-50">Waddle</span>
+                    <img :src="LogoDark" alt="Waddle Logo" class="hidden w-10 h-auto dark:block shrink-0" />
+                    <span class="text-3xl font-bold pop-reg text-slate-700 dark:text-orange-50">Waddle</span>
                 </div>
                 <button @click="isOpen = false"
-                    class="lg:hidden p-1 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-500 transition-colors">
+                    class="p-1 transition-colors rounded-lg lg:hidden hover:bg-slate-300 dark:hover:bg-slate-500">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-700 dark:text-orange-50"
                         fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -35,10 +33,10 @@
             </div>
 
             <!-- Status messages -->
-            <p v-if="store.loading" class="text-sm text-slate-400 text-center mb-4">
+            <p v-if="store.loading" class="mb-4 text-sm text-center text-slate-400">
                 Projekte werden geladen…
             </p>
-            <p v-else-if="store.error" class="text-sm text-red-400 text-center mb-4">
+            <p v-else-if="store.error" class="mb-4 text-sm text-center text-red-400">
                 {{ store.error }}
             </p>
 
@@ -48,25 +46,21 @@
             <CreateProjectForm v-model="showCreateForm" @create="handleCreate" />
 
             <!-- Main nav -->
-            <nav class="mt-6 flex flex-col gap-1 mb-auto">
-                <RouterLink v-for="item in navItems" :key="item.to" :to="item.to" @click="isOpen = false" class="flex items-center gap-3 px-4 py-3 rounded-xl
-                           text-slate-700 dark:text-orange-50
-                           hover:bg-indigo-300 dark:hover:bg-slate-500 transition-colors"
-                    active-class="bg-indigo-300 dark:bg-slate-500 font-semibold">
-                    <img :src="item.iconPathLight" alt="" class="w-5 h-5 shrink-0 block dark:hidden" />
-                    <img :src="item.iconPathDark" alt="" class="w-5 h-5 shrink-0 hidden dark:block" />
+            <nav class="flex flex-col gap-1 mt-6 mb-auto">
+                <RouterLink v-for="item in navItems" :key="item.to" :to="item.to" @click="isOpen = false" class="flex items-center gap-3 px-4 py-3 transition-colors rounded-xl text-slate-700 dark:text-orange-50 hover:bg-indigo-300 dark:hover:bg-slate-500"
+                    active-class="font-semibold bg-indigo-300 dark:bg-slate-500">
+                    <img :src="item.iconPathLight" alt="" class="block w-5 h-5 shrink-0 dark:hidden" />
+                    <img :src="item.iconPathDark" alt="" class="hidden w-5 h-5 shrink-0 dark:block" />
                     <span class="text-sm">{{ item.label }}</span>
                 </RouterLink>
             </nav>
 
             <!-- Personal nav -->
             <nav class="flex flex-col gap-1 mt-4">
-                <RouterLink v-for="item in personalNavItems" :key="item.to" :to="item.to" @click="isOpen = false" class="flex items-center gap-3 px-4 py-3 rounded-xl
-                           text-slate-700 dark:text-orange-50
-                           hover:bg-slate-300 dark:hover:bg-slate-500 transition-colors"
-                    active-class="bg-slate-300 dark:bg-slate-500 font-semibold">
-                    <img :src="item.iconPathLight" alt="" class="w-5 h-5 shrink-0 block dark:hidden" />
-                    <img :src="item.iconPathDark" alt="" class="w-5 h-5 shrink-0 hidden dark:block" />
+                <RouterLink v-for="item in personalNavItems" :key="item.to" :to="item.to" @click="isOpen = false" class="flex items-center gap-3 px-4 py-3 transition-colors rounded-xl text-slate-700 dark:text-orange-50 hover:bg-slate-300 dark:hover:bg-slate-500"
+                    active-class="font-semibold bg-slate-300 dark:bg-slate-500">
+                    <img :src="item.iconPathLight" alt="" class="block w-5 h-5 shrink-0 dark:hidden" />
+                    <img :src="item.iconPathDark" alt="" class="hidden w-5 h-5 shrink-0 dark:block" />
                     <span class="text-sm">{{ item.label }}</span>
                 </RouterLink>
             </nav>

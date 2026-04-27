@@ -1,33 +1,33 @@
 <template>
     <div class="relative w-screen h-screen dark:bg-black">
-        <img :src="MountainsLight" alt="" class="absolute bottom-0 left-1/6 w-2/3 object-center z-0 dark:hidden" />
-        <img :src="MountainsDark" alt="" class="absolute bottom-0 left-1/6 w-2/3 object-center z-0 hidden dark:block" />
+        <img :src="MountainsLight" alt="" class="absolute bottom-0 z-0 object-center w-2/3 left-1/6 dark:hidden" />
+        <img :src="MountainsDark" alt="" class="absolute bottom-0 z-0 hidden object-center w-2/3 left-1/6 dark:block" />
         <div
-            class="fixed inset-0 bg-slate-200/66 flex items-center justify-center z-10 backdrop-blur dark:bg-slate-600/66">
+            class="fixed inset-0 z-10 flex items-center justify-center bg-slate-200/66 backdrop-blur dark:bg-slate-600/66">
             <div>
-                <div class="logo-section flex flex-row items-center gap-6 justify-center mb-10">
+                <div class="flex flex-row items-center justify-center gap-6 mb-10 logo-section">
                     <img :src="LogoLight" alt="Waddle Logo" class="w-12 h-auto dark:hidden" />
-                    <img :src="LogoDark" alt="Waddle Logo" class="w-12 h-auto hidden dark:block" />
-                    <span class="text-5xl pop-reg font-bold text-slate-700 dark:text-orange-50">Waddle</span>
+                    <img :src="LogoDark" alt="Waddle Logo" class="hidden w-12 h-auto dark:block" />
+                    <span class="text-5xl font-bold pop-reg text-slate-700 dark:text-orange-50">Waddle</span>
                 </div>
-                <form class="form flex flex-col gap-1" @submit.prevent="register">
+                <form class="flex flex-col gap-1 form" @submit.prevent="register">
                     <Input v-model="form.username" type="text" label="Benutzername" class="w-90" />
                     <Input v-model="form.email" type="email" label="E-Mail" class="w-90" />
                     <Input v-model="form.password" type="password" label="Passwort" class="w-90" />
                     <Input v-model="form.passwordConfirm" type="password" label="Passwort bestätigen" class="w-90" />
 
                     <!--Errors-->
-                    <div v-if="errors" class="text-red-500 text-sm mt-1">
+                    <div v-if="errors" class="mt-1 text-sm text-red-500">
                         <p v-for="(msg, field) in errors" :key="field">{{ msg }}</p>
                     </div>
-                    <p v-if="generalError" class="text-red-500 text-sm mt-1">{{ generalError }}</p>
+                    <p v-if="generalError" class="mt-1 text-sm text-red-500">{{ generalError }}</p>
 
-                    <Button :disabled="loading" class="mt-2 w-full">
+                    <Button :disabled="loading" class="w-full mt-2">
                         {{ loading ? 'Wird registriert...' : 'Registrieren' }}
                     </Button>
                 </form>
 
-                <div class="text-center mt-4">
+                <div class="mt-4 text-center">
                     <a href="/login"
                         class="text-sm underline text-slate-600 hover:text-slate-800 dark:text-orange-50 dark:hover:text-indigo-100">Bereits
                         ein Konto? Hier anmelden</a>

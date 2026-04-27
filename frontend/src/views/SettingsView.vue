@@ -1,17 +1,17 @@
 <template>
-    <div class="p-10 max-w-2xl">
+    <div class="max-w-2xl p-10">
   
       <!-- Header -->
-      <h1 class="text-3xl font-bold text-slate-700 dark:text-orange-50 mb-1">Einstellungen</h1>
-      <p class="text-slate-500 dark:text-slate-300 mb-8">Verwalte dein Konto und deine Präferenzen.</p>
+      <h1 class="mb-1 text-3xl font-bold text-slate-700 dark:text-orange-50">Einstellungen</h1>
+      <p class="mb-8 text-slate-500 dark:text-slate-300">Verwalte dein Konto und deine Präferenzen.</p>
   
       <!-- Section: Profil -->
       <section class="mb-8">
-        <h2 class="text-lg font-semibold text-slate-600 dark:text-orange-100 mb-4">Profil</h2>
-        <div class="bg-white dark:bg-slate-700 rounded-2xl p-6 flex flex-col gap-4 shadow-sm">
+        <h2 class="mb-4 text-lg font-semibold text-slate-600 dark:text-orange-100">Profil</h2>
+        <div class="flex flex-col gap-4 p-6 bg-white shadow-sm dark:bg-slate-700 rounded-2xl">
   
           <div class="flex items-center gap-5">
-            <div class="w-16 h-16 rounded-full bg-slate-300 dark:bg-slate-500 flex items-center justify-center text-2xl">
+            <div class="flex items-center justify-center w-16 h-16 text-2xl rounded-full bg-slate-300 dark:bg-slate-500">
               🐧
             </div>
             <div>
@@ -25,19 +25,19 @@
   
           <div class="grid grid-cols-2 gap-4">
             <div class="flex flex-col gap-1">
-              <label class="text-xs text-slate-400 uppercase tracking-wide">Vorname</label>
+              <label class="text-xs tracking-wide uppercase text-slate-400">Vorname</label>
               <input
                 type="text"
                 value="Max"
-                class="rounded-lg px-3 py-2 bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-orange-50 text-sm outline-none focus:ring-2 focus:ring-slate-400"
+                class="px-3 py-2 text-sm rounded-lg outline-none bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-orange-50 focus:ring-2 focus:ring-slate-400"
               />
             </div>
             <div class="flex flex-col gap-1">
-              <label class="text-xs text-slate-400 uppercase tracking-wide">Nachname</label>
+              <label class="text-xs tracking-wide uppercase text-slate-400">Nachname</label>
               <input
                 type="text"
                 value="Mustermann"
-                class="rounded-lg px-3 py-2 bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-orange-50 text-sm outline-none focus:ring-2 focus:ring-slate-400"
+                class="px-3 py-2 text-sm rounded-lg outline-none bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-orange-50 focus:ring-2 focus:ring-slate-400"
               />
             </div>
           </div>
@@ -47,8 +47,8 @@
   
       <!-- Section: Erscheinungsbild -->
       <section class="mb-8">
-        <h2 class="text-lg font-semibold text-slate-600 dark:text-orange-100 mb-4">Erscheinungsbild</h2>
-        <div class="bg-white dark:bg-slate-700 rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+        <h2 class="mb-4 text-lg font-semibold text-slate-600 dark:text-orange-100">Erscheinungsbild</h2>
+        <div class="flex flex-col gap-4 p-6 bg-white shadow-sm dark:bg-slate-700 rounded-2xl">
   
           <div class="flex items-center justify-between">
             <div>
@@ -56,8 +56,8 @@
               <p class="text-xs text-slate-400">Folgt der Systemeinstellung</p>
             </div>
             <!-- Toggle (mock) -->
-            <div class="w-11 h-6 bg-slate-300 dark:bg-orange-400 rounded-full relative cursor-pointer transition-colors">
-              <div class="w-4 h-4 bg-white rounded-full absolute top-1 left-1 dark:translate-x-5 transition-transform shadow" />
+            <div class="relative h-6 transition-colors rounded-full cursor-pointer w-11 bg-slate-300 dark:bg-orange-400">
+              <div class="absolute w-4 h-4 transition-transform bg-white rounded-full shadow top-1 left-1 dark:translate-x-5" />
             </div>
           </div>
   
@@ -68,7 +68,7 @@
               <p class="text-sm font-medium text-slate-700 dark:text-orange-50">Sprache</p>
               <p class="text-xs text-slate-400">Anzeigesprache der App</p>
             </div>
-            <select class="text-sm rounded-lg px-3 py-2 bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-orange-50 outline-none">
+            <select class="px-3 py-2 text-sm rounded-lg outline-none bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-orange-50">
               <option>Deutsch</option>
               <option>English</option>
             </select>
@@ -79,8 +79,8 @@
   
       <!-- Section: Benachrichtigungen -->
       <section class="mb-8">
-        <h2 class="text-lg font-semibold text-slate-600 dark:text-orange-100 mb-4">Benachrichtigungen</h2>
-        <div class="bg-white dark:bg-slate-700 rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+        <h2 class="mb-4 text-lg font-semibold text-slate-600 dark:text-orange-100">Benachrichtigungen</h2>
+        <div class="flex flex-col gap-4 p-6 bg-white shadow-sm dark:bg-slate-700 rounded-2xl">
   
           <div v-for="item in notifications" :key="item.label" class="flex items-center justify-between">
             <div>
@@ -88,12 +88,12 @@
               <p class="text-xs text-slate-400">{{ item.desc }}</p>
             </div>
             <div
-              class="w-11 h-6 rounded-full relative cursor-pointer transition-colors"
+              class="relative h-6 transition-colors rounded-full cursor-pointer w-11"
               :class="item.enabled ? 'bg-indigo-400' : 'bg-slate-300 dark:bg-slate-500'"
               @click="item.enabled = !item.enabled"
             >
               <div
-                class="w-4 h-4 bg-white rounded-full absolute top-1 transition-transform shadow"
+                class="absolute w-4 h-4 transition-transform bg-white rounded-full shadow top-1"
                 :class="item.enabled ? 'translate-x-5' : 'translate-x-1'"
               />
             </div>
@@ -104,13 +104,13 @@
   
       <!-- Danger Zone -->
       <section>
-        <h2 class="text-lg font-semibold text-red-400 mb-4">Gefahrenzone</h2>
-        <div class="bg-white dark:bg-slate-700 rounded-2xl p-6 shadow-sm flex items-center justify-between">
+        <h2 class="mb-4 text-lg font-semibold text-red-400">Gefahrenzone</h2>
+        <div class="flex items-center justify-between p-6 bg-white shadow-sm dark:bg-slate-700 rounded-2xl">
           <div>
             <p class="text-sm font-medium text-slate-700 dark:text-orange-50">Konto löschen</p>
             <p class="text-xs text-slate-400">Diese Aktion kann nicht rückgängig gemacht werden.</p>
           </div>
-          <button class="text-sm px-4 py-2 rounded-lg bg-red-100 text-red-500 hover:bg-red-200 transition-colors font-medium">
+          <button class="px-4 py-2 text-sm font-medium text-red-500 transition-colors bg-red-100 rounded-lg hover:bg-red-200">
             Löschen
           </button>
         </div>

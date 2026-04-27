@@ -10,13 +10,13 @@
           <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" />
   
           <!-- Panel -->
-          <div class="relative w-full max-w-md mx-4 bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden">
+          <div class="relative w-full max-w-md mx-4 overflow-hidden bg-white shadow-2xl dark:bg-slate-800 rounded-3xl">
   
             <!-- Header bar -->
             <div class="bg-[#7C86FF] px-8 py-6 flex items-center justify-between">
-              <h2 class="text-white text-xl font-semibold tracking-tight">Neues Projekt</h2>
+              <h2 class="text-xl font-semibold tracking-tight text-white">Neues Projekt</h2>
               <button
-                class="text-white/70 hover:text-white transition-colors duration-150 cursor-pointer"
+                class="transition-colors duration-150 cursor-pointer text-white/70 hover:text-white"
                 @click="$emit('update:modelValue', false)"
               >
                 <svg class="w-5 h-5 cursor-pointer" viewBox="0 0 24 24" fill="none">
@@ -27,11 +27,11 @@
             </div>
   
             <!-- Body -->
-            <div class="px-8 py-7 flex flex-col gap-6">
+            <div class="flex flex-col gap-6 px-8 py-7">
   
               <!-- Name -->
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                <label class="text-sm font-semibold tracking-wider uppercase text-slate-500 dark:text-slate-400">
                   Name
                 </label>
                 <input
@@ -45,7 +45,7 @@
   
               <!-- Description -->
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                <label class="text-sm font-semibold tracking-wider uppercase text-slate-500 dark:text-slate-400">
                   Beschreibung
                 </label>
                 <textarea
@@ -62,7 +62,7 @@
                   <span class="text-sm font-semibold text-slate-700 dark:text-slate-200">
                     Kennung für Zeiteinträge
                   </span>
-                  <span class="text-xs text-slate-400 dark:text-slate-500 leading-snug">
+                  <span class="text-xs leading-snug text-slate-400 dark:text-slate-500">
                     Fügt jedem Zeiteintrag dieses Projekts einen Bezeichner hinzu.
                   </span>
                 </div>
@@ -85,7 +85,7 @@
               <!-- Identifier input (revealed when switch is on) -->
               <Transition name="slide-down">
                 <div v-if="form.useIdentifier" class="flex flex-col gap-2 -mt-2">
-                  <label class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                  <label class="text-sm font-semibold tracking-wider uppercase text-slate-500 dark:text-slate-400">
                     Kennung
                   </label>
                   <input
@@ -100,7 +100,7 @@
             </div>
   
             <!-- Footer -->
-            <div class="px-8 pb-7 flex items-center justify-end gap-3">
+            <div class="flex items-center justify-end gap-3 px-8 pb-7">
               <button
                 class="cursor-pointer px-5 py-2.5 rounded-xl text-sm font-semibold text-slate-500 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 dark:hover:text-slate-200 transition-colors duration-150"
                 @click="$emit('update:modelValue', false)"

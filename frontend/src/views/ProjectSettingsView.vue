@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col justify-center items-center">
+    <div class="flex flex-col items-center justify-center">
         <IconLabelInput :iconPath=NameIcon label="Projektnamen ändern" placeholder="Neuen Namen eingeben..." />
         <IconLabelInput :iconPath=MemberIcon label="Mitglieder hinzufügen" placeholder="Mitglieder finden..." />
     </div>

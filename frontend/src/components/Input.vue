@@ -6,7 +6,7 @@
             id="inp" 
             :value="modelValue"
             @input="$emit('update:modelValue', $event.target.value)"
-            class="bg-orange-50 h-12 p-3 border-indigo-300 border rounded-xl rounded-tl-none dark:bg-slate-800 dark:border-slate-600 dark:text-orange-50"
+            class="h-12 p-3 border border-indigo-300 rounded-tl-none bg-orange-50 rounded-xl dark:bg-slate-800 dark:border-slate-600 dark:text-orange-50"
         />
     </div>
 </template>

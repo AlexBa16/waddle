@@ -19,8 +19,7 @@ final class ProjectController extends AbstractController
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly ProjectRepository $projectRepository
-    ) {
-    }
+    ) {}
 
     #[Route("", name: "list", methods: ["GET"])]
     public function list(): JsonResponse
@@ -101,8 +100,9 @@ final class ProjectController extends AbstractController
         return $this->json($this->serialize($project));
     }
 
-    #[Route( "/{id}/description", name: "update_description", methods: ["PATCH"])]
-    public function updateDescription( Project $project, Request $request): JsonResponse {
+    #[Route("/{id}/description", name: "update_description", methods: ["PATCH"])]
+    public function updateDescription(Project $project, Request $request): JsonResponse
+    {
         if ($project->getAdmin() !== $this->getUser()) {
             return $this->json(
                 ["error" => "Zugriff verweigert."],

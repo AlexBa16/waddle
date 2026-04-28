@@ -1,20 +1,71 @@
-import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { defineStore } from "pinia";
+import { ref, computed } from "vue";
 
-export const useAuthStore = defineStore('auth', () => {
-    const token = ref(localStorage.getItem('token') ?? null)
+export const useAuthStore = defineStore("auth", () => {
+    const token = ref(localStorage.getItem("token") ?? null);
+    const username = ref(localStorage.getItem("username") ?? null);
 
-    const isLoggedIn = computed(() => !!token.value)
+    const isLoggedIn = computed(() => !!token.value);
+
+    function authHeaders() {
+        return {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token.value}`,
+        };
+    }
+
+    async function handleResponse(res) {
+        if (res.status === 204) return null;
+        const body = await res.json();
+        if (!res.ok) throw new Error(body?.error ?? `HTTP ${res.status}`);
+        return body;
+    }
 
     function setToken(newToken) {
-        token.value = newToken
-        localStorage.setItem('token', newToken)
+        token.value = newToken;
+        localStorage.setItem("token", newToken);
+    }
+
+    function setUsername(newUsername) {
+        username.value = newUsername;
+        localStorage.setItem("username", newUsername);
     }
 
     function logout() {
-        token.value = null
-        localStorage.removeItem('token')
+        token.value = null;
+        username.value = null;
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
     }
 
-    return { token, isLoggedIn, setToken, logout }
-})
+    async function updateUsername(newUsername) {
+        const res = await fetch("https://localhost/api/user/username", {
+            method: "PATCH",
+            headers: authHeaders(),
+            body: JSON.stringify({ username: newUsername }),
+        });
+        const updated = await handleResponse(res);
+        setUsername(updated.username);
+        return updated;
+    }
+
+    async function updatePassword(password, passwordConfirm) {
+        const res = await fetch("https://localhost/api/user/password", {
+            method: "PATCH",
+            headers: authHeaders(),
+            body: JSON.stringify({ password, passwordConfirm }),
+        });
+        return await handleResponse(res); // null (204)
+    }
+
+    return {
+        token,
+        username,
+        isLoggedIn,
+        setToken,
+        setUsername,
+        logout,
+        updateUsername,
+        updatePassword,
+    };
+});

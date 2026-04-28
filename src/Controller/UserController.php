@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class UserController extends AbstractController
 {
@@ -18,8 +19,7 @@ final class UserController extends AbstractController
         private EntityManagerInterface $em,
         private UserPasswordHasherInterface $passwordHasher,
         private ValidatorInterface $validator
-    ) {
-    }
+    ) {}
 
     #[Route("/register", name: "app_register", methods: ["POST"])]
     public function register(Request $request): JsonResponse

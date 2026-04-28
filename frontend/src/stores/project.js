@@ -58,6 +58,35 @@ export const useProjectStore = defineStore("project", () => {
         return created;
     }
 
+    async function updateProjectName(id, name) {
+        error.value = null;
+        const res = await fetch(`https://localhost/api/projects/${id}/name`, {
+            method: "PATCH",
+            headers: authHeaders(),
+            body: JSON.stringify({ name }),
+        });
+        const updated = await handleResponse(res);
+        const idx = projects.value.findIndex((p) => p.id === id);
+        if (idx !== -1) projects.value[idx] = updated;
+        return updated;
+    }
+
+    async function updateProjectDescription(id, description) {
+        error.value = null;
+        const res = await fetch(
+            `https://localhost/api/projects/${id}/description`,
+            {
+                method: "PATCH",
+                headers: authHeaders(),
+                body: JSON.stringify({ description }),
+            },
+        );
+        const updated = await handleResponse(res);
+        const idx = projects.value.findIndex((p) => p.id === id);
+        if (idx !== -1) projects.value[idx] = updated;
+        return updated;
+    }
+
     async function removeProject(id) {
         const res = await fetch(`https://localhost/api/projects/${id}`, {
             method: "DELETE",

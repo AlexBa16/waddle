@@ -2,8 +2,6 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
-const BASE = "https://localhost";
-
 export const useProjectStore = defineStore('project', () => {
     const projects   = ref([])
     const selectedId = ref(null)
@@ -33,7 +31,7 @@ export const useProjectStore = defineStore('project', () => {
         loading.value = true
         error.value   = null
         try {
-            const res = await fetch(`${BASE}/api/projects`, { headers: authHeaders() })
+            const res = await fetch("https://localhost/api/projects", { headers: authHeaders() })
             projects.value = await handleResponse(res)
             if (!selectedId.value && projects.value.length > 0) {
                 selectedId.value = projects.value[0].id
@@ -47,7 +45,7 @@ export const useProjectStore = defineStore('project', () => {
 
     async function createProject(formData) {
         error.value = null
-        const res = await fetch(`${BASE}/api/projects`, {
+        const res = await fetch("https://localhost/api/projects", {
             method: 'POST',
             headers: authHeaders(),
             body: JSON.stringify(formData),
@@ -59,7 +57,7 @@ export const useProjectStore = defineStore('project', () => {
     }
 
     async function removeProject(id) {
-        const res = await fetch(`${BASE}/api/projects/${id}`, {
+        const res = await fetch("https://localhost/api/projects/${id}", {
             method: 'DELETE',
             headers: authHeaders(),
         })

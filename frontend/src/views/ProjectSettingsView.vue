@@ -6,6 +6,7 @@
         <hr class="w-6/12 dark:border-slate-300 my-5 border-[#cbd4fe] rounded" />
         <IconLabelInput :iconPath=MemberIcon label="Mitglieder hinzufügen" placeholder="Mitglieder finden..." />
         <ManageMembers :iconPath="ManageMemberIcon" headerLabel="Mitglieder verwalten" searchPlaceholder="Mitglieder suchen..."/>
+        <hr class="w-6/12 dark:border-slate-300 my-5 mt-10 border-[#cbd4fe] rounded" />
         <DeleteProject />
     </div>
 </template>

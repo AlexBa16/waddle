@@ -47,8 +47,8 @@
 
             <!-- Main nav -->
             <nav class="flex flex-col gap-1 mt-6 mb-auto">
-                <RouterLink v-for="item in navItems" :key="item.to" :to="item.to" @click="isOpen = false" class="flex items-center gap-3 px-4 py-3 transition-colors rounded-xl text-slate-700 dark:text-orange-50 hover:bg-indigo-300 dark:hover:bg-slate-500"
-                    active-class="font-semibold bg-indigo-300 dark:bg-slate-500">
+                <RouterLink v-for="item in navItems" :key="item.to" :to="item.to" @click="isOpen = false" class="flex items-center gap-3 px-4 py-3 transition-colors rounded-xl text-slate-700 dark:text-orange-50 hover:bg-slate-300 dark:hover:bg-slate-500"
+                    active-class="font-semibold bg-slate-300 dark:bg-slate-500">
                     <img :src="item.iconPathLight" alt="" class="block w-5 h-5 shrink-0 dark:hidden" />
                     <img :src="item.iconPathDark" alt="" class="hidden w-5 h-5 shrink-0 dark:block" />
                     <span class="text-sm">{{ item.label }}</span>

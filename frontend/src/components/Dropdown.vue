@@ -3,7 +3,7 @@
       
       <!-- Button -->
       <button
-        class="flex items-center justify-between w-full px-4 py-3 text-sm font-medium text-white transition-all duration-200 shadow-lg cursor-pointer sm:px-5 lg:px-6 sm:py-4 rounded-xl sm:rounded-2xl sm:text-base lg:text-lg"
+        class="flex items-center justify-between w-full px-4 py-3 text-sm font-medium text-orange-50 transition-all duration-200 shadow-lg cursor-pointer sm:px-5 lg:px-6 sm:py-4 rounded-xl sm:rounded-2xl sm:text-base lg:text-lg"
         :class="isOpen
           ? 'bg-indigo-400 dark:bg-slate-800'
           : 'bg-indigo-300 hover:bg-indigo-400 dark:bg-slate-700 dark:hover:bg-slate-800'"
@@ -34,7 +34,7 @@
             <li
               v-for="option in options"
               :key="option.id"
-              class="px-3 py-2 text-sm text-white transition rounded-lg cursor-pointer sm:px-4 sm:py-3 sm:rounded-xl sm:text-base"
+              class="px-3 py-2 text-sm text-orange-50 transition rounded-lg cursor-pointer sm:px-4 sm:py-3 sm:rounded-xl sm:text-base"
               :class="modelValue === option.id
                 ? 'bg-indigo-300 dark:bg-slate-600 font-medium'
                 : 'hover:bg-white/20'"
@@ -47,7 +47,7 @@
           <div class="my-2 border-t border-white/30" />
   
           <button
-            class="flex items-center w-full gap-2 px-3 py-2 text-sm font-medium transition rounded-lg cursor-pointer sm:px-4 sm:py-3 sm:rounded-xl sm:text-base text-white/90 hover:bg-white/20 hover:text-white"
+            class="flex items-center w-full gap-2 px-3 py-2 text-sm font-medium transition rounded-lg cursor-pointer sm:px-4 sm:py-3 sm:rounded-xl sm:text-base text-orange-50/90 hover:bg-white/20 hover:text-orange-50"
             @click="onCreateClick"
           >
             <svg class="w-4 h-4" viewBox="0 0 24 24">

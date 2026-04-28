@@ -1,10 +1,10 @@
 <template>
-    <div class="flex h-screen overflow-hidden bg-orange-50">
-        <Sidebar />
-        <main class="flex-1 overflow-y-auto bg-orange-50 dark:bg-slate-800 " >
-            <RouterView /> 
-        </main>
-    </div>
+  <div class="flex h-screen overflow-hidden bg-orange-50">
+    <Sidebar />
+    <main class="flex-1 overflow-y-auto bg-orange-50 dark:bg-slate-800">
+      <RouterView class="pt-10 pb-10"/>
+    </main>
+  </div>
 </template>
 
 <script setup>

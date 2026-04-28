@@ -88,17 +88,14 @@ const hoveredId = ref(null)
 
 // ── Props ──────────────────────────────────────────────────────────────────
 const props = defineProps({
-    /** Path or URL to the icon shown in the header. Falls back to a default SVG. */
     iconPath: {
         type: String,
         default: null,
     },
-    /** Label next to the icon in the header. */
     headerLabel: {
         type: String,
         default: 'Mitglieder hinzufügen',
     },
-    /** Placeholder text for the search input. */
     searchPlaceholder: {
         type: String,
         default: 'Mitglieder finden…',

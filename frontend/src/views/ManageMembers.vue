@@ -57,17 +57,11 @@
                     class="grid grid-cols-[1fr_1fr_44px] items-center px-6 py-[18px] border-b border-slate-300/50 last:border-b-0 hover:bg-slate-300/30 transition-colors duration-150">
                     <span class="text-sm font-semibold text-slate-800">{{ member.name }}</span>
                     <span class="text-xs font-mono text-slate-500">{{ member.email }}</span>
-                    <button
-                        class="flex items-center justify-center p-1.5 rounded-lg text-red-400 hover:bg-red-100 hover:text-red-600 transition-colors duration-150"
-                        title="Löschen" @click="handleDelete(member.id)">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round">
-                            <polyline points="3 6 5 6 21 6" />
-                            <path d="M19 6l-1 14H6L5 6" />
-                            <path d="M10 11v6" />
-                            <path d="M14 11v6" />
-                            <path d="M9 6V4h6v2" />
-                        </svg>
+                    <button class="flex items-center justify-center p-1.5 rounded-lg transition-colors duration-150 cursor-pointer"
+                        title="Löschen" @mouseover="hoveredId = member.id" @mouseleave="hoveredId = null"
+                        @click="handleDelete(member.id)">
+                        <img :src="hoveredId === member.id ? TrashIconFilled : TrashIcon" alt="Trash Icon"
+                            class="w-4 h-4 object-contain" />
                     </button>
                 </div>
             </TransitionGroup>
@@ -87,6 +81,10 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import TrashIcon from '@/assets/project-settings/light/trash.svg'
+import TrashIconFilled from '@/assets/project-settings/light/trash-filled.svg'
+
+const hoveredId = ref(null)
 
 // ── Props ──────────────────────────────────────────────────────────────────
 const props = defineProps({

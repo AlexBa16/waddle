@@ -63,6 +63,7 @@
                     <img :src="item.iconPathDark" alt="" class="hidden w-5 h-5 shrink-0 dark:block" />
                     <span class="text-sm">{{ item.label }}</span>
                 </RouterLink>
+                <Profile />
             </nav>
         </div>
     </Transition>
@@ -82,9 +83,8 @@ import InboxIconLight from '@/assets/SidebarIcons/light/inbox.svg'
 import InboxIconDark from '@/assets/SidebarIcons/dark/inbox.svg'
 import SettingsIconLight from '@/assets/SidebarIcons/light/settings.svg'
 import SettingsIconDark from '@/assets/SidebarIcons/dark/settings.svg'
-import MountainsLight from '@/assets/SidebarIcons/light/mountains.svg'
-import MountainsDark from '@/assets/mountains-dark.svg'
 import Dropdown from '@/components/Dropdown.vue'
+import Profile from '@/components/Profile.vue'
 import CreateProjectForm from '@/components/CreateProjectForm.vue'
 import { useProjectStore } from '@/stores/project'
 

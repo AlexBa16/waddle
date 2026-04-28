@@ -17,22 +17,26 @@ final class UserController extends AbstractController
     public function __construct(
         private EntityManagerInterface $em,
         private UserPasswordHasherInterface $passwordHasher,
-        private ValidatorInterface $validator,
-    ) {}
+        private ValidatorInterface $validator
+    ) {
+    }
 
-    #[Route('/register', name: 'app_register', methods: ['POST'])]
+    #[Route("/register", name: "app_register", methods: ["POST"])]
     public function register(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
         if (!$data) {
-            return $this->json(['error' => 'Invalid JSON.'], Response::HTTP_BAD_REQUEST);
+            return $this->json(
+                ["error" => "Invalid JSON."],
+                Response::HTTP_BAD_REQUEST
+            );
         }
 
         $user = new User();
-        $user->setUsername($data['username'] ?? '');
-        $user->setEmail($data['email'] ?? '');
-        $user->setPlainPassword($data['password'] ?? '');
+        $user->setUsername($data["username"] ?? "");
+        $user->setEmail($data["email"] ?? "");
+        $user->setPlainPassword($data["password"] ?? "");
 
         // Validierung
         $errors = $this->validator->validate($user);
@@ -41,46 +45,120 @@ final class UserController extends AbstractController
             foreach ($errors as $error) {
                 $errorList[$error->getPropertyPath()] = $error->getMessage();
             }
-            return $this->json(['errors' => $errorList], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->json(
+                ["errors" => $errorList],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
         }
 
         // Passwort hashen
         $user->setPassword(
-            $this->passwordHasher->hashPassword($user, $user->getPlainPassword())
+            $this->passwordHasher->hashPassword(
+                $user,
+                $user->getPlainPassword()
+            )
         );
         $user->eraseCredentials();
 
         $this->em->persist($user);
         $this->em->flush();
 
+        return $this->json(
+            [
+                "message" => "Registration successful.",
+                "user" => [
+                    "id" => $user->getId(),
+                    "username" => $user->getUsername(),
+                    "email" => $user->getEmail(),
+                ],
+            ],
+            Response::HTTP_CREATED
+        );
+    }
+    #[Route("/api/user/username", name: "api_user_update_username", methods: ["PATCH"])]
+    #[IsGranted("ROLE_USER")]
+    public function updateUsername(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (empty($data["username"]) || trim($data["username"]) === "") {
+            return $this->json(
+                ["error" => "Benutzername darf nicht leer sein."],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
+
+        /** @var User $user */
+        $user = $this->getUser();
+        $user->setUsername(trim($data["username"]));
+
+        $errors = $this->validator->validate($user);
+        if (count($errors) > 0) {
+            $errorList = [];
+            foreach ($errors as $error) {
+                $errorList[$error->getPropertyPath()] = $error->getMessage();
+            }
+            return $this->json(
+                ["errors" => $errorList],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
+
+        $this->em->flush();
+
         return $this->json([
-            'message' => 'Registration successful.',
-            'user' => [
-                'id'       => $user->getId(),
-                'username' => $user->getUsername(),
-                'email'    => $user->getEmail(),
-            ]
-        ], Response::HTTP_CREATED);
+            "id" => $user->getId(),
+            "username" => $user->getUsername(),
+            "email" => $user->getEmail(),
+        ]);
     }
 
-    // #[Route('/login', methods: ['POST'])]
-    // public function login(Request $request): JsonResponse
-    // {
-    //     $data = json_decode($request->getContent(), true);
+    #[Route("/api/user/password", name: "api_user_update_password", methods: ["PATCH"])]
+    #[IsGranted("ROLE_USER")]
+    public function updatePassword(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
 
-    //     $user = $this->em->getRepository(User::class)
-    //         ->findOneBy(['username' => $data['username']]);
+        if (empty($data["password"]) || empty($data["passwordConfirm"])) {
+            return $this->json(
+                ["error" => "Passwort und Bestätigung sind erforderlich."],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
 
-    //     if (!$user) {
-    //         return $this->json(['error' => 'User not found'], 401);
-    //     }
+        if ($data["password"] !== $data["passwordConfirm"]) {
+            return $this->json(
+                ["error" => "Passwörter stimmen nicht überein."],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
 
-    //     if (!$this->passwordHasher->isPasswordValid($user, $data['password'])) {
-    //         return $this->json(['error' => 'Wrong password'], 401);
-    //     }
+        /** @var User $user */
+        $user = $this->getUser();
+        $user->setPlainPassword($data["password"]);
 
-    //     return $this->json([
-    //         'message' => 'Login erfolgreich'
-    //     ]);
-    // }
+        $errors = $this->validator->validate($user);
+        if (count($errors) > 0) {
+            $errorList = [];
+            foreach ($errors as $error) {
+                $errorList[$error->getPropertyPath()] = $error->getMessage();
+            }
+            return $this->json(
+                ["errors" => $errorList],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
+
+        $user->setPassword(
+            $this->passwordHasher->hashPassword(
+                $user,
+                $user->getPlainPassword()
+            )
+        );
+        $user->eraseCredentials();
+
+        $this->em->flush();
+
+        return $this->json(null, Response::HTTP_NO_CONTENT);
+    }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="w-6/12 bg-[#dde3ef] rounded-2xl overflow-hidden shadow-md shadow-black/10">
+    <div class="mt-5 w-6/12 bg-[#dde3ef] rounded-2xl overflow-hidden shadow-md shadow-black/10">
 
         <!-- Header -->
         <div class="px-6 py-4 flex justify-between gap-5">

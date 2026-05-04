@@ -13,4 +13,12 @@
 <script setup>
 import profileIcon from '@/assets/SidebarIcons/light/profile-icon.svg'
 import logOutIcon from '@/assets/SidebarIcons/light/logout-icon.svg'
+import { useAuthStore } from '@/stores/auth';
+import router from '@/router';
+const authStore = useAuthStore();
+
+function logout() {
+    authStore.logout();
+    router.push('/login');
+}
 </script>

@@ -8,21 +8,21 @@
             <span class="text-sm font-bold text-slate-800 tracking-wide">{{ label }}</span>
         </div>
 
-        <select v-if="selectViewMode" :name="label" :id="label" class="flex-1 px-4 py-2 text-sm rounded-xl bg-orange-50 border border-indigo-300 text-slate-700 placeholder-slate-400 outline-none focus:ring-1 focus:ring-indigo-400 transition-colors duration-150 font-medium">
+        <select v-if="selectViewMode" :name="label" :id="label" class="w-6/12 flex-1 px-4 py-2 text-sm rounded-xl bg-orange-50 border border-indigo-300 text-slate-700 placeholder-slate-400 outline-none focus:ring-1 focus:ring-indigo-400 transition-colors duration-150 font-medium">
             <option value="light" selected>Hell</option>
             <option value="dark">Dunkel</option>
         </select>
 
-        <select v-if="select" :name="label" :id="label" class="flex-1 px-4 py-2 text-sm rounded-xl bg-orange-50 border border-indigo-300 text-slate-700 placeholder-slate-400 outline-none focus:ring-1 focus:ring-indigo-400 transition-colors duration-150 font-medium">
+        <select v-if="select" :name="label" :id="label" class="w-6/12 flex-1 px-4 py-2 text-sm rounded-xl bg-orange-50 border border-indigo-300 text-slate-700 placeholder-slate-400 outline-none focus:ring-1 focus:ring-indigo-400 transition-colors duration-150 font-medium">
             <option value="German" selected>Deutsch</option>
             <option value="English">Englisch</option>
         </select>
 
         <input v-if="!bigField && !select && !selectViewMode" type="text" :placeholder="placeholder"
-            class="flex-1 px-4 py-2 text-sm rounded-xl bg-orange-50 border border-indigo-300 text-slate-700 placeholder-slate-400 outline-none focus:ring-1 focus:ring-indigo-400 transition-colors duration-150 font-medium" />
+            class="w-6/12 px-4 py-2 text-sm rounded-xl bg-orange-50 border border-indigo-300 text-slate-700 placeholder-slate-400 outline-none focus:ring-1 focus:ring-indigo-400 transition-colors duration-150 font-medium" />
 
         <textarea v-else-if="!select && !selectViewMode" :placeholder="placeholder" rows="3"
-            class="resize-none w-full px-4 py-2 text-sm rounded-xl bg-orange-50 border border-indigo-300 text-slate-700 placeholder-slate-400 outline-none focus:ring-1 focus:ring-indigo-400 transition-colors duration-150 font-medium" />
+            class="resize-none w-6/12 px-4 py-2 text-sm rounded-xl bg-orange-50 border border-indigo-300 text-slate-700 placeholder-slate-400 outline-none focus:ring-1 focus:ring-indigo-400 transition-colors duration-150 font-medium" />
     </div>
 </template>
 

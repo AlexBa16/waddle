@@ -4,9 +4,9 @@
             <img :src=profileIcon alt="profile icon">
             <span class="text-sm font-medium text-slate-700 dark:text-orange-50">Linsu Bitter</span>
         </div>
-        <Button class="flex items-center justify-center w-8 h-8 p-1 rounded-md cursor-pointer hover:bg-red-300 text-slate-700 dark:text-orange-50" @click="logout">
+        <button class="flex items-center justify-center w-8 h-8 p-1 rounded-md cursor-pointer hover:bg-red-300 text-slate-700 dark:text-orange-50" @click="logout">
             <img :src=logOutIcon alt="logout icon">
-        </Button>
+        </button>
     </div>
 </template>
 

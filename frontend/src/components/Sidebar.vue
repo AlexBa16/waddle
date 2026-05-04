@@ -14,7 +14,7 @@
 
     <!-- Sidebar -->
     <Transition name="slide">
-        <div v-if="isOpen || isDesktop" class="fixed z-50 flex flex-col h-screen p-8 shadow-xl lg:relative bg-slate-200 dark:bg-slate-600 w-72 lg:w-85 shrink-0 lg:shadow-none overflow-scroll">
+        <div v-if="isOpen || isDesktop" class="fixed z-50 flex flex-col h-screen p-8 overflow-scroll shadow-xl lg:relative bg-slate-200 dark:bg-slate-600 w-72 lg:w-85 shrink-0 lg:shadow-none">
 
             <!-- Header: logo + close button -->
             <div class="flex items-center justify-between mb-10">
@@ -63,7 +63,7 @@
                     <img :src="item.iconPathDark" alt="" class="hidden w-5 h-5 shrink-0 dark:block" />
                     <span class="text-sm">{{ item.label }}</span>
                 </RouterLink>
-                <Profile />
+                <Profile class="mt-2"/>
             </nav>
         </div>
     </Transition>

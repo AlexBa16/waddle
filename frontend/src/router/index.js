@@ -21,7 +21,7 @@ const router = createRouter({
             { path: '/tracker', component: TrackerView },
             { path: '/reports', component: ReportsView },
             { path: '/project-settings', component: ProjectSettingsView },
-            { path: '/inbox', component: InboxView },
+            { path: '/inbox', component: InboxView, meta: { modal: true}},
             { path: '/settings', component: SettingsView },
         ]
     },

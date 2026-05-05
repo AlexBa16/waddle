@@ -50,6 +50,17 @@
             "description": "Posteingang",
             "noMessagesFound": "Keine Nachrichten vorhanden"
         },
-        "settings": "Einstellungen"
+        "settings": {
+            "description": "Einstellungen",
+            "changeLanguage": "Sprache ändern:",
+            "mode": "Hell/Dunkel:",
+            "light": "Hell",
+            "dark": "Dunkel",
+            "changeUsername": "Benutzername ändern:",
+            "changePassword": "Passwort ändern:",
+            "newPassword": "Neues Passwort ...",
+            "confirmPassword": "Passwort bestätigen",
+            "confirmedPassword": "Neues Passwort bestätigen"
+        }
     }
 }

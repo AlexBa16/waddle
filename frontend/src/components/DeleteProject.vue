@@ -4,7 +4,7 @@
         <div class="flex items-center gap-3 shrink-0">
             <span class="text-sm font-bold text-slate-800 tracking-wide">{{ t('nav.projectSettings.deleteProject.description') }}</span>
         </div>
-        <button class="w-4/12 h-auto font-medium text-orange-50 transition-all duration-200 shadow-lg cursor-pointer sm:px-5 lg:px-6 sm:py-4 rounded-xl sm:rounded-2xl sm:text-base lg:text-lg bg-red-500 hover:bg-red-600"
+        <button class="font-medium text-orange-50 transition-all duration-200 shadow-lg cursor-pointer sm:px-5 lg:px-10 sm:py-4 rounded-xl sm:rounded-2xl sm:text-base lg:text-md bg-red-500 hover:bg-red-600"
             @click="handleDelete">
             {{ t('nav.projectSettings.deleteProject.button') }} 
         </button>

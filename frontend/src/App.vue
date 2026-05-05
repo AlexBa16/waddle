@@ -8,7 +8,9 @@ const projects = useProjectStore()
 
 watch(
     () => auth.isLoggedIn,
-    (loggedIn) => { if (loggedIn) projects.loadProjects() },
+    async (loggedIn) => {
+        if (loggedIn) await projects.loadProjects()
+    },
     { immediate: true }
 )
 </script>

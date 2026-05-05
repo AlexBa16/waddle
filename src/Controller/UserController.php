@@ -27,10 +27,7 @@ final class UserController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         if (!$data) {
-            return $this->json(
-                ["error" => "Invalid JSON."],
-                Response::HTTP_BAD_REQUEST
-            );
+            return $this->json(["error" => "Invalid JSON."], Response::HTTP_BAD_REQUEST);
         }
 
         $user = new User();
@@ -38,43 +35,26 @@ final class UserController extends AbstractController
         $user->setEmail($data["email"] ?? "");
         $user->setPlainPassword($data["password"] ?? "");
 
-        // Validierung
-        $errors = $this->validator->validate($user);
+        $errors = $this->validator->validate($user, null, ['Default', 'registration']); // ← geändert
         if (count($errors) > 0) {
             $errorList = [];
             foreach ($errors as $error) {
                 $errorList[$error->getPropertyPath()] = $error->getMessage();
             }
-            return $this->json(
-                ["errors" => $errorList],
-                Response::HTTP_UNPROCESSABLE_ENTITY
-            );
+            return $this->json(["errors" => $errorList], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        // Passwort hashen
-        $user->setPassword(
-            $this->passwordHasher->hashPassword(
-                $user,
-                $user->getPlainPassword()
-            )
-        );
+        $user->setPassword($this->passwordHasher->hashPassword($user, $user->getPlainPassword()));
         $user->eraseCredentials();
-
         $this->em->persist($user);
         $this->em->flush();
 
-        return $this->json(
-            [
-                "message" => "Registration successful.",
-                "user" => [
-                    "id" => $user->getId(),
-                    "username" => $user->getUsername(),
-                    "email" => $user->getEmail(),
-                ],
-            ],
-            Response::HTTP_CREATED
-        );
+        return $this->json([
+            "message" => "Registration successful.",
+            "user" => ["id" => $user->getId(), "username" => $user->getUsername(), "email" => $user->getEmail()],
+        ], Response::HTTP_CREATED);
     }
+
     #[Route("/api/user/username", name: "api_user_update_username", methods: ["PATCH"])]
     #[IsGranted("ROLE_USER")]
     public function updateUsername(Request $request): JsonResponse
@@ -82,26 +62,20 @@ final class UserController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         if (empty($data["username"]) || trim($data["username"]) === "") {
-            return $this->json(
-                ["error" => "Benutzername darf nicht leer sein."],
-                Response::HTTP_UNPROCESSABLE_ENTITY
-            );
+            return $this->json(["error" => "Benutzername darf nicht leer sein."], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         /** @var User $user */
         $user = $this->getUser();
         $user->setUsername(trim($data["username"]));
 
-        $errors = $this->validator->validate($user);
+        $errors = $this->validator->validate($user, null, ['Default']); // ← geändert
         if (count($errors) > 0) {
             $errorList = [];
             foreach ($errors as $error) {
                 $errorList[$error->getPropertyPath()] = $error->getMessage();
             }
-            return $this->json(
-                ["errors" => $errorList],
-                Response::HTTP_UNPROCESSABLE_ENTITY
-            );
+            return $this->json(["errors" => $errorList], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $this->em->flush();
@@ -120,43 +94,28 @@ final class UserController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         if (empty($data["password"]) || empty($data["passwordConfirm"])) {
-            return $this->json(
-                ["error" => "Passwort und Bestätigung sind erforderlich."],
-                Response::HTTP_UNPROCESSABLE_ENTITY
-            );
+            return $this->json(["error" => "Passwort und Bestätigung sind erforderlich."], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         if ($data["password"] !== $data["passwordConfirm"]) {
-            return $this->json(
-                ["error" => "Passwörter stimmen nicht überein."],
-                Response::HTTP_UNPROCESSABLE_ENTITY
-            );
+            return $this->json(["error" => "Passwörter stimmen nicht überein."], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         /** @var User $user */
         $user = $this->getUser();
         $user->setPlainPassword($data["password"]);
 
-        $errors = $this->validator->validate($user);
+        $errors = $this->validator->validate($user, null, ['Default', 'password']); // ← geändert
         if (count($errors) > 0) {
             $errorList = [];
             foreach ($errors as $error) {
                 $errorList[$error->getPropertyPath()] = $error->getMessage();
             }
-            return $this->json(
-                ["errors" => $errorList],
-                Response::HTTP_UNPROCESSABLE_ENTITY
-            );
+            return $this->json(["errors" => $errorList], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $user->setPassword(
-            $this->passwordHasher->hashPassword(
-                $user,
-                $user->getPlainPassword()
-            )
-        );
+        $user->setPassword($this->passwordHasher->hashPassword($user, $user->getPlainPassword()));
         $user->eraseCredentials();
-
         $this->em->flush();
 
         return $this->json(null, Response::HTTP_NO_CONTENT);

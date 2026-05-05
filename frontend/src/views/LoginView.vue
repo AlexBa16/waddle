@@ -91,6 +91,7 @@ async function login() {
 
         const data = await response.json()
         auth.setToken(data.token)
+        auth.setUsername(form.value.username) 
         router.push('/dashboard')
 
     } catch (e) {

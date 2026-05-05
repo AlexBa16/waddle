@@ -39,8 +39,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     // Wird NICHT gespeichert – nur für Validierung beim Registrieren
-    #[Assert\NotBlank(message: 'Password cannot be empty.')]
-    #[Assert\Length(min: 8, minMessage: 'Password must have at least 8 characters.')]
+    #[Assert\NotBlank(message: 'Password cannot be empty.', groups: ['registration', 'password'])]
+    #[Assert\Length(min: 8, minMessage: 'Password must have at least 8 characters.', groups: ['registration', 'password'])]
     private ?string $plainPassword = null;
 
     /**
@@ -54,26 +54,70 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->projects = new ArrayCollection();
     }
 
-    public function getId(): ?int { return $this->id; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-    public function getUsername(): ?string { return $this->username; }
-    public function setUsername(string $username): static { $this->username = $username; return $this; }
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+    public function setUsername(string $username): static
+    {
+        $this->username = $username;
+        return $this;
+    }
 
-    public function getEmail(): ?string { return $this->email; }
-    public function setEmail(string $email): static { $this->email = $email; return $this; }
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
+        return $this;
+    }
 
-    public function getPassword(): ?string { return $this->password; }
-    public function setPassword(string $password): static { $this->password = $password; return $this; }
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
+        return $this;
+    }
 
-    public function getPlainPassword(): ?string { return $this->plainPassword; }
-    public function setPlainPassword(?string $plainPassword): static { $this->plainPassword = $plainPassword; return $this; }
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+    public function setPlainPassword(?string $plainPassword): static
+    {
+        $this->plainPassword = $plainPassword;
+        return $this;
+    }
 
-    public function getRoles(): array { return array_unique(array_merge($this->roles, ['ROLE_USER'])); }
-    public function setRoles(array $roles): static { $this->roles = $roles; return $this; }
+    public function getRoles(): array
+    {
+        return array_unique(array_merge($this->roles, ['ROLE_USER']));
+    }
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+        return $this;
+    }
 
     // UserInterface
-    public function getUserIdentifier(): string { return (string) $this->username; }
-    public function eraseCredentials(): void { $this->plainPassword = null; }
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->username;
+    }
+    public function eraseCredentials(): void
+    {
+        $this->plainPassword = null;
+    }
 
     /**
      * @return Collection<int, Project>

@@ -18,7 +18,8 @@
           class="p-2 cursor-pointer rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
           aria-label="Zurück"
         >
-          <img :src="BackIcon" alt="Zurück" class="w-5 h-5 dark:invert" />
+          <img :src="BackIcon" alt="Zurück" class="w-5 h-5 dark:hidden" />
+          <img :src="BackIconDark" alt="Zurück" class="w-5 h-5 hidden dark:block" />
         </button>
       </div>
 
@@ -50,7 +51,8 @@
 </template>
 
 <script setup>
-import BackIcon from '@/assets/go-back.svg'
+import BackIcon from '@/assets/Inbox/light/go-back.svg'
+import BackIconDark from '@/assets/Inbox/dark/go-back.svg'
 import Message from '@/components/Message.vue'
 
 // TODO: Nachrichten von Backend laden und in messages speichern

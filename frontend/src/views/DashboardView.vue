@@ -25,18 +25,22 @@
 import { ref, watch, markRaw } from 'vue'
 import { useRoute } from 'vue-router'
 import Sidebar from '@/components/Sidebar.vue'
+import DashboardView from '@/views/DashboardView.vue'
 
 const route = useRoute()
 
 const backgroundComponent = ref(null)
 
 // 👉 speichert letzte NICHT-modal Seite
+
 watch(
   () => route.fullPath,
   () => {
     if (!route.meta.modal && route.matched.length) {
-      const comp = route.matched.at(-1).components.default
-      backgroundComponent.value = markRaw(comp)
+      const comp = route.matched
+        .map(r => r.components.default)
+        .find(c => c !== DashboardView)  // nie sich selbst rendern
+      if (comp) backgroundComponent.value = markRaw(comp)
     }
   },
   { immediate: true }

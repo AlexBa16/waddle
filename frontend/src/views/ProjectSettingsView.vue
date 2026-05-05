@@ -14,7 +14,7 @@
 <script setup>
 import DeleteProject from '@/components/DeleteProject.vue'
 import IconLabelInput from '@/components/IconLabelInput.vue'
-import ManageMembers from './ManageMembers.vue';
+import ManageMembers from '../components/ManageMembers.vue';
 import NameIcon from '@/assets/project-settings/light/name.svg'
 import MemberIcon from '@/assets/project-settings/light/member.svg'
 import ManageMemberIcon from '@/assets/project-settings/light/manage-members.svg'

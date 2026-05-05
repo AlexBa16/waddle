@@ -1,1 +1,16 @@
-{}
+{
+    "createProject": "Projekt erstellen",
+    "tracker": "Tracker",
+    "reports": "Berichte",
+    "projectSettings": {
+        "description": "Projekteinstellungen",
+        "changeProjectName": "Projektnamen ändern",
+        "enterNewName": "Neuen Namen eingeben...",
+        "changeProjectDescription": "Projektbeschreibung ändern",
+        "enterNewDescription": "Neue Beschreibung eingeben...",
+        "addMembers": "Mitglieder hinzufügen",
+        "findMembers": "Mitglieder finden..."
+    },
+    "inbox": "Posteingang",
+    "settings": "Einstellungen"
+}

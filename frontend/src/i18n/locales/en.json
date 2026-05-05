@@ -1,1 +1,16 @@
-{}
+{
+    "createProject": "Create Project",
+    "tracker": "Tracker",
+    "reports": "Reports",
+    "projectSettings": {
+        "description": "Project Settings",
+        "changeProjectName": "Change project name",
+        "enterNewName": "Enter new name...",
+        "changeProjectDescription": "Change project description",
+        "enterNewDescription": "Enter new description...",
+        "addMembers": "Add members",
+        "findMembers": "Find members..."
+    },
+    "inbox": "Inbox",
+    "settings": "Settings"
+}

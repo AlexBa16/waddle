@@ -14,7 +14,7 @@
 
     <!-- Sidebar -->
     <Transition name="slide">
-        <div v-if="isOpen || isDesktop" class="fixed z-50 flex flex-col h-screen p-8 overflow-scroll shadow-xl lg:relative bg-slate-200 dark:bg-slate-600 w-72 lg:w-85 shrink-0 lg:shadow-none">
+        <div v-if="isOpen || isDesktop" class="fixed z-50 flex flex-col h-screen p-8 overflow-scroll shadow-xl lg:relative bg-slate-200 dark:bg-slate-600 w-72 lg:w-85 shrink-0 lg:shadow-none lg:overflow-auto">
 
             <!-- Header: logo + close button -->
             <div class="flex items-center justify-between mb-10">

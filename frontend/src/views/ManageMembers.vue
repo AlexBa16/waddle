@@ -17,8 +17,8 @@
         <!-- Column headers -->
         <div
             class="grid grid-cols-[1fr_1fr_44px] px-6 py-1.5 text-xs font-semibold uppercase tracking-widest text-slate-500 bg-[#cdd4e3]">
-            <span>Name</span>
-            <span>E-Mail</span>
+            <span>{{ t('nav.projectSettings.name') }}</span>
+            <span>{{ t('nav.projectSettings.email') }}</span>
             <span />
         </div>
 
@@ -37,7 +37,7 @@
 
             <!-- Error -->
             <div v-else-if="error" class="px-6 py-6 text-sm text-red-500 text-center">
-                ⚠ Fehler beim Laden: {{ error }}
+                {{ t('nav.projectSettings.errorLoadingMessage') }} {{ error }}
             </div>
 
             <!-- Empty -->
@@ -48,7 +48,7 @@
                     <circle cx="12" cy="8" r="4" />
                     <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" />
                 </svg>
-                <p>Keine Mitglieder gefunden</p>
+                <p>{{ t('nav.projectSettings.noMembersFound') }}</p>
             </div>
 
             <!-- Rows -->
@@ -72,7 +72,7 @@
             <span>{{ statusText }}</span>
             <button class="text-slate-600 hover:bg-slate-300/50 px-2 py-1 rounded transition-colors duration-150"
                 @click="loadMembers">
-                ↻ Aktualisieren
+                {{ t('nav.projectSettings.update') }}
             </button>
         </div>
 
@@ -83,6 +83,9 @@
 import { ref, computed, onMounted } from 'vue'
 import TrashIcon from '@/assets/project-settings/light/trash.svg'
 import TrashIconFilled from '@/assets/project-settings/light/trash-filled.svg'
+import { useI18n } from 'vue-i18n'
+
+const {t} = useI18n()
 
 const hoveredId = ref(null)
 
@@ -124,11 +127,11 @@ const filteredMembers = computed(() => {
 })
 
 const statusText = computed(() => {
-    if (loading.value) return 'Lade Mitglieder…'
-    if (error.value) return 'Fehler beim Laden'
+    if (loading.value) return t('nav.projectSettings.loading')
+    if (error.value) return t('nav.projectSettings.errorLoading')
     const total = members.value.length
     const shown = filteredMembers.value.length
-    if (searchQuery.value && shown !== total) return `${shown} von ${total} Mitgliedern`
+    if (searchQuery.value && shown !== total) return `${shown} ${t('nav.projectSettings.of')} ${total} ${t('nav.projectSettings.members')}`
     return `${total} Mitglied${total !== 1 ? 'er' : ''}`
 })
 

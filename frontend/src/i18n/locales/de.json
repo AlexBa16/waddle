@@ -1,16 +1,36 @@
 {
-    "createProject": "Projekt erstellen",
-    "tracker": "Tracker",
-    "reports": "Berichte",
-    "projectSettings": {
-        "description": "Projekteinstellungen",
-        "changeProjectName": "Projektnamen ändern",
-        "enterNewName": "Neuen Namen eingeben...",
-        "changeProjectDescription": "Projektbeschreibung ändern",
-        "enterNewDescription": "Neue Beschreibung eingeben...",
-        "addMembers": "Mitglieder hinzufügen",
-        "findMembers": "Mitglieder finden..."
-    },
-    "inbox": "Posteingang",
-    "settings": "Einstellungen"
+    "nav": {
+        "createProject": {
+            "description": "Projekt erstellen",
+            "error": "Projekt konnte nicht erstellt werden:"
+        },
+        "tracker": "Tracker",
+        "reports": "Berichte",
+        "projectSettings": {
+            "description": "Projekteinstellungen",
+            "changeProjectName": "Projektnamen ändern",
+            "enterNewName": "Neuen Namen eingeben...",
+            "changeProjectDescription": "Projektbeschreibung ändern",
+            "enterNewDescription": "Neue Beschreibung eingeben...",
+            "addMembers": "Mitglieder hinzufügen",
+            "findMembers": "Mitglieder finden ...",    
+            "manageMembers": "Mitglieder verwalten",
+            "searchMembers": "Mitglieder suchen ...",
+            "name": "NAME",
+            "email": "E-MAIL",
+            "loading": "Lade Mitglieder",
+            "errorLoading": "Fehler beim Laden",
+            "errorLoadingMessage": "⚠ Fehler beim Laden: ",
+            "noMembersFound": "Keine Mitglieder gefunden",
+            "update": "↻ Aktualisieren",
+            "of": "of",
+            "members": "Mitglieder",
+            "deleteProject": {
+                "description": "Projekt permanent löschen",
+                "button": "Projekt löschen"
+            }
+        },
+        "inbox": "Posteingang",
+        "settings": "Einstellungen"
+    }
 }

@@ -87,10 +87,12 @@ import Dropdown from '@/components/Dropdown.vue'
 import Profile from '@/components/Profile.vue'
 import CreateProjectForm from '@/components/CreateProjectForm.vue'
 import { useProjectStore } from '@/stores/project'
+import { useI18n } from 'vue-i18n'
 
 const store = useProjectStore()
 const showCreateForm = ref(false)
 const isOpen = ref(false)
+const { t } = useI18n()
 
 // Track if we're on desktop (lg breakpoint = 1024px)
 const windowWidth = ref(window.innerWidth)
@@ -105,21 +107,21 @@ onMounted(() => window.addEventListener('resize', onResize))
 onUnmounted(() => window.removeEventListener('resize', onResize))
 
 const navItems = [
-    { label: 'Tracker', iconPathLight: TrackerIconLight, iconPathDark: TrackerIconDark, to: '/tracker' },
-    { label: 'Berichte', iconPathLight: ReportIconLight, iconPathDark: ReportIconDark, to: '/reports' },
-    { label: 'Projekteinstellungen', iconPathLight: ProjectSettingsIconLight, iconPathDark: ProjectSettingsIconDark, to: '/project-settings' },
+    { label: t('nav.tracker'), iconPathLight: TrackerIconLight, iconPathDark: TrackerIconDark, to: '/tracker' },
+    { label: t('nav.reports'), iconPathLight: ReportIconLight, iconPathDark: ReportIconDark, to: '/reports' },
+    { label: t('nav.projectSettings.description'), iconPathLight: ProjectSettingsIconLight, iconPathDark: ProjectSettingsIconDark, to: '/project-settings' },
 ]
 
 const personalNavItems = [
-    { label: 'Posteingang', iconPathLight: InboxIconLight, iconPathDark: InboxIconDark, to: '/inbox' },
-    { label: 'Einstellungen', iconPathLight: SettingsIconLight, iconPathDark: SettingsIconDark, to: '/settings' },
+    { label: t('nav.inbox'), iconPathLight: InboxIconLight, iconPathDark: InboxIconDark, to: '/inbox' },
+    { label: t('nav.settings'), iconPathLight: SettingsIconLight, iconPathDark: SettingsIconDark, to: '/settings' },
 ]
 
 async function handleCreate(formData) {
     try {
         await store.createProject(formData)
     } catch (e) {
-        console.error('Projekt konnte nicht erstellt werden:', e.message)
+        console.error(t('nav.createProject.error'), e.message)
     }
 }
 </script>

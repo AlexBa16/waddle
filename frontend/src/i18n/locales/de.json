@@ -1,4 +1,20 @@
 {
+    "login": {
+        "username": "Benutzername",
+        "password": "Passwort",
+        "login": "Einloggen",
+        "logging-in": "Wird eingeloggt...",
+        "registerInfo": "Noch kein Konto? Hier registrieren"
+    },
+    "register": {
+        "username": "Benutzername",
+        "email": "E-Mail",
+        "password": "Passwort",
+        "rePassword": "Passwort bestätigen",
+        "register": "Registrieren",
+        "registering": "Wird registriert ...",
+        "loginInfo": "Bereits ein Konto? Hier anmelden"
+    },
     "nav": {
         "createProject": {
             "description": "Projekt erstellen",

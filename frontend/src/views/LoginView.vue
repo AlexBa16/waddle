@@ -21,19 +21,19 @@
                     </div>
 
                     <form class="flex flex-col w-full gap-3" @submit.prevent="login">
-                        <Input v-model="form.username" type="text" label="Benutzername" class="w-full" />
-                        <Input v-model="form.password" type="password" label="Passwort" class="w-full" />
+                        <Input v-model="form.username" type="text" :label="t('register.username')" class="w-full" />
+                        <Input v-model="form.password" type="password" :label="t('register.password')" class="w-full" />
 
                         <p v-if="error" class="text-sm text-red-500">{{ error }}</p>
 
                         <Button :disabled="loading" class="w-full">
-                            {{ loading ? 'Wird eingeloggt...' : 'Einloggen' }}
+                            {{ loading ? t('login.logging-in') : t('login.login') }}
                         </Button>
                     </form>
 
                     <div class="mt-4 text-center">
                         <a href="/register" class="text-sm underline text-slate-600 hover:text-slate-800 dark:text-orange-50 dark:hover:text-blue-100">
-                            Noch kein Konto? Hier registrieren
+                            {{t('login.registerInfo')}}
                         </a>
                     </div>
                 </div>
@@ -54,7 +54,9 @@ import MountainsSmallLight from '@/assets/mountain-small-light.svg'
 import MountainsBigLight from '@/assets/mountain-big-light.svg'
 import MountainsSmallDark from '@/assets/mountain-small-dark.svg'
 import MountainsBigDark from '@/assets/mountain-big-dark.svg'
+import { useI18n } from 'vue-i18n';
 
+const {t} = useI18n();
 
 const form = ref({
     username: '',

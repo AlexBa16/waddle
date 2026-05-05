@@ -11,10 +11,10 @@
                     <span class="text-5xl font-bold pop-reg text-slate-700 dark:text-orange-50">Waddle</span>
                 </div>
                 <form class="flex flex-col gap-1 form" @submit.prevent="register">
-                    <Input v-model="form.username" type="text" label="Benutzername" class="w-90" />
-                    <Input v-model="form.email" type="email" label="E-Mail" class="w-90" />
-                    <Input v-model="form.password" type="password" label="Passwort" class="w-90" />
-                    <Input v-model="form.passwordConfirm" type="password" label="Passwort bestätigen" class="w-90" />
+                    <Input v-model="form.username" type="text" :label="t('register.username')" class="w-90" />
+                    <Input v-model="form.email" type="email" :label="t('register.email')" class="w-90" />
+                    <Input v-model="form.password" type="password" :label="t('register.password')" class="w-90" />
+                    <Input v-model="form.passwordConfirm" type="password" :label="t('register.rePassword')" class="w-90" />
 
                     <!--Errors-->
                     <div v-if="errors" class="mt-1 text-sm text-red-500">
@@ -23,14 +23,15 @@
                     <p v-if="generalError" class="mt-1 text-sm text-red-500">{{ generalError }}</p>
 
                     <Button :disabled="loading" class="w-full mt-2">
-                        {{ loading ? 'Wird registriert...' : 'Registrieren' }}
+                        {{ loading ? t('register.registering') : t('register.register') }}
                     </Button>
                 </form>
 
                 <div class="mt-4 text-center">
                     <a href="/login"
-                        class="text-sm underline text-slate-600 hover:text-slate-800 dark:text-orange-50 dark:hover:text-indigo-100">Bereits
-                        ein Konto? Hier anmelden</a>
+                        class="text-sm underline text-slate-600 hover:text-slate-800 dark:text-orange-50 dark:hover:text-indigo-100">
+                        {{ t('register.loginInfo') }}
+                    </a>
                 </div>
             </div>
         </div>
@@ -46,6 +47,9 @@ import LogoLight from '@/assets/logo-light.svg';
 import LogoDark from '@/assets/logo-dark.svg';
 import MountainsLight from '@/assets/mountains-light.svg';
 import MountainsDark from '@/assets/mountains-dark.svg';
+import { useI18n } from 'vue-i18n';
+
+const {t} = useI18n();
 
 const router = useRouter();
 

@@ -16,6 +16,7 @@
             class="... dark:bg-slate-500 dark:text-orange-50 dark:border-slate-400">
             <option value="light">Hell</option>
             <option value="dark">Dunkel</option>
+            <option value="system">Systemeinstellung verwenden</option>
         </select>
 
         <select v-if="select" :value="modelValue" @change="emit('update:modelValue', $event.target.value)" class="... dark:bg-slate-500 dark:text-orange-50 dark:border-slate-400">

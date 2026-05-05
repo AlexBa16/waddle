@@ -1,65 +1,67 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @utility pop-thin {
-  font-family: "Poppins", sans-serif;
-  font-weight: 100;
+    font-family: "Poppins", sans-serif;
+    font-weight: 100;
 }
-  
+
 @utility pop-extralight {
-  font-family: "Poppins", sans-serif;
-  font-weight: 200;
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
 }
 
 @utility pop-light {
-  font-family: "Poppins", sans-serif;
-  font-weight: 300;
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
 }
 
 @utility pop-reg {
-  font-family: "Poppins", sans-serif;
-  font-weight: 400;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
 }
 
 @utility pop-med {
-  font-family: "Poppins", sans-serif;
-  font-weight: 500;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
 }
 
 @utility pop-semibold {
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
 }
 
 @utility pop-bold {
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
 }
 
 @utility pop-extrabold {
-  font-family: "Poppins", sans-serif;
-  font-weight: 800;
+    font-family: "Poppins", sans-serif;
+    font-weight: 800;
 }
 
 @utility pop-black {
-  font-family: "Poppins", sans-serif;
-  font-weight: 900;
+    font-family: "Poppins", sans-serif;
+    font-weight: 900;
 }
 
 @utility pop-reg-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 400;
-  font-style: italic;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: italic;
 }
 
 @utility pop-med-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 500;
-  font-style: italic;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: italic;
 }
 
 @utility pop-bold-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-style: italic;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: italic;
 }

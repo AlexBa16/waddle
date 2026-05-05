@@ -48,6 +48,8 @@ import userIcon from '@/assets/user-settings/light/user.svg'
 import languageIcon from '@/assets/user-settings/light/language.svg'
 import passwordIcon from '@/assets/user-settings/light/password.svg'
 import viewModeIcon from '@/assets/user-settings/light/viewModeIcon.svg'
+import { useRouter } from 'vue-router'
+const router = useRouter();
 
 const auth = useAuthStore()
 
@@ -69,23 +71,21 @@ async function saveSettings() {
     loading.value = true
 
     try {
-        // Passwort zuerst (Token noch gültig)
         if (form.value.password) {
             await auth.updatePassword(form.value.password, form.value.passwordConfirm)
-            form.value.password = ''
-            form.value.passwordConfirm = ''
         }
 
-        // Username danach (invalidiert Token)
         if (form.value.username && form.value.username !== auth.username) {
             await auth.updateUsername(form.value.username)
         }
 
-        successMsg.value = 'Einstellungen gespeichert!'
+        // Nach jeder Änderung ausloggen → neu einloggen mit neuen Daten
+        auth.logout()
+        router.push('/login')
+
     } catch (e) {
         errorMsg.value = e.message
-    } finally {
-        loading.value = false
+        loading.value = false  // nur bei Fehler, sonst logout übernimmt
     }
 }
 </script>

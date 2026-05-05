@@ -30,7 +30,10 @@
                 "button": "Projekt löschen"
             }
         },
-        "inbox": "Posteingang",
+        "inbox": {
+            "description": "Posteingang",
+            "noMessagesFound": "Keine Nachrichten vorhanden"
+        },
         "settings": "Einstellungen"
     }
 }

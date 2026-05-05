@@ -5,7 +5,7 @@
       <!-- Header -->
       <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-bold text-slate-700 dark:text-orange-50">
-          Posteingang
+          {{ t('nav.inbox.description')}}
           <span
             v-if="messages.length"
             class="ml-2 text-sm font-medium bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-full px-2 py-0.5"
@@ -32,7 +32,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
             d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
         </svg>
-        <p class="text-sm">Keine Nachrichten vorhanden</p>
+        <p class="text-sm">{{ t('nav.inbox.noMessagesFound') }}</p>
       </div>
 
       <!-- Message list -->
@@ -54,6 +54,9 @@
 import BackIcon from '@/assets/Inbox/light/go-back.svg'
 import BackIconDark from '@/assets/Inbox/dark/go-back.svg'
 import Message from '@/components/Message.vue'
+import { useI18n } from 'vue-i18n'
+
+const {t} = useI18n()
 
 // TODO: Nachrichten von Backend laden und in messages speichern
 const messages = [

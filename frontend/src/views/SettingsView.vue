@@ -1,22 +1,22 @@
 <template>
     <div class="flex flex-col gap-4 items-center justify-center">
-        <IconLabelInput :iconPath="languageIcon" label="Sprache ändern: " :select="true" v-model="form.language" />
-        <IconLabelInput :iconPath="viewModeIcon" label="Hell/Dunkel: " :selectViewMode="true"
+        <IconLabelInput :iconPath="languageIcon" :label="t('nav.settings.changeLanguage')" :select="true" v-model="form.language" @update:modelValue="setLanguage" />
+        <IconLabelInput :iconPath="viewModeIcon" :label="t('nav.settings.mode')" :selectViewMode="true"
             :modelValue="selectedTheme" @update:modelValue="onThemeChange" />
         <hr class="w-6/12 dark:border-slate-300 my-5 border-[#cbd4fe] rounded" />
-        <IconLabelInput :iconPath="userIcon" label="Benutzernamen ändern: " placeholder="Neuer Benutzername..."
+        <IconLabelInput :iconPath="userIcon" :label="t('nav.settings.changeUsername')" :placeholder="t('nav.settings.newUsername')"
             v-model="form.username" />
         <hr class="w-6/12 dark:border-slate-300 my-5 border-[#cbd4fe] rounded" />
-        <IconLabelInput :iconPath="passwordIcon" label="Passwort ändern: " placeholder="Neues Passwort..."
+        <IconLabelInput :iconPath="passwordIcon" :label="t('nav.settings.changePassword')" :placeholder="t('nav.settings.newPassword')"
             type="password" v-model="form.password" />
-        <IconLabelInput :iconPath="passwordIcon" label="Passwort bestätigen: "
-            placeholder="Neues Passwort bestätigen..." type="password" v-model="form.passwordConfirm" />
+        <IconLabelInput :iconPath="passwordIcon" :label="t('nav.settings.confirmPassword')"
+            :placeholder="t('nav.settings.confirmedPassword')" type="password" v-model="form.passwordConfirm" />
         <hr class="w-6/12 dark:border-slate-300 my-5 border-[#cbd4fe] rounded" />
         <p v-if="errorMsg" class="text-sm text-red-500">{{ errorMsg }}</p>
         <p v-if="successMsg" class="text-sm text-green-500">{{ successMsg }}</p>
         <div class="flex w-1/2 justify-end">
             <Button :disabled="loading" @click="saveSettings">
-                {{ loading ? 'Wird gespeichert...' : 'Speichern' }}
+                {{ loading ? t('nav.settings.beingSaved') : t('nav.settings.saved') }}
             </Button>
         </div>
     </div>
@@ -31,6 +31,13 @@ import userIcon from '@/assets/user-settings/light/user.svg'
 import languageIcon from '@/assets/user-settings/light/language.svg'
 import passwordIcon from '@/assets/user-settings/light/password.svg'
 import viewModeIcon from '@/assets/user-settings/light/viewModeIcon.svg'
+import { useI18n } from 'vue-i18n'
+
+const {t, locale} = useI18n()
+function setLanguage(lang) {
+    locale.value = lang
+    localStorage.setItem('lang', lang)
+}
 
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
     if (!localStorage.getItem('theme')) {

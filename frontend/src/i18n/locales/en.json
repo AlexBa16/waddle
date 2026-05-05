@@ -1,19 +1,72 @@
 {
+    "login": {
+        "username": "Username",
+        "password": "Password",
+        "login": "Log in",
+        "logging-in": "Logging in...",
+        "registerInfo": "Don't have an account yet? Register here"
+    },
+    "register": {
+        "username": "Username",
+        "email": "Email",
+        "password": "Password",
+        "rePassword": "Confirm password",
+        "register": "Register",
+        "registering": "Registering...",
+        "loginInfo": "Already have an account? Log in here"
+    },
     "nav": {
-        "createProject": "Create Project",
-        "projectError": "",
+        "createProject": {
+            "description": "Create project",
+            "error": "Project could not be created:"
+        },
         "tracker": "Tracker",
         "reports": "Reports",
         "projectSettings": {
-            "description": "Project Settings",
+            "description": "Project settings",
             "changeProjectName": "Change project name",
             "enterNewName": "Enter new name...",
             "changeProjectDescription": "Change project description",
             "enterNewDescription": "Enter new description...",
             "addMembers": "Add members",
-            "findMembers": "Find members..."
+            "findMembers": "Find members...",
+            "manageMembers": "Manage members",
+            "searchMembers": "Search members...",
+            "name": "NAME",
+            "email": "EMAIL",
+            "loading": "Loading members",
+            "errorLoading": "Error loading",
+            "errorLoadingMessage": "⚠ Error loading: ",
+            "noMembersFound": "No members found",
+            "update": "↻ Refresh",
+            "of": "of",
+            "members": "members",
+            "deleteProject": {
+                "description": "Permanently delete project",
+                "button": "Delete project"
+            }
         },
-        "inbox": "Inbox",
-        "settings": "Settings"
+        "inbox": {
+            "description": "Inbox",
+            "noMessagesFound": "No messages found"
+        },
+        "settings": {
+            "description": "Settings",
+            "changeLanguage": "Change language:",
+            "german": "German",
+            "english": "English",
+            "mode": "Light/Dark:",
+            "light": "Light",
+            "dark": "Dark",
+            "systemMode": "Use system settings",
+            "changeUsername": "Change username:",
+            "newUsername": "New username...",
+            "changePassword": "Change password:",
+            "newPassword": "New password...",
+            "confirmPassword": "Confirm password",
+            "confirmedPassword": "Confirm new password",
+            "saved": "Save",
+            "beingSaved": "Saving..."
+        }
     }
 }

@@ -14,14 +14,14 @@
 
         <select v-if="selectViewMode" :value="modelValue" @change="emit('update:modelValue', $event.target.value)"
             class="... dark:bg-slate-500 dark:text-orange-50 dark:border-slate-400">
-            <option value="light">Hell</option>
-            <option value="dark">Dunkel</option>
-            <option value="system">Systemeinstellung verwenden</option>
+            <option value="light">{{t('nav.settings.light')}}</option>
+            <option value="dark">{{t('nav.settings.dark')}}</option>
+            <option value="system">{{t('nav.settings.systemMode')}}</option>
         </select>
 
         <select v-if="select" :value="modelValue" @change="emit('update:modelValue', $event.target.value)" class="... dark:bg-slate-500 dark:text-orange-50 dark:border-slate-400">
-            <option value="German">Deutsch</option>
-            <option value="English">Englisch</option>
+            <option value="de">{{t('nav.settings.german')}}</option>
+            <option value="en">{{t('nav.settings.english')}}</option>
             
         </select>
 
@@ -34,6 +34,10 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n';
+
+const {t} = useI18n();
+
 const props = defineProps({
     iconPath: { type: String, required: true },
     label: { type: String, required: true },

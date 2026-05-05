@@ -53,14 +53,20 @@
         "settings": {
             "description": "Einstellungen",
             "changeLanguage": "Sprache ändern:",
+            "german": "Deutsch",
+            "english": "Englisch",
             "mode": "Hell/Dunkel:",
             "light": "Hell",
             "dark": "Dunkel",
+            "systemMode": "Systemeinstellungen verwenden",
             "changeUsername": "Benutzername ändern:",
+            "newUsername": "Neues Benutzername ...",
             "changePassword": "Passwort ändern:",
             "newPassword": "Neues Passwort ...",
             "confirmPassword": "Passwort bestätigen",
-            "confirmedPassword": "Neues Passwort bestätigen"
+            "confirmedPassword": "Neues Passwort bestätigen",
+            "saved": "Speichern",
+            "beingSaved": "Wird gespeichert.."
         }
     }
 }

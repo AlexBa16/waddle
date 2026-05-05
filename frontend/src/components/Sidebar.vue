@@ -106,16 +106,16 @@ function onResize() {
 onMounted(() => window.addEventListener('resize', onResize))
 onUnmounted(() => window.removeEventListener('resize', onResize))
 
-const navItems = [
+const navItems = computed(() => [
     { label: t('nav.tracker'), iconPathLight: TrackerIconLight, iconPathDark: TrackerIconDark, to: '/tracker' },
     { label: t('nav.reports'), iconPathLight: ReportIconLight, iconPathDark: ReportIconDark, to: '/reports' },
     { label: t('nav.projectSettings.description'), iconPathLight: ProjectSettingsIconLight, iconPathDark: ProjectSettingsIconDark, to: '/project-settings' },
-]
+])
 
-const personalNavItems = [
-    { label: t('nav.inbox'), iconPathLight: InboxIconLight, iconPathDark: InboxIconDark, to: '/inbox' },
-    { label: t('nav.settings'), iconPathLight: SettingsIconLight, iconPathDark: SettingsIconDark, to: '/settings' },
-]
+const personalNavItems = computed(() => [
+    { label: t('nav.inbox.description'), iconPathLight: InboxIconLight, iconPathDark: InboxIconDark, to: '/inbox' },
+    { label: t('nav.settings.description'), iconPathLight: SettingsIconLight, iconPathDark: SettingsIconDark, to: '/settings' },
+])
 
 async function handleCreate(formData) {
     try {

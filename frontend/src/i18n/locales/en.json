@@ -28,6 +28,11 @@
             "error": "Project could not be created:"
         },
         "tracker": "Tracker",
+        "track" : {
+            "label": "Track",
+            "placeholder": "Describe what you are tracking for..."
+        },
+        "entrys": "Entrys",
         "reports": "Reports",
         "projectSettings": {
             "description": "Project settings",

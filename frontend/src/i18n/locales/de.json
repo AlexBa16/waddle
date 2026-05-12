@@ -28,6 +28,12 @@
             "error": "Projekt konnte nicht erstellt werden:"
         },
         "tracker": "Tracker",
+        "track": {
+            "label": "Tracken",
+            "placeholder": "Beschreibe für was du trackst..."
+            
+        },
+        "entrys": "Einträge",
         "reports": "Berichte",
         "projectSettings": {
             "description": "Projekteinstellungen",

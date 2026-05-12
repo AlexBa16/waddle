@@ -75,6 +75,8 @@ import LogoLight from '@/assets/logo-light.svg'
 import LogoDark from '@/assets/logo-dark.svg'
 import TrackerIconLight from '@/assets/SidebarIcons/light/tracker.svg'
 import TrackerIconDark from '@/assets/SidebarIcons/dark/tracker.svg'
+import EntryIconLight from '@/assets/SidebarIcons/light/entry.svg'
+import EntryIconDark from '@/assets/SidebarIcons/dark/entry.svg'
 import ReportIconLight from '@/assets/SidebarIcons/light/report.svg'
 import ReportIconDark from '@/assets/SidebarIcons/dark/report.svg'
 import ProjectSettingsIconLight from '@/assets/SidebarIcons/light/project-settings.svg'
@@ -108,6 +110,7 @@ onUnmounted(() => window.removeEventListener('resize', onResize))
 
 const navItems = computed(() => [
     { label: t('nav.tracker'), iconPathLight: TrackerIconLight, iconPathDark: TrackerIconDark, to: '/tracker' },
+    { label: t('nav.entrys'), iconPathLight: EntryIconLight, iconPathDark: EntryIconDark, to: '/entrys' },
     { label: t('nav.reports'), iconPathLight: ReportIconLight, iconPathDark: ReportIconDark, to: '/reports' },
     { label: t('nav.projectSettings.description'), iconPathLight: ProjectSettingsIconLight, iconPathDark: ProjectSettingsIconDark, to: '/project-settings' },
 ])

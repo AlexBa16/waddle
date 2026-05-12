@@ -1,5 +1,9 @@
 <template>
-    <div>
-        <h1>Das ist ein Tracker</h1>
+    <div class="flex flex-col w-full h-screen items-center">
+        <Track />
     </div>
 </template>
+
+<script setup>
+import Track from "@/components/Track.vue";
+</script>

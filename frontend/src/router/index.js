@@ -5,6 +5,7 @@ import DashboardView from '@/views/DashboardView.vue';
 import Sidebar from '@/components/Sidebar.vue';
 import SettingsView from '@/views/SettingsView.vue';
 import TrackerView from '@/views/TrackerView.vue';
+import EntryView from '@/views/EntryView.vue';
 import ReportsView from '@/views/ReportsView.vue';
 import ProjectSettingsView from '@/views/ProjectSettingsView.vue';
 import InboxView from '@/views/InboxView.vue';
@@ -19,6 +20,7 @@ const router = createRouter({
         component: DashboardView,
         children: [
             { path: '/tracker', component: TrackerView },
+            { path: '/entrys', component: EntryView },
             { path: '/reports', component: ReportsView },
             { path: '/project-settings', component: ProjectSettingsView },
             { path: '/inbox', component: InboxView, meta: { modal: true}},

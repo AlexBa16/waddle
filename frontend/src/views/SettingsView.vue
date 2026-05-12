@@ -6,12 +6,10 @@
         <hr class="w-6/12 dark:border-slate-300 my-5 border-[#cbd4fe] rounded" />
         <IconLabelInput :iconPath="userIcon" :label="t('nav.settings.changeUsername')" :placeholder="t('nav.settings.newUsername')"
             v-model="form.username" />
-        <hr class="w-6/12 dark:border-slate-300 my-5 border-[#cbd4fe] rounded" />
         <IconLabelInput :iconPath="passwordIcon" :label="t('nav.settings.changePassword')" :placeholder="t('nav.settings.newPassword')"
             type="password" v-model="form.password" />
         <IconLabelInput :iconPath="passwordIcon" :label="t('nav.settings.confirmPassword')"
             :placeholder="t('nav.settings.confirmedPassword')" type="password" v-model="form.passwordConfirm" />
-        <hr class="w-6/12 dark:border-slate-300 my-5 border-[#cbd4fe] rounded" />
         <p v-if="errorMsg" class="text-sm text-red-500">{{ errorMsg }}</p>
         <p v-if="successMsg" class="text-sm text-green-500">{{ successMsg }}</p>
         <div class="flex w-1/2 justify-end">

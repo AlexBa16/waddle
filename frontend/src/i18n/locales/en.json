@@ -72,7 +72,7 @@
             "newPassword": "New password...",
             "confirmPassword": "Confirm password",
             "confirmedPassword": "Confirm new password",
-            "saved": "Save",
+            "saved": "Save user data & logout",
             "beingSaved": "Saving..."
         }
     }

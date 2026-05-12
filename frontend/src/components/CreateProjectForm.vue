@@ -3,7 +3,7 @@
       <Transition name="modal">
         <div
           v-if="modelValue"
-          class="fixed inset-0 z-[100] flex items-center justify-center"
+          class="fixed inset-0 z-100 flex items-center justify-center"
           @mousedown.self="$emit('update:modelValue', false)"
         >
           <!-- Backdrop -->
@@ -14,7 +14,7 @@
   
             <!-- Header bar -->
             <div class="bg-[#7C86FF] px-8 py-6 flex items-center justify-between">
-              <h2 class="text-xl font-semibold tracking-tight text-white">Neues Projekt</h2>
+              <h2 class="text-xl font-semibold tracking-tight text-white">{{ t('nav.createProject.title') }}</h2>
               <button
                 class="transition-colors duration-150 cursor-pointer text-white/70 hover:text-white"
                 @click="$emit('update:modelValue', false)"
@@ -38,7 +38,7 @@
                   ref="nameInputRef"
                   v-model="form.name"
                   type="text"
-                  placeholder="z. B. Website Relaunch"
+                  :placeholder="t('nav.createProject.placeholder-name')"
                   class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-white placeholder-slate-400 text-sm font-medium outline-none focus:border-[#7C86FF] transition-colors duration-150"
                 />
               </div>
@@ -46,11 +46,11 @@
               <!-- Description -->
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold tracking-wider uppercase text-slate-500 dark:text-slate-400">
-                  Beschreibung
+                    {{ t('nav.createProject.label-description') }}
                 </label>
                 <textarea
                   v-model="form.description"
-                  placeholder="Worum geht es in diesem Projekt?"
+                  :placeholder="t('nav.createProject.placeholder-description')"
                   rows="3"
                   class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-white placeholder-slate-400 text-sm font-medium outline-none focus:border-[#7C86FF] transition-colors duration-150 resize-none"
                 />
@@ -60,10 +60,10 @@
               <div class="flex items-start justify-between gap-4 py-1">
                 <div class="flex flex-col gap-1">
                   <span class="text-sm font-semibold text-slate-700 dark:text-slate-200">
-                    Kennung für Zeiteinträge
+                    {{ t('nav.createProject.label-identifier') }}
                   </span>
                   <span class="text-xs leading-snug text-slate-400 dark:text-slate-500">
-                    Fügt jedem Zeiteintrag dieses Projekts einen Bezeichner hinzu.
+                    {{  t('nav.createProject.info-identifier') }}
                   </span>
                 </div>
                 <!-- Toggle switch -->
@@ -125,6 +125,9 @@
   
   <script setup>
   import { ref, computed, watch, nextTick } from 'vue'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
   
   const props = defineProps({
     modelValue: { type: Boolean, default: false },

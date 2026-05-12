@@ -54,7 +54,7 @@
               <line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="2.5"/>
               <line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2.5"/>
             </svg>
-            Projekt erstellen
+            {{ t('nav.createProject.description') }}
           </button>
         </div>
       </Transition>
@@ -63,6 +63,9 @@
   
   <script setup>
   import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+  import { useI18n } from 'vue-i18n'
+  
+  const { t } = useI18n()
   
   const props = defineProps({
     modelValue: { type: [String, Number], default: null },

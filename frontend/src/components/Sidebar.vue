@@ -41,7 +41,7 @@
             </p>
 
             <Dropdown :model-value="store.selectedId" :options="store.projects"
-                @update:model-value="store.selectProject($event)" @create="showCreateForm = true" />
+                @update:model-value="store.selectProject($event)" @create="showCreateForm = true" :placeholder="t('nav.selectProject')"/>
 
             <CreateProjectForm v-model="showCreateForm" @create="handleCreate" />
 

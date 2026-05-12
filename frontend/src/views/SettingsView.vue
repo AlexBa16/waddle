@@ -76,7 +76,7 @@ const form = ref({
     username: auth.username ?? '',
     password: '',
     passwordConfirm: '',
-    language: 'German',
+    language: localStorage.getItem('lang') || (navigator.language.startsWith('de') ? 'de' : 'en'),
 })
 
 const loading = ref(false)

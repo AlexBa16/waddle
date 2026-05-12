@@ -164,8 +164,8 @@ async function handleDelete(member) {
     }
 }
 
-// Neu laden wenn Projekt wechselt
 watch(() => projectStore.selected, loadMembers, { immediate: true })
 
 onMounted(loadMembers)
+defineExpose({ loadMembers })
 </script>

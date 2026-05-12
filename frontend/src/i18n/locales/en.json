@@ -56,7 +56,9 @@
             "deleteProject": {
                 "description": "Permanently delete project",
                 "button": "Delete project"
-            }
+            },
+            "invite": "Invite",
+            "noUsersFound": "No users found"
         },
         "inbox": {
             "description": "Inbox",

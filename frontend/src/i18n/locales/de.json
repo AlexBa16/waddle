@@ -56,7 +56,9 @@
             "deleteProject": {
                 "description": "Projekt permanent löschen",
                 "button": "Projekt löschen"
-            }
+            },
+            "invite": "Einladen",
+            "noUsersFound": "Keine Benutzer gefunden"
         },
         "inbox": {
             "description": "Posteingang",

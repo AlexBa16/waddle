@@ -15,6 +15,18 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
+    
+    public function searchByUsername(string $query, User $exclude): array
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.username LIKE :query')
+            ->andWhere('u.id != :excludeId')
+            ->setParameter('query', '%' . $query . '%')
+            ->setParameter('excludeId', $exclude->getId())
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
 
     //    /**
     //     * @return User[] Returns an array of User objects

@@ -38,94 +38,47 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'json')]
     private array $roles = [];
 
-    // Wird NICHT gespeichert – nur für Validierung beim Registrieren
     #[Assert\NotBlank(message: 'Password cannot be empty.', groups: ['registration', 'password'])]
     #[Assert\Length(min: 8, minMessage: 'Password must have at least 8 characters.', groups: ['registration', 'password'])]
     private ?string $plainPassword = null;
 
-    /**
-     * @var Collection<int, Project>
-     */
     #[ORM\OneToMany(targetEntity: Project::class, mappedBy: 'admin')]
     private Collection $projects;
+
+    #[ORM\OneToMany(targetEntity: Invitation::class, mappedBy: 'invitedBy')]
+    private Collection $sentInvitations;
+
+    #[ORM\OneToMany(targetEntity: Invitation::class, mappedBy: 'invitedUser')]
+    private Collection $receivedInvitations;
 
     public function __construct()
     {
         $this->projects = new ArrayCollection();
+        $this->sentInvitations = new ArrayCollection();
+        $this->receivedInvitations = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    public function getId(): ?int { return $this->id; }
 
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-    public function setUsername(string $username): static
-    {
-        $this->username = $username;
-        return $this;
-    }
+    public function getUsername(): ?string { return $this->username; }
+    public function setUsername(string $username): static { $this->username = $username; return $this; }
 
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-    public function setEmail(string $email): static
-    {
-        $this->email = $email;
-        return $this;
-    }
+    public function getEmail(): ?string { return $this->email; }
+    public function setEmail(string $email): static { $this->email = $email; return $this; }
 
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-    public function setPassword(string $password): static
-    {
-        $this->password = $password;
-        return $this;
-    }
+    public function getPassword(): ?string { return $this->password; }
+    public function setPassword(string $password): static { $this->password = $password; return $this; }
 
-    public function getPlainPassword(): ?string
-    {
-        return $this->plainPassword;
-    }
-    public function setPlainPassword(?string $plainPassword): static
-    {
-        $this->plainPassword = $plainPassword;
-        return $this;
-    }
+    public function getPlainPassword(): ?string { return $this->plainPassword; }
+    public function setPlainPassword(?string $plainPassword): static { $this->plainPassword = $plainPassword; return $this; }
 
-    public function getRoles(): array
-    {
-        return array_unique(array_merge($this->roles, ['ROLE_USER']));
-    }
-    public function setRoles(array $roles): static
-    {
-        $this->roles = $roles;
-        return $this;
-    }
+    public function getRoles(): array { return array_unique(array_merge($this->roles, ['ROLE_USER'])); }
+    public function setRoles(array $roles): static { $this->roles = $roles; return $this; }
 
-    // UserInterface
-    public function getUserIdentifier(): string
-    {
-        return (string) $this->username;
-    }
-    public function eraseCredentials(): void
-    {
-        $this->plainPassword = null;
-    }
+    public function getUserIdentifier(): string { return (string) $this->username; }
+    public function eraseCredentials(): void { $this->plainPassword = null; }
 
-    /**
-     * @return Collection<int, Project>
-     */
-    public function getProjects(): Collection
-    {
-        return $this->projects;
-    }
+    public function getProjects(): Collection { return $this->projects; }
 
     public function addProject(Project $project): static
     {
@@ -133,19 +86,58 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->projects->add($project);
             $project->setAdmin($this);
         }
-
         return $this;
     }
 
     public function removeProject(Project $project): static
     {
         if ($this->projects->removeElement($project)) {
-            // set the owning side to null (unless already changed)
             if ($project->getAdmin() === $this) {
                 $project->setAdmin(null);
             }
         }
+        return $this;
+    }
 
+    public function getSentInvitations(): Collection { return $this->sentInvitations; }
+
+    public function addSentInvitation(Invitation $invitation): static
+    {
+        if (!$this->sentInvitations->contains($invitation)) {
+            $this->sentInvitations->add($invitation);
+            $invitation->setInvitedBy($this);
+        }
+        return $this;
+    }
+
+    public function removeSentInvitation(Invitation $invitation): static
+    {
+        if ($this->sentInvitations->removeElement($invitation)) {
+            if ($invitation->getInvitedBy() === $this) {
+                $invitation->setInvitedBy(null);
+            }
+        }
+        return $this;
+    }
+
+    public function getReceivedInvitations(): Collection { return $this->receivedInvitations; }
+
+    public function addReceivedInvitation(Invitation $invitation): static
+    {
+        if (!$this->receivedInvitations->contains($invitation)) {
+            $this->receivedInvitations->add($invitation);
+            $invitation->setInvitedUser($this);
+        }
+        return $this;
+    }
+
+    public function removeReceivedInvitation(Invitation $invitation): static
+    {
+        if ($this->receivedInvitations->removeElement($invitation)) {
+            if ($invitation->getInvitedUser() === $this) {
+                $invitation->setInvitedUser(null);
+            }
+        }
         return $this;
     }
 }

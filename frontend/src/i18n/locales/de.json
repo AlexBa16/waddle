@@ -59,7 +59,8 @@
         },
         "inbox": {
             "description": "Posteingang",
-            "noMessagesFound": "Keine Nachrichten vorhanden"
+            "noMessagesFound": "Keine Nachrichten vorhanden",
+            "close": "Inbox schließen"
         },
         "settings": {
             "description": "Einstellungen",
@@ -79,6 +80,9 @@
             "saved-user": "Benutzerdaten speichern & ausloggen",
             "saved-project": "Projektdaten speichern",
             "beingSaved": "Wird gespeichert.."
+        },
+        "profile": {
+            "logout": "Ausloggen"
         }
     }
 }

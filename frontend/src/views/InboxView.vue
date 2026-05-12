@@ -15,6 +15,7 @@
         @click="$router.back()"
         class="p-2 cursor-pointer rounded-xl hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors"
         aria-label="Zurück"
+        :title="t('nav.inbox.close')"
       >
         <img :src="BackIcon" alt="Zurück" class="w-5 h-5 dark:hidden" />
         <img :src="BackIconDark" alt="Zurück" class="w-5 h-5 hidden dark:block" />

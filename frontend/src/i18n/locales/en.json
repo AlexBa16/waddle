@@ -59,7 +59,8 @@
         },
         "inbox": {
             "description": "Inbox",
-            "noMessagesFound": "No messages found"
+            "noMessagesFound": "No messages found",
+            "close": "Close inbox"
         },
         "settings": {
             "description": "Settings",
@@ -79,6 +80,9 @@
             "saved-user": "Save user data & logout",
             "saved-project": "Save project data",
             "beingSaved": "Saving..."
+        },
+        "profile": {
+            "logout": "Logout"
         }
     }
 }

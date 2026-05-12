@@ -5,7 +5,7 @@
             <img :src=profileIconDark alt="profile icon" class="hidden dark:block">
             <span class="text-sm font-medium text-slate-700 dark:text-orange-50">{{ user }}</span>
         </div>
-        <button class="flex items-center justify-center w-8 h-8 p-1 rounded-md cursor-pointer hover:bg-red-300 text-slate-700 dark:text-orange-50" @click="logout">
+        <button class="flex items-center justify-center w-8 h-8 p-1 rounded-md cursor-pointer hover:bg-red-300 text-slate-700 dark:text-orange-50" @click="logout" :title="t('nav.profile.logout')">
             <img :src=logOutIcon alt="logout icon" class="dark:hidden">
             <img :src=logOutIconDark alt="logout icon" class="hidden dark:block">
         </button>
@@ -18,9 +18,11 @@ import logOutIcon from '@/assets/SidebarIcons/light/logout-icon.svg'
 import profileIconDark from '@/assets/SidebarIcons/dark/profile-icon.svg'
 import logOutIconDark from '@/assets/SidebarIcons/dark/logout-icon.svg'
 import { useAuthStore } from '@/stores/auth';
+import { useI18n } from 'vue-i18n'
 import router from '@/router';
 const authStore = useAuthStore();
 const user = authStore.username;
+const { t } = useI18n()
 
 function logout() {
     authStore.logout();

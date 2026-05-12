@@ -43,7 +43,7 @@ export const useInvitationStore = defineStore("invitation", () => {
         if (query.length < 2) return [];
         const res = await fetch(
             `https://localhost/api/users/search?q=${encodeURIComponent(query)}`,
-            { headers: authHeaders() }
+            { headers: authHeaders() },
         );
         return await handleResponse(res);
     }
@@ -56,7 +56,7 @@ export const useInvitationStore = defineStore("invitation", () => {
                 method: "POST",
                 headers: authHeaders(),
                 body: JSON.stringify({ userId }),
-            }
+            },
         );
         return await handleResponse(res);
     }
@@ -69,12 +69,28 @@ export const useInvitationStore = defineStore("invitation", () => {
                 method: "PATCH",
                 headers: authHeaders(),
                 body: JSON.stringify({ action }),
-            }
+            },
         );
         const result = await handleResponse(res);
         // Aus der Liste entfernen nach Antwort
         received.value = received.value.filter((i) => i.id !== invitationId);
         return result;
+    }
+
+    async function fetchMembers(projectId) {
+        const res = await fetch(
+            `https://localhost/api/projects/${projectId}/members`,
+            { headers: authHeaders() },
+        );
+        return await handleResponse(res);
+    }
+
+    async function removeMember(projectId, invitationId) {
+        const res = await fetch(
+            `https://localhost/api/projects/${projectId}/members/${invitationId}`,
+            { method: "DELETE", headers: authHeaders() },
+        );
+        return await handleResponse(res);
     }
 
     return {
@@ -85,5 +101,7 @@ export const useInvitationStore = defineStore("invitation", () => {
         searchUsers,
         invite,
         respond,
+        fetchMembers,
+        removeMember,
     };
 });

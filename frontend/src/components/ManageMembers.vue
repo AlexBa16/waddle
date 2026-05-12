@@ -97,44 +97,31 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import TrashIcon from '@/assets/project-settings/light/trash.svg'
 import TrashIconFilled from '@/assets/project-settings/light/trash-filled.svg'
 import { useI18n } from 'vue-i18n'
+import { useProjectStore } from '@/stores/project'
+import { useInvitationStore } from '@/stores/invitation'
 
 const { t } = useI18n()
-
+const projectStore = useProjectStore()
+const invitationStore = useInvitationStore()
 const hoveredId = ref(null)
 
-// ── Props ──────────────────────────────────────────────────────────────────
 const props = defineProps({
-    iconPath: {
-        type: String,
-        default: null,
-    },
-    headerLabel: {
-        type: String,
-        default: 'Mitglieder hinzufügen',
-    },
-    searchPlaceholder: {
-        type: String,
-        default: 'Mitglieder finden…',
-    },
+    iconPath: { type: String, default: null },
+    headerLabel: { type: String, default: 'Mitglieder verwalten' },
+    searchPlaceholder: { type: String, default: 'Mitglieder suchen…' },
 })
 
-// ── Emits ──────────────────────────────────────────────────────────────────
-const emit = defineEmits([
-    /** Emitted after a member is deleted. Payload: { id } */
-    'member-deleted',
-])
+const emit = defineEmits(['member-deleted'])
 
-// ── State ──────────────────────────────────────────────────────────────────
 const members = ref([])
 const searchQuery = ref('')
 const loading = ref(false)
 const error = ref(null)
 
-// ── Computed ───────────────────────────────────────────────────────────────
 const filteredMembers = computed(() => {
     const q = searchQuery.value.toLowerCase().trim()
     if (!q) return members.value
@@ -148,56 +135,17 @@ const statusText = computed(() => {
     if (error.value) return t('nav.projectSettings.errorLoading')
     const total = members.value.length
     const shown = filteredMembers.value.length
-    if (searchQuery.value && shown !== total) return `${shown} ${t('nav.projectSettings.of')} ${total} ${t('nav.projectSettings.members')}`
+    if (searchQuery.value && shown !== total)
+        return `${shown} ${t('nav.projectSettings.of')} ${total} ${t('nav.projectSettings.members')}`
     return `${total} Mitglied${total !== 1 ? 'er' : ''}`
 })
 
-// ── API ────────────────────────────────────────────────────────────────────
-
-/**
- * TODO: Replace this placeholder with your actual API call.
- *
- * Expected return shape: Array<{ id: number|string, name: string, email: string }>
- *
- * Example using fetch:
- *   const res = await fetch('/api/members')
- *   if (!res.ok) throw new Error('Network response was not ok')
- *   return await res.json()
- *
- * Example using axios:
- *   const { data } = await axios.get('/api/members')
- *   return data
- */
-async function fetchMembers() {
-    await new Promise(r => setTimeout(r, 900)) // simulated delay — remove this
-    return [
-        { id: 1, name: 'Linsu Bitter', email: 'linsu@bitter.com', isAdmin: true, pending: false },
-        { id: 2, name: 'Marie Hofmann', email: 'marie.hofmann@example.at', isAdmin: false, pending: false },
-        { id: 3, name: 'Karl Steiner', email: 'k.steiner@web.de', isAdmin: false, pending: true },
-        { id: 4, name: 'Anna Berger', email: 'anna@berger.at', isAdmin: false, pending: false },
-    ]
-}
-
-/**
- * TODO: Replace this placeholder with your actual DELETE API call.
- *
- * Example using fetch:
- *   const res = await fetch(`/api/members/${id}`, { method: 'DELETE' })
- *   if (!res.ok) throw new Error('Delete failed')
- *
- * Example using axios:
- *   await axios.delete(`/api/members/${id}`)
- */
-async function deleteMember(id) {
-    await new Promise(r => setTimeout(r, 200)) // simulated delay — remove this
-}
-
-// ── Methods ────────────────────────────────────────────────────────────────
 async function loadMembers() {
+    if (!projectStore.selected) return
     loading.value = true
     error.value = null
     try {
-        members.value = await fetchMembers()
+        members.value = await invitationStore.fetchMembers(projectStore.selected.id)
     } catch (err) {
         error.value = err.message
     } finally {
@@ -205,36 +153,19 @@ async function loadMembers() {
     }
 }
 
-async function handleDelete(id) {
+async function handleDelete(member) {
+    if (member.isAdmin) return  // Admin kann nicht entfernt werden
     try {
-        await deleteMember(id)
-        members.value = members.value.filter(m => m.id !== id)
-        emit('member-deleted', { id })
+        await invitationStore.removeMember(projectStore.selected.id, member.invitationId)
+        members.value = members.value.filter(m => m.id !== member.id)
+        emit('member-deleted', { id: member.id })
     } catch (err) {
         console.error('Delete failed:', err)
     }
 }
 
-// ── Lifecycle ──────────────────────────────────────────────────────────────
+// Neu laden wenn Projekt wechselt
+watch(() => projectStore.selected, loadMembers, { immediate: true })
+
 onMounted(loadMembers)
 </script>
-
-<style>
-.row-enter-active {
-    transition: all 0.25s ease;
-}
-
-.row-leave-active {
-    transition: all 0.2s ease;
-}
-
-.row-enter-from {
-    opacity: 0;
-    transform: translateY(8px);
-}
-
-.row-leave-to {
-    opacity: 0;
-    transform: translateX(12px);
-}
-</style>

@@ -73,7 +73,7 @@
                     </span>
                     <button
                         class="flex items-center justify-center p-1.5 rounded-lg transition-colors duration-150 cursor-pointer"
-                        title="Löschen" @mouseover="hoveredId = member.id" @mouseleave="hoveredId = null"
+                        :title="t('nav.projectSettings.deleteMember')" @mouseover="hoveredId = member.id" @mouseleave="hoveredId = null"
                         @click="handleDelete(member.id)">
                         <img :src="hoveredId === member.id ? TrashIconFilled : TrashIcon" alt="Trash Icon"
                             class="w-4 h-4 object-contain dark:invert" />

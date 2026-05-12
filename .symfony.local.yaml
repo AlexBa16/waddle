@@ -1,0 +1,3 @@
+# .symfony.local.yaml
+http:
+  tls: false

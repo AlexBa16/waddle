@@ -51,6 +51,7 @@
             "noMembersFound": "Keine Mitglieder gefunden",
             "update": "↻ Aktualisieren",
             "of": "of",
+            "deleteMember": "Mitglied löschen",
             "members": "Mitglieder",
             "deleteProject": {
                 "description": "Projekt permanent löschen",

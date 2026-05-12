@@ -51,6 +51,7 @@
             "noMembersFound": "No members found",
             "update": "↻ Refresh",
             "of": "of",
+            "deleteMember": "Delete member",
             "members": "members",
             "deleteProject": {
                 "description": "Permanently delete project",

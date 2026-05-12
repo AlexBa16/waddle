@@ -41,6 +41,10 @@
             "searchMembers": "Mitglieder suchen ...",
             "name": "NAME",
             "email": "E-MAIL",
+            "role": "Rolle",
+            "admin": "Admin",
+            "member": "Mitglied",
+            "pending": "Ausstehend",
             "loading": "Lade Mitglieder",
             "errorLoading": "Fehler beim Laden",
             "errorLoadingMessage": "⚠ Fehler beim Laden: ",
@@ -72,7 +76,8 @@
             "newPassword": "Neues Passwort ...",
             "confirmPassword": "Passwort bestätigen",
             "confirmedPassword": "Neues Passwort bestätigen",
-            "saved": "Benutzerdaten speichern & ausloggen",
+            "saved-user": "Benutzerdaten speichern & ausloggen",
+            "saved-project": "Projektdaten speichern",
             "beingSaved": "Wird gespeichert.."
         }
     }

@@ -25,7 +25,7 @@
 
         <div class="flex w-1/2 justify-end">
             <Button :disabled="loading" @click="saveSettings">
-                {{ loading ? t('nav.settings.beingSaved') : t('nav.settings.saved') }}
+                {{ loading ? t('nav.settings.beingSaved') : t('nav.settings.saved-project') }}
             </Button>
         </div>
     </div>

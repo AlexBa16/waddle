@@ -41,6 +41,10 @@
             "searchMembers": "Search members...",
             "name": "NAME",
             "email": "EMAIL",
+            "role": "Role",
+            "admin": "Admin",
+            "member": "Member",
+            "pending": "Pending",
             "loading": "Loading members",
             "errorLoading": "Error loading",
             "errorLoadingMessage": "⚠ Error loading: ",
@@ -72,7 +76,8 @@
             "newPassword": "New password...",
             "confirmPassword": "Confirm password",
             "confirmedPassword": "Confirm new password",
-            "saved": "Save user data & logout",
+            "saved-user": "Save user data & logout",
+            "saved-project": "Save project data",
             "beingSaved": "Saving..."
         }
     }

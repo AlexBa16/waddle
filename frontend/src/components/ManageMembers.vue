@@ -7,7 +7,8 @@
                 <div class="w-5 h-5 flex items-center justify-center text-slate-700 dark:invert">
                     <img :src="iconPath" alt="icon" class="w-full h-full object-contain" />
                 </div>
-                <span class="text-sm font-bold text-slate-800 dark:text-orange-50 tracking-wide">{{ headerLabel }}</span>
+                <span class="text-sm font-bold text-slate-800 dark:text-orange-50 tracking-wide">{{ headerLabel
+                }}</span>
             </div>
 
             <input v-model="searchQuery" type="text" :placeholder="searchPlaceholder"
@@ -16,9 +17,10 @@
 
         <!-- Column headers -->
         <div
-            class="grid grid-cols-[1fr_1fr_44px] px-6 py-1.5 text-xs font-semibold uppercase tracking-widest text-slate-500 bg-[#cdd4e3]">
+            class="grid grid-cols-[1fr_1fr_auto_44px] px-6 py-1.5 text-xs font-semibold uppercase tracking-widest text-slate-500 bg-[#cdd4e3]">
             <span>{{ t('nav.projectSettings.name') }}</span>
             <span>{{ t('nav.projectSettings.email') }}</span>
+            <span>{{ t('nav.projectSettings.role') }}</span>
             <span />
         </div>
 
@@ -28,9 +30,10 @@
             <!-- Loading skeletons -->
             <template v-if="loading">
                 <div v-for="n in 4" :key="n"
-                    class="grid grid-cols-[1fr_1fr_44px] items-center px-6 py-[18px] border-b border-slate-300/50 gap-3 dark:bg-slate-500">
+                    class="grid grid-cols-[1fr_1fr_auto_44px] items-center px-6 py-[18px] border-b border-slate-300/50 gap-3 dark:bg-slate-500">
                     <div class="h-3 rounded-md bg-slate-300/70 animate-pulse" style="width:55%" />
                     <div class="h-3 rounded-md bg-slate-300/70 animate-pulse" style="width:70%" />
+                    <div class="h-3 w-16 rounded-md bg-slate-300/70 animate-pulse" />
                     <div />
                 </div>
             </template>
@@ -54,10 +57,22 @@
             <!-- Rows -->
             <TransitionGroup v-else name="row" tag="div">
                 <div v-for="member in filteredMembers" :key="member.id"
-                    class="grid grid-cols-[1fr_1fr_44px] items-center px-6 py-[18px] border-b border-slate-300/50 last:border-b-0 hover:bg-slate-300/30 dark:bg-slate-500 dark:hover:bg-slate-500/90 transition-colors duration-150">
+                    class="grid grid-cols-[1fr_1fr_auto_44px] items-center px-6 py-[18px] border-b border-slate-300/50 last:border-b-0 hover:bg-slate-300/30 dark:bg-slate-500 dark:hover:bg-slate-500/90 transition-colors duration-150">
                     <span class="text-sm font-semibold text-slate-800 dark:text-orange-50">{{ member.name }}</span>
                     <span class="text-xs font-mono text-slate-500 dark:text-orange-50/60">{{ member.email }}</span>
-                    <button class="flex items-center justify-center p-1.5 rounded-lg transition-colors duration-150 cursor-pointer"
+
+                    <!-- Role badge -->
+                    <span class="text-xs font-semibold px-2.5 py-1 rounded-lg w-fit" :class="{
+                        'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300': member.isAdmin,
+                        'bg-slate-200 text-slate-600 dark:bg-slate-600 dark:text-slate-300': !member.isAdmin && !member.pending,
+                        'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300': member.pending,
+                    }">
+                        {{ member.isAdmin ? t('nav.projectSettings.admin') : member.pending ?
+                            t('nav.projectSettings.pending') :
+                            t('nav.projectSettings.member') }}
+                    </span>
+                    <button
+                        class="flex items-center justify-center p-1.5 rounded-lg transition-colors duration-150 cursor-pointer"
                         title="Löschen" @mouseover="hoveredId = member.id" @mouseleave="hoveredId = null"
                         @click="handleDelete(member.id)">
                         <img :src="hoveredId === member.id ? TrashIconFilled : TrashIcon" alt="Trash Icon"
@@ -68,9 +83,11 @@
         </div>
 
         <!-- Footer -->
-        <div class="flex items-center justify-between px-6 py-2 bg-[#cdd4e3] text-xs text-slate-500 dark:bg-slate-700/50 dark:text-orange-50">
+        <div
+            class="flex items-center justify-between px-6 py-2 bg-[#cdd4e3] text-xs text-slate-500 dark:bg-slate-700/50 dark:text-orange-50">
             <span>{{ statusText }}</span>
-            <button class="text-slate-600 hover:bg-slate-300/50 px-2 py-1 rounded transition-colors duration-150 dark:text-orange-50 dark:hover:bg-slate-500/50"
+            <button
+                class="text-slate-600 hover:bg-slate-300/50 px-2 py-1 rounded transition-colors duration-150 dark:text-orange-50 dark:hover:bg-slate-500/50"
                 @click="loadMembers">
                 {{ t('nav.projectSettings.update') }}
             </button>
@@ -85,7 +102,7 @@ import TrashIcon from '@/assets/project-settings/light/trash.svg'
 import TrashIconFilled from '@/assets/project-settings/light/trash-filled.svg'
 import { useI18n } from 'vue-i18n'
 
-const {t} = useI18n()
+const { t } = useI18n()
 
 const hoveredId = ref(null)
 
@@ -154,10 +171,10 @@ const statusText = computed(() => {
 async function fetchMembers() {
     await new Promise(r => setTimeout(r, 900)) // simulated delay — remove this
     return [
-        { id: 1, name: 'Linsu Bitter', email: 'linsu@bitter.com' },
-        { id: 2, name: 'Marie Hofmann', email: 'marie.hofmann@example.at' },
-        { id: 3, name: 'Karl Steiner', email: 'k.steiner@web.de' },
-        { id: 4, name: 'Anna Berger', email: 'anna@berger.at' },
+        { id: 1, name: 'Linsu Bitter', email: 'linsu@bitter.com', isAdmin: true, pending: false },
+        { id: 2, name: 'Marie Hofmann', email: 'marie.hofmann@example.at', isAdmin: false, pending: false },
+        { id: 3, name: 'Karl Steiner', email: 'k.steiner@web.de', isAdmin: false, pending: true },
+        { id: 4, name: 'Anna Berger', email: 'anna@berger.at', isAdmin: false, pending: false },
     ]
 }
 

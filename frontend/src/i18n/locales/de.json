@@ -35,6 +35,11 @@
             "start-timer": "Timer starten",
             "stop-timer": "Timer stoppen"
         },
+        "add": {
+            "label": "Eintrag hinzufügen",
+            "placeholder": "Beschreibe für was du einen Eintrag hinzufügst...",
+            "timeframe": "Zeitraum"
+        },
         "entrys": "Einträge",
         "reports": "Berichte",
         "projectSettings": {

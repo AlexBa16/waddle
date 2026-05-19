@@ -8,7 +8,7 @@
                     <img :src="iconPath" alt="icon" class="object-contain w-full h-full" />
                 </div>
                 <span class="text-sm font-bold tracking-wide text-slate-800 dark:text-orange-50">{{ headerLabel
-                }}</span>
+                    }}</span>
             </div>
 
             <input v-model="searchQuery" type="text" :placeholder="searchPlaceholder"
@@ -71,10 +71,10 @@
                             t('nav.projectSettings.pending') :
                             t('nav.projectSettings.member') }}
                     </span>
-                    <button
+                    <button v-if="!member.isAdmin"
                         class="flex items-center justify-center p-1.5 rounded-lg transition-colors duration-150 cursor-pointer"
-                        :title="t('nav.projectSettings.deleteMember')" @mouseover="hoveredId = member.id" @mouseleave="hoveredId = null"
-                        @click="handleDelete(member)" :disabled="member.isAdmin">
+                        :title="t('nav.projectSettings.deleteMember')" @mouseover="hoveredId = member.id"
+                        @mouseleave="hoveredId = null" @click="handleDelete(member)">
                         <img :src="hoveredId === member.id ? TrashIconFilled : TrashIcon" alt="Trash Icon"
                             class="object-contain w-4 h-4 dark:invert" />
                     </button>

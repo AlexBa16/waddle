@@ -5,16 +5,15 @@
       <h1 class="text-2xl font-bold text-slate-700 dark:text-orange-50">
         {{ t('nav.inbox.description') }}
         <span
-          v-if="messages.length"
+          v-if="invitationStore.received.length"
           class="ml-2 text-sm font-medium bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-full px-2 py-0.5"
         >
-          {{ messages.length }}
+          {{ invitationStore.received.length }}
         </span>
       </h1>
       <button
         @click="$router.back()"
         class="p-2 cursor-pointer rounded-xl hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors"
-        aria-label="Zurück"
         :title="t('nav.inbox.close')"
       >
         <img :src="BackIcon" alt="Zurück" class="w-5 h-5 dark:hidden" />
@@ -22,9 +21,17 @@
       </button>
     </div>
 
+    <!-- Loading -->
+    <div v-if="invitationStore.loading" class="flex justify-center py-16">
+      <svg class="w-6 h-6 animate-spin text-slate-400" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+      </svg>
+    </div>
+
     <!-- Empty state -->
     <div
-      v-if="messages.length === 0"
+      v-else-if="invitationStore.received.length === 0"
       class="flex flex-col items-center justify-center py-16 text-slate-400 dark:text-slate-500"
     >
       <svg class="w-12 h-12 mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -37,35 +44,47 @@
     <!-- Message list -->
     <div v-else class="flex flex-col gap-3 sm:gap-4">
       <Message
-        v-for="message in messages"
-        :key="message.id"
-        :message="message"
+        v-for="invitation in invitationStore.received"
+        :key="invitation.id"
+        :message="{
+          id: invitation.id,
+          author: invitation.invitedBy,
+          project: invitation.project.name,
+        }"
         @accept="acceptInvitation"
         @decline="declineInvitation"
       />
     </div>
+
+    <!-- Error -->
+    <p v-if="invitationStore.error" class="text-sm text-red-500 text-center mt-4">
+      {{ invitationStore.error }}
+    </p>
   </div>
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import BackIcon from '@/assets/Inbox/light/go-back.svg'
 import BackIconDark from '@/assets/Inbox/dark/go-back.svg'
 import Message from '@/components/Message.vue'
 import { useI18n } from 'vue-i18n'
+import { useInvitationStore } from '@/stores/invitation'
+import { useProjectStore } from '@/stores/project'
+
 
 const { t } = useI18n()
+const invitationStore = useInvitationStore()
+const projectStore = useProjectStore()
 
-const messages = [
-  { id: 1, author: 'Alice', project: 'Projekt A' },
-  { id: 2, author: 'Bob', project: 'Projekt B' },
-  { id: 3, author: 'Charlie', project: 'Projekt C' }
-]
+onMounted(() => invitationStore.loadReceived())
 
-function acceptInvitation(id) {
-  console.log(`Einladung mit ID ${id} akzeptiert`)
+async function acceptInvitation(id) {
+  await invitationStore.respond(id, 'accept'),
+  await projectStore.loadProjects();
 }
 
-function declineInvitation(id) {
-  console.log(`Einladung mit ID ${id} abgelehnt`)
+async function declineInvitation(id) {
+  await invitationStore.respond(id, 'decline')
 }
 </script>

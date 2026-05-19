@@ -18,17 +18,29 @@ final class ProjectController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly ProjectRepository $projectRepository
+        private readonly ProjectRepository $projectRepository,
+        private readonly \App\Repository\InvitationRepository $invitationRepository
     ) {}
 
     #[Route("", name: "list", methods: ["GET"])]
     public function list(): JsonResponse
     {
-        $projects = $this->projectRepository->findBy([
+        // Eigene Projekte (als Admin)
+        $ownProjects = $this->projectRepository->findBy([
             "admin" => $this->getUser(),
         ]);
 
-        return $this->json(array_map($this->serialize(...), $projects));
+        // Projekte über akzeptierte Einladungen
+        $invitations = $this->invitationRepository->findBy([
+            'invitedUser' => $this->getUser(),
+            'status' => \App\Entity\Invitation::STATUS_ACCEPTED,
+        ]);
+        $invitedProjects = array_map(fn($i) => $i->getProject(), $invitations);
+
+        // Zusammenführen ohne Duplikate
+        $allProjects = array_unique(array_merge($ownProjects, $invitedProjects), SORT_REGULAR);
+
+        return $this->json(array_map($this->serialize(...), $allProjects));
     }
 
     #[Route("", name: "create", methods: ["POST"])]

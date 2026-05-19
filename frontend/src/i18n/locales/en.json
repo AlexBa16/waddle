@@ -31,7 +31,9 @@
         "tracker": "Tracker",
         "track" : {
             "label": "Track",
-            "placeholder": "Describe what you are tracking for..."
+            "placeholder": "Describe what you are tracking for...",
+            "start-timer": "Start timer",
+            "stop-timer": "Stop timer"
         },
         "entrys": "Entrys",
         "reports": "Reports",

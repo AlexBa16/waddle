@@ -23,16 +23,16 @@
         >
             <div class="flex items-center gap-3 shrink-0">
                 <div
-                    class="w-5 h-5 flex items-center justify-center dark:invert"
+                    class="flex items-center justify-center w-5 h-5 dark:invert"
                 >
                     <img
                         :src="MemberIcon"
                         alt="icon"
-                        class="w-full h-full object-contain"
+                        class="object-contain w-full h-full"
                     />
                 </div>
                 <span
-                    class="text-sm font-bold text-slate-800 dark:text-orange-50 tracking-wide"
+                    class="text-sm font-bold tracking-wide text-slate-800 dark:text-orange-50"
                 >
                     {{ t("nav.projectSettings.addMembers") }}
                 </span>
@@ -44,19 +44,19 @@
                     v-model="searchQuery"
                     @input="onSearchInput"
                     :placeholder="t('nav.projectSettings.findMembers')"
-                    class="w-full px-4 py-2 text-sm rounded-xl bg-orange-50 border border-indigo-300 text-slate-700 dark:bg-slate-500 dark:text-orange-50 dark:border-slate-400 placeholder-slate-400 outline-none focus:ring-1 focus:ring-indigo-400 transition-colors duration-150 font-medium"
+                    class="w-full px-4 py-2 text-sm font-medium transition-colors duration-150 border border-indigo-300 outline-none rounded-xl bg-orange-50 text-slate-700 dark:bg-slate-500 dark:text-orange-50 dark:border-slate-400 placeholder-slate-400 focus:ring-1 focus:ring-indigo-400"
                 />
 
                 <!-- Suchergebnisse Dropdown -->
                 <div
                     v-if="searchResults.length > 0"
-                    class="absolute z-50 w-full mt-1 bg-white dark:bg-slate-700 border border-indigo-200 dark:border-slate-500 rounded-xl shadow-lg overflow-hidden"
+                    class="absolute z-50 w-full mt-1 overflow-hidden bg-white border border-indigo-200 shadow-lg dark:bg-slate-700 dark:border-slate-500 rounded-xl"
                 >
                     <div
                         v-for="user in searchResults"
                         :key="user.id"
                         @click="inviteUser(user)"
-                        class="flex items-center justify-between px-4 py-2 text-sm text-slate-700 dark:text-orange-50 hover:bg-indigo-50 dark:hover:bg-slate-600 cursor-pointer"
+                        class="flex items-center justify-between px-4 py-2 text-sm cursor-pointer text-slate-700 dark:text-orange-50 hover:bg-indigo-50 dark:hover:bg-slate-600"
                     >
                         <span>{{ user.username }}</span>
                         <span class="text-xs text-indigo-400">{{
@@ -66,7 +66,7 @@
                 </div>
                 <div
                     v-else-if="searchQuery.length >= 2 && !searching"
-                    class="absolute z-50 w-full mt-1 bg-white dark:bg-slate-700 border border-indigo-200 dark:border-slate-500 rounded-xl shadow-lg px-4 py-3 text-sm text-slate-400 dark:text-slate-300"
+                    class="absolute z-50 w-full px-4 py-3 mt-1 text-sm bg-white border border-indigo-200 shadow-lg dark:bg-slate-700 dark:border-slate-500 rounded-xl text-slate-400 dark:text-slate-300"
                 >
                     {{ t("nav.projectSettings.noUsersFound") }}
                 </div>
@@ -75,7 +75,7 @@
 
         <p
             v-if="inviteMsg"
-            class="text-sm mt-1"
+            class="mt-1 text-sm"
             :class="inviteError ? 'text-red-500' : 'text-green-500'"
         >
             {{ inviteMsg }}
@@ -96,8 +96,8 @@
         <p v-if="errorMsg" class="text-sm text-red-500">{{ errorMsg }}</p>
         <p v-if="successMsg" class="text-sm text-green-500">{{ successMsg }}</p>
 
-        <div class="flex w-1/2 justify-end">
-            <Button :disabled="loading" @click="saveSettings">
+        <div class="flex justify-end w-1/2">
+            <Button :disabled="loading" @click="saveSettings" class="mt-5">
                 {{
                     loading
                         ? t("nav.settings.beingSaved")

@@ -2,17 +2,17 @@
     <div class="mt-5 w-6/12 bg-[#dde3ef] dark:bg-slate-600 rounded-2xl overflow-hidden shadow-md shadow-black/10">
 
         <!-- Header -->
-        <div class="px-6 py-4 flex justify-between gap-5">
+        <div class="flex justify-between gap-5 px-6 py-4">
             <div class="flex items-center gap-3 shrink-0">
-                <div class="w-5 h-5 flex items-center justify-center text-slate-700 dark:invert">
-                    <img :src="iconPath" alt="icon" class="w-full h-full object-contain" />
+                <div class="flex items-center justify-center w-5 h-5 text-slate-700 dark:invert">
+                    <img :src="iconPath" alt="icon" class="object-contain w-full h-full" />
                 </div>
-                <span class="text-sm font-bold text-slate-800 dark:text-orange-50 tracking-wide">{{ headerLabel
+                <span class="text-sm font-bold tracking-wide text-slate-800 dark:text-orange-50">{{ headerLabel
                 }}</span>
             </div>
 
             <input v-model="searchQuery" type="text" :placeholder="searchPlaceholder"
-                class="flex-1 px-4 py-2 text-sm rounded-xl bg-orange-50 border border-indigo-300 text-slate-700 placeholder-slate-400 outline-none focus:ring-1 focus:ring-indigo-400 transition-colors duration-150 font-medium dark:bg-slate-500 dark:border-slate-400 dark:placeholder-indigo-50" />
+                class="flex-1 px-4 py-2 text-sm font-medium transition-colors duration-150 border border-indigo-300 outline-none rounded-xl bg-orange-50 text-slate-700 placeholder-slate-400 focus:ring-1 focus:ring-indigo-400 dark:bg-slate-500 dark:border-slate-400 dark:placeholder-indigo-50" />
         </div>
 
         <!-- Column headers -->
@@ -33,13 +33,13 @@
                     class="grid grid-cols-[1fr_1fr_auto_44px] items-center px-6 py-[18px] border-b border-slate-300/50 gap-3 dark:bg-slate-500">
                     <div class="h-3 rounded-md bg-slate-300/70 animate-pulse" style="width:55%" />
                     <div class="h-3 rounded-md bg-slate-300/70 animate-pulse" style="width:70%" />
-                    <div class="h-3 w-16 rounded-md bg-slate-300/70 animate-pulse" />
+                    <div class="w-16 h-3 rounded-md bg-slate-300/70 animate-pulse" />
                     <div />
                 </div>
             </template>
 
             <!-- Error -->
-            <div v-else-if="error" class="px-6 py-6 text-sm text-red-500 text-center">
+            <div v-else-if="error" class="px-6 py-6 text-sm text-center text-red-500">
                 {{ t('nav.projectSettings.errorLoadingMessage') }} {{ error }}
             </div>
 
@@ -59,7 +59,7 @@
                 <div v-for="member in filteredMembers" :key="member.id"
                     class="grid grid-cols-[1fr_1fr_auto_44px] items-center px-6 py-[18px] border-b border-slate-300/50 last:border-b-0 hover:bg-slate-300/30 dark:bg-slate-500 dark:hover:bg-slate-500/90 transition-colors duration-150">
                     <span class="text-sm font-semibold text-slate-800 dark:text-orange-50">{{ member.name }}</span>
-                    <span class="text-xs font-mono text-slate-500 dark:text-orange-50/60">{{ member.email }}</span>
+                    <span class="font-mono text-xs text-slate-500 dark:text-orange-50/60">{{ member.email }}</span>
 
                     <!-- Role badge -->
                     <span class="text-xs font-semibold px-2.5 py-1 rounded-lg w-fit" :class="{
@@ -74,9 +74,9 @@
                     <button
                         class="flex items-center justify-center p-1.5 rounded-lg transition-colors duration-150 cursor-pointer"
                         :title="t('nav.projectSettings.deleteMember')" @mouseover="hoveredId = member.id" @mouseleave="hoveredId = null"
-                        @click="handleDelete(member.id)">
+                        @click="handleDelete(member)" :disabled="member.isAdmin">
                         <img :src="hoveredId === member.id ? TrashIconFilled : TrashIcon" alt="Trash Icon"
-                            class="w-4 h-4 object-contain dark:invert" />
+                            class="object-contain w-4 h-4 dark:invert" />
                     </button>
                 </div>
             </TransitionGroup>
@@ -87,7 +87,7 @@
             class="flex items-center justify-between px-6 py-2 bg-[#cdd4e3] text-xs text-slate-500 dark:bg-slate-700/50 dark:text-orange-50">
             <span>{{ statusText }}</span>
             <button
-                class="text-slate-600 hover:bg-slate-300/50 px-2 py-1 rounded transition-colors duration-150 dark:text-orange-50 dark:hover:bg-slate-500/50"
+                class="px-2 py-1 transition-colors duration-150 rounded text-slate-600 hover:bg-slate-300/50 dark:text-orange-50 dark:hover:bg-slate-500/50"
                 @click="loadMembers">
                 {{ t('nav.projectSettings.update') }}
             </button>

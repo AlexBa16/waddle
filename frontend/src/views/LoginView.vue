@@ -40,11 +40,13 @@
             </div>
         </div>
     </div>
+    <Toast ref="toast" />
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import Input from '@/components/Input.vue'
 import Button from '@/components/Button.vue'
@@ -54,7 +56,9 @@ import MountainsSmallLight from '@/assets/mountain-small-light.svg'
 import MountainsBigLight from '@/assets/mountain-big-light.svg'
 import MountainsSmallDark from '@/assets/mountain-small-dark.svg'
 import MountainsBigDark from '@/assets/mountain-big-dark.svg'
+import Toast from '@/components/'
 import { useI18n } from 'vue-i18n';
+import { useToast } from 'vue-toastification'
 
 
 const {t} = useI18n();
@@ -65,8 +69,9 @@ const form = ref({
 })
 
 const router = useRouter()
+const route = useRoute()
 const auth = useAuthStore()
-const toast = ref()
+const toast = useToast()
 
 const error = ref(null)
 const loading = ref(false)

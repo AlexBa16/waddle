@@ -15,7 +15,7 @@ const app = createApp(App);
 app.use(createPinia());
 app.use(router);
 app.use(i18n);
-app.use(ToastPlugin, {
+app.use(Toast, {
   position: 'bottom-right',   // z.B. Position ändern
   timeout: 5000,            // längere Anzeigedauer
 })

@@ -4,7 +4,8 @@
         "password": "Passwort",
         "login": "Einloggen",
         "logging-in": "Wird eingeloggt...",
-        "registerInfo": "Noch kein Konto? Hier registrieren"
+        "registerInfo": "Noch kein Konto? Hier registrieren",
+        "savedSettings": "Erfolgreich gespeichert, bitte einloggen um Änderungen zu sehen"
     },
     "register": {
         "username": "Benutzername",

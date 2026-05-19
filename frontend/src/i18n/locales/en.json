@@ -4,7 +4,8 @@
         "password": "Password",
         "login": "Log in",
         "logging-in": "Logging in...",
-        "registerInfo": "Don't have an account yet? Register here"
+        "registerInfo": "Don't have an account yet? Register here",
+        "savedSettings": "Successfully saved, please log in to see changes."
     },
     "register": {
         "username": "Username",

@@ -49,7 +49,6 @@ import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useI18n } from 'vue-i18n'
-import { useToast } from 'vue-toastification'
 import Input from '@/components/Input.vue'
 import Button from '@/components/Button.vue'
 import LogoLight from '@/assets/logo-light.svg'
@@ -71,14 +70,14 @@ const form = ref({
 const router = useRouter()
 const route = useRoute()
 const auth = useAuthStore()
-const toast = useToast()
+const toast = ref()
 
 const error = ref(null)
 const loading = ref(false)
 
 onMounted(() => {
   if (route.query.msg === 'saved') {
-    toast.success('Erfolgreich gespeichert, bitte einloggen um Änderungen zu sehen')
+    toast.value.success(t('login.savedSettings'))
   }
 })
 

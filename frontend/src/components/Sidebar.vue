@@ -33,15 +33,15 @@
             </div>
 
             <!-- Status messages -->
-            <p v-if="store.loading" class="mb-4 text-sm text-center text-slate-400">
+            <p v-if="projectStore.loading" class="mb-4 text-sm text-center text-slate-400">
                 Projekte werden geladen…
             </p>
-            <p v-else-if="store.error" class="mb-4 text-sm text-center text-red-400">
-                {{ store.error }}
+            <p v-else-if="projectStore.error" class="mb-4 text-sm text-center text-red-400">
+                {{ projectStore.error }}
             </p>
 
-            <Dropdown :model-value="store.selectedId" :options="store.projects"
-                @update:model-value="store.selectProject($event)" @create="showCreateForm = true" :placeholder="t('nav.selectProject')"/>
+            <Dropdown :model-value="projectStore.selectedId" :options="projectStore.projects"
+                @update:model-value="projectStore.selectProject($event)" @create="showCreateForm = true" :placeholder="t('nav.selectProject')"/>
 
             <CreateProjectForm v-model="showCreateForm" @create="handleCreate" />
 
@@ -62,6 +62,9 @@
                     <img :src="item.iconPathLight" alt="" class="block w-5 h-5 shrink-0 dark:hidden" />
                     <img :src="item.iconPathDark" alt="" class="hidden w-5 h-5 shrink-0 dark:block" />
                     <span class="text-sm">{{ item.label }}</span>
+                    <span v-if="item.badge" class="ml-auto text-xs font-medium bg-red-500 text-white rounded-full px-2 py-0.5">
+                        {{ t('nav.inbox.new') }}
+                    </span>
                 </RouterLink>
                 <Profile class="mt-2"/>
             </nav>
@@ -89,12 +92,15 @@ import Dropdown from '@/components/Dropdown.vue'
 import Profile from '@/components/Profile.vue'
 import CreateProjectForm from '@/components/CreateProjectForm.vue'
 import { useProjectStore } from '@/stores/project'
+import { useInvitationStore } from '@/stores/invitation'
 import { useI18n } from 'vue-i18n'
 
-const store = useProjectStore()
+const projectStore = useProjectStore()
+const invitationStore = useInvitationStore()
 const showCreateForm = ref(false)
 const isOpen = ref(false)
 const { t } = useI18n()
+const hasPendingInvitations = computed(() => invitationStore.received.length > 0)
 
 // Track if we're on desktop (lg breakpoint = 1024px)
 const windowWidth = ref(window.innerWidth)
@@ -116,13 +122,13 @@ const navItems = computed(() => [
 ])
 
 const personalNavItems = computed(() => [
-    { label: t('nav.inbox.description'), iconPathLight: InboxIconLight, iconPathDark: InboxIconDark, to: '/inbox' },
+    { label: t('nav.inbox.description'), iconPathLight: InboxIconLight, iconPathDark: InboxIconDark, to: '/inbox', badge: hasPendingInvitations.value },
     { label: t('nav.settings.description'), iconPathLight: SettingsIconLight, iconPathDark: SettingsIconDark, to: '/settings' },
 ])
 
 async function handleCreate(formData) {
     try {
-        await store.createProject(formData)
+        await projectStore.createProject(formData)
     } catch (e) {
         console.error(t('nav.createProject.error'), e.message)
     }

@@ -76,7 +76,8 @@
         "inbox": {
             "description": "Inbox",
             "noMessagesFound": "No messages found",
-            "close": "Close inbox"
+            "close": "Close inbox",
+            "new": "New"
         },
         "settings": {
             "description": "Settings",

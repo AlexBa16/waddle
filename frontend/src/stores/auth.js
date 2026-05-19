@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
+import { useInvitationStore } from "@/stores/invitation";
 
 export const useAuthStore = defineStore("auth", () => {
     const token = ref(localStorage.getItem("token") ?? null);
@@ -30,6 +31,9 @@ export const useAuthStore = defineStore("auth", () => {
     function setToken(newToken) {
         token.value = newToken;
         localStorage.setItem("token", newToken);
+
+        const invitationStore = useInvitationStore();
+        invitationStore.init();
     }
 
     function setUsername(newUsername) {
@@ -42,6 +46,8 @@ export const useAuthStore = defineStore("auth", () => {
         username.value = null;
         localStorage.removeItem("token");
         localStorage.removeItem("username");
+        const invitationStore = useInvitationStore();
+        invitationStore.reset();
     }
 
     async function updateUsername(newUsername) {

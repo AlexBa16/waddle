@@ -93,6 +93,35 @@ export const useInvitationStore = defineStore("invitation", () => {
         return await handleResponse(res);
     }
 
+    function reset() {
+        received.value = [];
+        loading.value = false;
+        error.value = null;
+        initialized.value = false;
+    }
+
+    const initialized = ref(false);
+
+    async function init() {
+        const auth = useAuthStore();
+
+        // don't initialize without token
+        if (!auth.token) return;
+
+        // prevent duplicate loads
+        if (initialized.value) return;
+
+        initialized.value = true;
+
+        try {
+            await loadReceived();
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    init();
+
     return {
         received,
         loading,
@@ -103,5 +132,7 @@ export const useInvitationStore = defineStore("invitation", () => {
         respond,
         fetchMembers,
         removeMember,
+        reset,
+        init,
     };
 });

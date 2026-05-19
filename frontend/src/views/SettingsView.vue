@@ -96,7 +96,7 @@ async function saveSettings() {
 
         // Nach jeder Änderung ausloggen → neu einloggen mit neuen Daten
         auth.logout()
-        router.push('/login')
+        router.push({ path: '/login', query: { msg: 'saved' } })
 
     } catch (e) {
         errorMsg.value = e.message

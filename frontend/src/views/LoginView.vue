@@ -56,6 +56,7 @@ import MountainsSmallDark from '@/assets/mountain-small-dark.svg'
 import MountainsBigDark from '@/assets/mountain-big-dark.svg'
 import { useI18n } from 'vue-i18n';
 
+
 const {t} = useI18n();
 
 const form = ref({
@@ -65,12 +66,16 @@ const form = ref({
 
 const router = useRouter()
 const auth = useAuthStore()
+const toast = ref()
 
 const error = ref(null)
 const loading = ref(false)
 
-
-
+onMounted(() => {
+  if (route.query.msg === 'saved') {
+    toast.value.success('Erfolgreich gespeichert, bitte einloggen um Änderungen zu sehen')
+  }
+})
 
 async function login() {
     error.value = null

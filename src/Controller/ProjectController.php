@@ -81,6 +81,10 @@ final class ProjectController extends AbstractController
             );
         }
 
+        foreach ($project->getInvitations() as $invitation) {
+            $this->em->remove($invitation);
+        }
+
         $this->em->remove($project);
         $this->em->flush();
 

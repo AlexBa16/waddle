@@ -22,8 +22,21 @@ export const useProjectStore = defineStore("project", () => {
 
     async function handleResponse(res) {
         if (res.status === 204) return null;
-        const body = await res.json();
-        if (!res.ok) throw new Error(body?.error ?? `HTTP ${res.status}`);
+
+        const text = await res.text();
+
+        let body = null;
+
+        try {
+            body = text ? JSON.parse(text) : null;
+        } catch {
+            body = text;
+        }
+
+        if (!res.ok) {
+            throw new Error(body?.error ?? body ?? `HTTP ${res.status}`);
+        }
+
         return body;
     }
 

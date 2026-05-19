@@ -92,6 +92,7 @@
         />
 
         <DeleteProject />
+        
 
         <p v-if="errorMsg" class="text-sm text-red-500">{{ errorMsg }}</p>
         <p v-if="successMsg" class="text-sm text-green-500">{{ successMsg }}</p>

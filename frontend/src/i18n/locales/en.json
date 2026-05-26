@@ -29,7 +29,7 @@
             "error": "Project could not be created:"
         },
         "tracker": "Tracker",
-        "track" : {
+        "track": {
             "label": "Track",
             "placeholder": "Describe what you are tracking for...",
             "start-timer": "Start timer",
@@ -101,5 +101,10 @@
         "profile": {
             "logout": "Logout"
         }
+    },
+    "onboarding": {
+        "title": "Welcome to Waddle!",
+        "subtitle": "Create your first project to get started tracking time.",
+        "cta": "Create my first project"
     }
 }

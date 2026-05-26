@@ -101,5 +101,10 @@
         "profile": {
             "logout": "Ausloggen"
         }
+    },
+    "onboarding": {
+        "title": "Willkommen bei Waddle!",
+        "subtitle": "Erstelle dein erstes Projekt, um mit dem Zeiterfassen zu beginnen.",
+        "cta": "Erstes Projekt erstellen"
     }
 }

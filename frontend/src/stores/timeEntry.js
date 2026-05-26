@@ -1,0 +1,107 @@
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+
+export const useTimeEntryStore = defineStore('timeEntry', () => {
+    const entries = ref([])
+    const loading = ref(false)
+    const error = ref(null)
+
+    function authHeaders() {
+        const auth = useAuthStore()
+        return {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${auth.token}`,
+        }
+    }
+
+    async function handleResponse(res) {
+        if (res.status === 204) return null
+        const text = await res.text()
+        let body = null
+        try {
+            body = text ? JSON.parse(text) : null
+        } catch {
+            body = text
+        }
+        if (!res.ok) {
+            throw new Error(body?.error ?? body ?? `HTTP ${res.status}`)
+        }
+        return body
+    }
+
+    async function fetchByUser() {
+        loading.value = true
+        error.value = null
+        try {
+            const res = await fetch('https://localhost/api/time-entries', { headers: authHeaders() })
+            entries.value = await handleResponse(res)
+        } catch (e) {
+            error.value = e.message
+        } finally {
+            loading.value = false
+        }
+    }
+
+    async function fetchByProject(projectId) {
+        loading.value = true
+        error.value = null
+        try {
+            const res = await fetch(`https://localhost/api/projects/${projectId}/time-entries`, { headers: authHeaders() })
+            entries.value = await handleResponse(res)
+        } catch (e) {
+            error.value = e.message
+        } finally {
+            loading.value = false
+        }
+    }
+
+    async function save(projectId, description, startTime, endTime) {
+        error.value = null
+        try {
+            const res = await fetch('https://localhost/api/time-entries', {
+                method: 'POST',
+                headers: authHeaders(),
+                body: JSON.stringify({ projectId, description, startTime, endTime }),
+            })
+            const entry = await handleResponse(res)
+            entries.value.unshift(entry)
+            return entry
+        } catch (e) {
+            error.value = e.message
+        }
+    }
+
+    async function update(id, data) {
+        error.value = null
+        try {
+            const res = await fetch(`https://localhost/api/time-entries/${id}`, {
+                method: 'PUT',
+                headers: authHeaders(),
+                body: JSON.stringify(data),
+            })
+            const updated = await handleResponse(res)
+            const index = entries.value.findIndex(e => e.id === id)
+            if (index !== -1) entries.value[index] = updated
+            return updated
+        } catch (e) {
+            error.value = e.message
+        }
+    }
+
+    async function remove(id) {
+        error.value = null
+        try {
+            const res = await fetch(`https://localhost/api/time-entries/${id}`, {
+                method: 'DELETE',
+                headers: authHeaders(),
+            })
+            await handleResponse(res)
+            entries.value = entries.value.filter(e => e.id !== id)
+        } catch (e) {
+            error.value = e.message
+        }
+    }
+
+    return { entries, loading, error, fetchByUser, fetchByProject, save, update, remove }
+})

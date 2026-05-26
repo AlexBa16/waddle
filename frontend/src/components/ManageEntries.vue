@@ -9,7 +9,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                 </svg>
                 <span class="text-sm font-bold tracking-wide text-slate-800 dark:text-orange-50">{{ t('entries.title')
-                    }}</span>
+                }}</span>
             </div>
 
             <input v-model="searchQuery" type="text" :placeholder="t('entries.search')"
@@ -47,10 +47,11 @@
                     <div
                         class="grid grid-cols-[1fr_1fr_2fr_44px] items-center px-6 py-[18px] border-b border-slate-300/50 last:border-b-0 hover:bg-slate-300/30 dark:bg-slate-500 dark:hover:bg-slate-500/90 transition-colors duration-150">
                         <span class="text-sm font-semibold text-slate-800 dark:text-orange-50">{{ formatDate(entry.date)
-                            }}</span>
+                        }}</span>
                         <span class="font-mono text-xs text-slate-500 dark:text-orange-50/60">{{
                             formatDuration(entry.durationSeconds) }}</span>
-                        <span class="pr-4 mr-8 text-sm truncate text-slate-500 dark:text-orange-50/60">{{ entry.description
+                        <span class="pr-4 mr-8 text-sm truncate text-slate-500 dark:text-orange-50/60">{{
+                            entry.description
                             || '—' }}</span>
 
                         <!-- Actions -->
@@ -120,7 +121,7 @@
                             <div>
                                 <label
                                     class="block mb-2 text-xs font-semibold tracking-widest uppercase text-slate-500">{{
-                                    t('entries.description') }}</label>
+                                        t('entries.description') }}</label>
                                 <textarea v-model="draft.description" rows="3"
                                     :placeholder="entry.description || t('entries.descriptionPlaceholder')"
                                     class="w-full px-4 py-3 text-sm border border-indigo-300 outline-none resize-none rounded-xl bg-orange-50 text-slate-700 focus:ring-1 focus:ring-indigo-400 placeholder:text-slate-400 dark:bg-slate-500 dark:text-orange-50 dark:border-slate-400 dark:placeholder-indigo-50" />
@@ -153,7 +154,7 @@ const { t } = useI18n()
 
 const searchQuery = ref('')
 
-// --- Mock data ---
+// --- Mock data --- !replace with real store data entryStore.entries
 const entries = ref([
     { id: 1, date: '2026-05-03', durationSeconds: 16200, description: 'Ich habe keine Ahnung was ich hier schreibe', startTime: '08:00', endTime: '12:30' },
     { id: 2, date: '2026-05-04', durationSeconds: 7200, description: 'Backend API Implementierung', startTime: '09:00', endTime: '11:00' },

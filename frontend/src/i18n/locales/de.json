@@ -103,9 +103,19 @@
         }
     },
     "onboarding": {
-        "title": "Willkommen bei Waddle!",
-        "subtitle": "Erstelle dein erstes Projekt, um mit dem Zeiterfassen zu beginnen.",
-        "cta": "Erstes Projekt erstellen"
+        "welcome": "Willkommen bei Waddle",
+        "subtitle": "Richte deinen Workspace ein und starte mit deinem ersten Projekt.",
+        "start": "Erste Schritte",
+        "configure": "Konfiguration",
+
+        "createProject": "Projekt erstellen",
+        "createProjectDesc": "Erstelle ein neues Projekt und lade dein Team ein.",
+
+        "settings": "Einstellungen",
+        "settingsDesc": "Passe Sprache, Darstellung und persönliche Einstellungen an.",
+
+        "inbox": "Posteingang",
+        "inboxDesc": "Sieh dir Einladungen und eingehende Projektanfragen an."
     },
     "entries": {
         "title": "Einträge verwalten",

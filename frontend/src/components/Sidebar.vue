@@ -10,7 +10,8 @@
 
         <!-- Overlay -->
         <Transition name="fade">
-            <div v-if="isOpen" @click="isOpen = false" class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden" />
+            <div v-if="isOpen" @click="isOpen = false"
+                class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden" />
         </Transition>
 
         <!-- Sidebar -->
@@ -50,33 +51,6 @@
                 <!-- Replace your existing CreateProjectForm with this -->
                 <CreateProjectForm v-model="showCreateForm" @create="handleCreate" />
 
-                <!-- Onboarding overlay — shown when user has no projects yet -->
-                <Teleport to="body">
-                    <Transition name="fade">
-                        <div v-if="showOnboarding"
-                            class="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm">
-                            <div
-                                class="w-full max-w-md p-10 mx-4 text-center bg-white shadow-2xl dark:bg-slate-700 rounded-2xl">
-                                <!-- Logo -->
-                                <img :src="LogoLight" alt="Waddle Logo" class="w-16 h-auto mx-auto mb-6 dark:hidden" />
-                                <img :src="LogoDark" alt="Waddle Logo" class="hidden w-16 h-auto mx-auto mb-6 dark:block" />
-
-                                <h2 class="mb-2 text-2xl font-bold text-slate-700 dark:text-orange-50">
-                                    {{ t('onboarding.title') }}
-                                </h2>
-                                <p class="mb-8 text-sm text-slate-500 dark:text-slate-300">
-                                    {{ t('onboarding.subtitle') }}
-                                </p>
-
-                                <Button @click="onboardingDismissed = true; showCreateForm = true">
-                                    {{ t('onboarding.cta') }}
-                                </Button>
-                            </div>
-                        </div>
-                    </Transition>
-                </Teleport>
-
-
                 <!-- Main nav -->
                 <nav class="flex flex-col gap-1 mt-6 mb-auto">
                     <RouterLink v-for="item in navItems" :key="item.to" :to="item.to" @click="isOpen = false"
@@ -107,123 +81,137 @@
         </Transition>
     </template>
 
-    <script setup>
-    import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
-    import LogoLight from '@/assets/logo-light.svg'
-    import LogoDark from '@/assets/logo-dark.svg'
-    import TrackerIconLight from '@/assets/SidebarIcons/light/tracker.svg'
-    import TrackerIconDark from '@/assets/SidebarIcons/dark/tracker.svg'
-    import EntryIconLight from '@/assets/SidebarIcons/light/entry.svg'
-    import EntryIconDark from '@/assets/SidebarIcons/dark/entry.svg'
-    import ReportIconLight from '@/assets/SidebarIcons/light/report.svg'
-    import ReportIconDark from '@/assets/SidebarIcons/dark/report.svg'
-    import ProjectSettingsIconLight from '@/assets/SidebarIcons/light/project-settings.svg'
-    import ProjectSettingsIconDark from '@/assets/SidebarIcons/dark/project-settings.svg'
-    import InboxIconLight from '@/assets/SidebarIcons/light/inbox.svg'
-    import InboxIconDark from '@/assets/SidebarIcons/dark/inbox.svg'
-    import SettingsIconLight from '@/assets/SidebarIcons/light/settings.svg'
-    import SettingsIconDark from '@/assets/SidebarIcons/dark/settings.svg'
-    import Dropdown from '@/components/Dropdown.vue'
-    import Profile from '@/components/Profile.vue'
-    import CreateProjectForm from '@/components/CreateProjectForm.vue'
-    import Button from '@/components/Button.vue'
-    import { useProjectStore } from '@/stores/project'
-    import { useInvitationStore } from '@/stores/invitation'
-    import { useI18n } from 'vue-i18n'
+<script setup>
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
+import LogoLight from '@/assets/logo-light.svg'
+import LogoDark from '@/assets/logo-dark.svg'
+import TrackerIconLight from '@/assets/SidebarIcons/light/tracker.svg'
+import TrackerIconDark from '@/assets/SidebarIcons/dark/tracker.svg'
+import EntryIconLight from '@/assets/SidebarIcons/light/entry.svg'
+import EntryIconDark from '@/assets/SidebarIcons/dark/entry.svg'
+import ReportIconLight from '@/assets/SidebarIcons/light/report.svg'
+import ReportIconDark from '@/assets/SidebarIcons/dark/report.svg'
+import ProjectSettingsIconLight from '@/assets/SidebarIcons/light/project-settings.svg'
+import ProjectSettingsIconDark from '@/assets/SidebarIcons/dark/project-settings.svg'
+import InboxIconLight from '@/assets/SidebarIcons/light/inbox.svg'
+import InboxIconDark from '@/assets/SidebarIcons/dark/inbox.svg'
+import SettingsIconLight from '@/assets/SidebarIcons/light/settings.svg'
+import SettingsIconDark from '@/assets/SidebarIcons/dark/settings.svg'
+import Dropdown from '@/components/Dropdown.vue'
+import Profile from '@/components/Profile.vue'
+import CreateProjectForm from '@/components/CreateProjectForm.vue'
+import { useProjectStore } from '@/stores/project'
+import { useInvitationStore } from '@/stores/invitation'
+import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 
-    const projectStore = useProjectStore()
-    const invitationStore = useInvitationStore()
-    const showCreateForm = ref(false)
-    const isOpen = ref(false)
-    const { t } = useI18n()
-    const hasPendingInvitations = computed(() => invitationStore.received.length > 0)
+const router = useRouter()
+const projectStore = useProjectStore()
+const invitationStore = useInvitationStore()
+const showCreateForm = ref(false)
+const isOpen = ref(false)
+const { t } = useI18n()
+const hasPendingInvitations = computed(() => invitationStore.received.length > 0)
 
-    // Track if we're on desktop (lg breakpoint = 1024px)
-    const windowWidth = ref(window.innerWidth)
-    const isDesktop = computed(() => windowWidth.value >= 1024)
+// Track if we're on desktop (lg breakpoint = 1024px)
+const windowWidth = ref(window.innerWidth)
+const isDesktop = computed(() => windowWidth.value >= 1024)
 
-    function onResize() {
-        windowWidth.value = window.innerWidth
-        if (isDesktop.value) isOpen.value = false
-    }
+function onResize() {
+    windowWidth.value = window.innerWidth
+    if (isDesktop.value) isOpen.value = false
+}
 
-    onMounted(() => window.addEventListener('resize', onResize))
-    onUnmounted(() => window.removeEventListener('resize', onResize))
+onMounted(() => window.addEventListener('resize', onResize))
+onUnmounted(() => window.removeEventListener('resize', onResize))
 
-    const navItems = computed(() => [
+const navItems = computed(() => {
+    if (!projectStore.selectedId) return []
+    return [
         { label: t('nav.tracker'), iconPathLight: TrackerIconLight, iconPathDark: TrackerIconDark, to: '/tracker' },
         { label: t('nav.entrys'), iconPathLight: EntryIconLight, iconPathDark: EntryIconDark, to: '/entrys' },
         { label: t('nav.reports'), iconPathLight: ReportIconLight, iconPathDark: ReportIconDark, to: '/reports' },
         { label: t('nav.projectSettings.description'), iconPathLight: ProjectSettingsIconLight, iconPathDark: ProjectSettingsIconDark, to: '/project-settings' },
-    ])
+    ]
+})
 
-    const personalNavItems = computed(() => [
-        { label: t('nav.inbox.description'), iconPathLight: InboxIconLight, iconPathDark: InboxIconDark, to: '/inbox', badge: hasPendingInvitations.value },
-        { label: t('nav.settings.description'), iconPathLight: SettingsIconLight, iconPathDark: SettingsIconDark, to: '/settings' },
-    ])
+const personalNavItems = computed(() => [
+    { label: t('nav.inbox.description'), iconPathLight: InboxIconLight, iconPathDark: InboxIconDark, to: '/inbox', badge: hasPendingInvitations.value },
+    { label: t('nav.settings.description'), iconPathLight: SettingsIconLight, iconPathDark: SettingsIconDark, to: '/settings' },
+])
 
-    async function handleCreate(formData) {
-        try {
-            await projectStore.createProject(formData)
-        } catch (e) {
-            console.error(t('nav.createProject.error'), e.message)
+async function handleCreate(formData) {
+    try {
+        await projectStore.createProject(formData)
+    } catch (e) {
+        console.error(t('nav.createProject.error'), e.message)
+    }
+}
+
+watch(
+    () => [projectStore.loading, projectStore.projects],
+    ([loading, projects]) => {
+        if (loading || projects.length === 0) return
+
+        // Already have a valid selection → keep it
+        if (projectStore.selectedId && projects.some(p => p.id === projectStore.selectedId)) return
+
+        // One project → auto-select it
+        if (projects.length === 1) {
+            projectStore.selectProject(projects[0].id)
+            return
         }
+
+        // Multiple projects → restore last selected from localStorage
+        const lastId = localStorage.getItem('lastSelectedProjectId')
+        const match = projects.find(p => p.id === lastId)
+        projectStore.selectProject(match ? match.id : projects[0].id)
+    },
+    { immediate: true, deep: true }
+)
+
+watch(
+    () => projectStore.selectedId,
+    (id) => {
+        if (id) localStorage.setItem('lastSelectedProjectId', id)
     }
+)
 
-    watch(
-        () => [projectStore.loading, projectStore.projects],
-        ([loading, projects]) => {
-            if (loading || projects.length === 0) return
+const showOnboarding = computed(
+    () => !onboardingDismissed.value && !projectStore.loading && !projectStore.error && projectStore.projects.length === 0
+)
 
-            // Already have a valid selection → keep it
-            if (projectStore.selectedId && projects.some(p => p.id === projectStore.selectedId)) return
+const onboardingDismissed = ref(false)
 
-            // One project → auto-select it
-            if (projects.length === 1) {
-                projectStore.selectProject(projects[0].id)
-                return
-            }
-
-            // Multiple projects → restore last selected from localStorage
-            const lastId = localStorage.getItem('lastSelectedProjectId')
-            const match = projects.find(p => p.id === lastId)
-            projectStore.selectProject(match ? match.id : projects[0].id)
-        },
-        { immediate: true, deep: true }
-    )
-
-    watch(
-        () => projectStore.selectedId,
-        (id) => {
-            if (id) localStorage.setItem('lastSelectedProjectId', id)
+watch(
+    showOnboarding,
+    (value) => {
+        if (value) {
+            router.push('/onboarding')
         }
-    )
+    },
+    { immediate: true }
+)
+</script>
 
-    const showOnboarding = computed(
-        () => !onboardingDismissed.value && !projectStore.loading && !projectStore.error && projectStore.projects.length === 0
-    )
+<style scoped>
+.slide-enter-active,
+.slide-leave-active {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-    const onboardingDismissed = ref(false)
-    </script>
+.slide-enter-from,
+.slide-leave-to {
+    transform: translateX(-100%);
+}
 
-    <style scoped>
-    .slide-enter-active,
-    .slide-leave-active {
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s ease;
+}
 
-    .slide-enter-from,
-    .slide-leave-to {
-        transform: translateX(-100%);
-    }
-
-    .fade-enter-active,
-    .fade-leave-active {
-        transition: opacity 0.3s ease;
-    }
-
-    .fade-enter-from,
-    .fade-leave-to {
-        opacity: 0;
-    }
-    </style>
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+</style>

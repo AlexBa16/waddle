@@ -9,6 +9,7 @@ import EntryView from '@/views/EntryView.vue';
 import ReportsView from '@/views/ReportsView.vue';
 import ProjectSettingsView from '@/views/ProjectSettingsView.vue';
 import InboxView from '@/views/InboxView.vue';
+import OnboardingView from '@/views/OnboardingView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,6 +20,7 @@ const router = createRouter({
         path: '/dashboard', 
         component: DashboardView,
         children: [
+            { path: '/onboarding', component: OnboardingView },
             { path: '/tracker', component: TrackerView },
             { path: '/entrys', component: EntryView },
             { path: '/reports', component: ReportsView },

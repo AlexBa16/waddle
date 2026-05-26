@@ -103,9 +103,19 @@
         }
     },
     "onboarding": {
-        "title": "Welcome to Waddle!",
-        "subtitle": "Create your first project to get started tracking time.",
-        "cta": "Create my first project"
+        "welcome": "Welcome to Waddle",
+        "subtitle": "Set up your workspace and get started with your first project.",
+        "start": "Get Started",
+        "configure": "Configure",
+
+        "createProject": "Create Project",
+        "createProjectDesc": "Start a new project and invite your team members.",
+
+        "settings": "Settings",
+        "settingsDesc": "Customize your preferences, language, and appearance.",
+
+        "inbox": "Inbox",
+        "inboxDesc": "View invitations and manage incoming project requests."
     },
     "entries": {
         "title": "Manage entries",

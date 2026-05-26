@@ -122,6 +122,7 @@
         "edit": "Bearbeiten",
         "move": "Verschieben",
         "delete": "Löschen",
-        "descriptionPlaceholder": "Hier steht die vorherige Beschreibung"
+        "descriptionPlaceholder": "Hier steht die vorherige Beschreibung",
+        "loading": "Loading ..."
     }
 }

@@ -143,6 +143,7 @@ const personalNavItems = computed(() => [
 async function handleCreate(formData) {
     try {
         await projectStore.createProject(formData)
+        router.push('/tracker')
     } catch (e) {
         console.error(t('nav.createProject.error'), e.message)
     }

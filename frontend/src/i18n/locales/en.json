@@ -106,5 +106,22 @@
         "title": "Welcome to Waddle!",
         "subtitle": "Create your first project to get started tracking time.",
         "cta": "Create my first project"
+    },
+    "entries": {
+        "title": "Manage entries",
+        "search": "Search entries...",
+        "count": "Entries",
+        "noEntries": "No entries found",
+        "editing": "Entry is being edited",
+        "refresh": "Refresh",
+        "date": "Date",
+        "duration": "Duration",
+        "description": "Description",
+        "timeRange": "Time Range",
+        "save": "Save",
+        "edit": "Edit",
+        "move": "Move",
+        "delete": "Delete",
+        "descriptionPlaceholder": "Previous description will be shown here"
     }
 }

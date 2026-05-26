@@ -5,7 +5,7 @@
         <div class="flex items-center gap-4">
             <img :src="TrackerIconLight" alt="" class="block w-5 h-5 shrink-0 dark:hidden">
             <img :src="TrackerIconDark" alt="" class="hidden w-5 h-5 shrink-0 dark:block">
-            <label for="description" class="dark:text-orange-50">{{ t('nav.track.label') }}</label>
+            <label for="description" class="font-bold dark:text-orange-50">{{ t('nav.track.label') }}</label>
         </div>
         <div>
             <textarea :placeholder="t('nav.track.placeholder')" :value="modelValue"

@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col gap-4 items-center justify-center">
+    <div class="flex flex-col items-center justify-center gap-4">
         <IconLabelInput :iconPath="languageIcon" :label="t('nav.settings.changeLanguage')" :select="true" v-model="form.language" @update:modelValue="setLanguage" />
         <IconLabelInput :iconPath="viewModeIcon" :label="t('nav.settings.mode')" :selectViewMode="true"
             :modelValue="selectedTheme" @update:modelValue="onThemeChange" />
@@ -12,7 +12,7 @@
             :placeholder="t('nav.settings.confirmedPassword')" type="password" v-model="form.passwordConfirm" />
         <p v-if="errorMsg" class="text-sm text-red-500">{{ errorMsg }}</p>
         <p v-if="successMsg" class="text-sm text-green-500">{{ successMsg }}</p>
-        <div class="flex w-1/2 justify-end">
+        <div class="flex justify-end w-1/2">
             <Button :disabled="loading" @click="saveSettings">
                 {{ loading ? t('nav.settings.beingSaved') : t('nav.settings.saved-user') }}
             </Button>
@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import IconLabelInput from '@/components/IconLabelInput.vue'
 import Button from '@/components/Button.vue'

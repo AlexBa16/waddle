@@ -106,5 +106,22 @@
         "title": "Willkommen bei Waddle!",
         "subtitle": "Erstelle dein erstes Projekt, um mit dem Zeiterfassen zu beginnen.",
         "cta": "Erstes Projekt erstellen"
+    },
+    "entries": {
+        "title": "Einträge verwalten",
+        "search": "Einträge suchen…",
+        "count": "Einträge",
+        "noEntries": "Keine Einträge gefunden",
+        "editing": "Eintrag wird bearbeitet",
+        "refresh": "Aktualisieren",
+        "date": "Datum",
+        "duration": "Dauer",
+        "description": "Beschreibung",
+        "timeRange": "Zeitraum",
+        "save": "Speichern",
+        "edit": "Bearbeiten",
+        "move": "Verschieben",
+        "delete": "Löschen",
+        "descriptionPlaceholder": "Hier steht die vorherige Beschreibung"
     }
 }

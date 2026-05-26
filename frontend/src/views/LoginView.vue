@@ -63,7 +63,7 @@ import Toast from '@/components/Toast.vue'
 const {t} = useI18n();
 
 const form = ref({
-    username: '',
+    username: '', 
     password: '',
 })
 

@@ -8,7 +8,7 @@
             <label for="description" class="font-bold dark:text-orange-50">{{ t('nav.track.label') }}</label>
         </div>
         <div>
-            <textarea :placeholder="t('nav.track.placeholder')" v-model="description" rows="4"
+            <textarea :placeholder="t('nav.track.placeholder')" v-model="runningTimerStore.description" rows="4"
                 class="w-full px-4 py-3 text-sm font-medium transition-colors duration-150 border border-indigo-200 outline-none resize-none rounded-xl bg-orange-50 text-slate-700 placeholder-slate-400 dark:bg-slate-500 dark:text-orange-50 dark:placeholder-orange-50 dark:border-slate-400 focus:ring-2 focus:ring-indigo-400" />
         </div>
         <div class="flex flex-col items-stretch justify-between gap-4 mt-5 sm:flex-row sm:items-center">
@@ -43,8 +43,6 @@ const { t } = useI18n()
 const runningTimerStore = useRunningTimerStore()
 const projectStore = useProjectStore()
 
-const description = ref(runningTimerStore.description)
-
 // Sekunden direkt hochzählen statt computed aus Store
 const displaySeconds = ref(
     runningTimerStore.startTime
@@ -77,9 +75,9 @@ async function toggleTimer() {
         interval = null
         await runningTimerStore.stop()
         displaySeconds.value = 0
-        description.value = ''
+        runningTimerStore.description = ''
     } else {
-        runningTimerStore.start(description.value, projectStore.selectedId)
+        runningTimerStore.start(runningTimerStore.description, projectStore.selectedId)
         startTicking()
     }
 }

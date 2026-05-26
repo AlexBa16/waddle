@@ -51,11 +51,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Invitation::class, mappedBy: 'invitedUser')]
     private Collection $receivedInvitations;
 
+    /**
+     * @var Collection<int, TimeEntry>
+     */
+    #[ORM\OneToMany(targetEntity: TimeEntry::class, mappedBy: 'trackedBy')]
+    private Collection $timeEntries;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
         $this->sentInvitations = new ArrayCollection();
         $this->receivedInvitations = new ArrayCollection();
+        $this->timeEntries = new ArrayCollection();
     }
 
     public function getId(): ?int { return $this->id; }
@@ -138,6 +145,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $invitation->setInvitedUser(null);
             }
         }
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TimeEntry>
+     */
+    public function getTimeEntries(): Collection
+    {
+        return $this->timeEntries;
+    }
+
+    public function addTimeEntry(TimeEntry $timeEntry): static
+    {
+        if (!$this->timeEntries->contains($timeEntry)) {
+            $this->timeEntries->add($timeEntry);
+            $timeEntry->setTrackedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTimeEntry(TimeEntry $timeEntry): static
+    {
+        if ($this->timeEntries->removeElement($timeEntry)) {
+            // set the owning side to null (unless already changed)
+            if ($timeEntry->getTrackedBy() === $this) {
+                $timeEntry->setTrackedBy(null);
+            }
+        }
+
         return $this;
     }
 }

@@ -57,7 +57,7 @@
                         <!-- Actions -->
                         <div class="flex items-center gap-0.5 justify-end">
                             <button @click="toggleEdit(entry)" :title="t('entries.edit')"
-                                class="flex items-center justify-center p-1.5 rounded-lg transition-colors duration-150 text-slate-500 dark:text-orange-50/60 hover:bg-slate-300/50 dark:hover:bg-slate-400/30">
+                                class="cursor-pointer flex items-center justify-center p-1.5 rounded-lg transition-colors duration-150 text-slate-500 dark:text-orange-50/60 hover:bg-slate-300/50 dark:hover:bg-slate-400/30">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -65,7 +65,7 @@
                                 </svg>
                             </button>
                             <button @click="moveEntry(entry)" :title="t('entries.move')"
-                                class="flex items-center justify-center p-1.5 rounded-lg transition-colors duration-150 text-slate-500 dark:text-orange-50/60 hover:bg-slate-300/50 dark:hover:bg-slate-400/30">
+                                class="cursor-pointer flex items-center justify-center p-1.5 rounded-lg transition-colors duration-150 text-slate-500 dark:text-orange-50/60 hover:bg-slate-300/50 dark:hover:bg-slate-400/30">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -73,7 +73,7 @@
                                 </svg>
                             </button>
                             <button @click="deleteEntry(entry)" :title="t('entries.delete')"
-                                class="flex items-center justify-center p-1.5 rounded-lg transition-colors duration-150 text-red-400 hover:bg-red-100/50 dark:hover:bg-red-900/20">
+                                class="cursor-pointer flex items-center justify-center p-1.5 rounded-lg transition-colors duration-150 text-red-400 hover:bg-red-100/50 dark:hover:bg-red-900/20">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -93,7 +93,7 @@
                                 <span class="text-xs font-semibold tracking-widest uppercase text-slate-400">{{
                                     t('entries.editing') }}</span>
                                 <button @click="saveEntry(entry)"
-                                    class="px-5 py-2 text-sm font-semibold text-white transition-colors duration-150 bg-indigo-400 shadow-sm hover:bg-indigo-500 rounded-xl">
+                                    class="px-5 py-2 text-sm font-semibold text-white transition-colors duration-150 bg-indigo-400 shadow-sm cursor-pointer hover:bg-indigo-500 rounded-xl">
                                     {{ t('entries.save') }}
                                 </button>
                             </div>
@@ -138,7 +138,7 @@
             class="flex items-center justify-between px-6 py-2 bg-[#cdd4e3] text-xs text-slate-500 dark:bg-slate-700/50 dark:text-orange-50">
             <span>{{ statusText }}</span>
             <button
-                class="px-2 py-1 transition-colors duration-150 rounded text-slate-600 hover:bg-slate-300/50 dark:text-orange-50 dark:hover:bg-slate-500/50"
+                class="px-2 py-1 transition-colors duration-150 rounded cursor-pointer text-slate-600 hover:bg-slate-300/50 dark:text-orange-50 dark:hover:bg-slate-500/50"
                 @click="refresh">
                 {{ t('entries.refresh') }}
             </button>

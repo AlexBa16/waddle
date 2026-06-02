@@ -64,9 +64,10 @@ if (runningTimerStore.isRunning) {
 }
 
 const formattedTime = computed(() => {
-    const m = Math.floor(displaySeconds.value / 60)
+    const h = Math.floor(displaySeconds.value / 3600)
+    const m = Math.floor(displaySeconds.value / 60) % 60
     const s = displaySeconds.value % 60
-    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+    return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
 })
 
 async function toggleTimer() {

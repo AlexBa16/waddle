@@ -96,3 +96,5 @@ RUN set -eux; \
 		php bin/console asset-map:compile; \
 	fi; \
 	chmod +x bin/console; sync;
+
+RUN npm install

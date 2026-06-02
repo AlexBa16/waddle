@@ -41,7 +41,11 @@
             "timeframe": "Timeframe"
         },
         "entrys": "Entrys",
-        "reports": "Reports",
+        "reports": {
+            "label": "Reports",
+            "me": "Me",
+            "team": "Team"
+        },
         "projectSettings": {
             "description": "Project settings",
             "changeProjectName": "Change project name",

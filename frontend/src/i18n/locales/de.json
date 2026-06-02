@@ -41,7 +41,11 @@
             "timeframe": "Zeitraum"
         },
         "entrys": "Einträge",
-        "reports": "Berichte",
+        "reports": {
+            "label": "Berichte",
+            "me": "Ich",
+            "team": "Team"
+        },
         "projectSettings": {
             "description": "Projekteinstellungen",
             "changeProjectName": "Projektnamen ändern",

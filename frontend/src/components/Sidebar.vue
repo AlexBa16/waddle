@@ -130,7 +130,7 @@ const navItems = computed(() => {
     return [
         { label: t('nav.tracker'), iconPathLight: TrackerIconLight, iconPathDark: TrackerIconDark, to: '/tracker' },
         { label: t('nav.entrys'), iconPathLight: EntryIconLight, iconPathDark: EntryIconDark, to: '/entrys' },
-        { label: t('nav.reports'), iconPathLight: ReportIconLight, iconPathDark: ReportIconDark, to: '/reports' },
+        { label: t('nav.reports.label'), iconPathLight: ReportIconLight, iconPathDark: ReportIconDark, to: '/reports' },
         { label: t('nav.projectSettings.description'), iconPathLight: ProjectSettingsIconLight, iconPathDark: ProjectSettingsIconDark, to: '/project-settings' },
     ]
 })

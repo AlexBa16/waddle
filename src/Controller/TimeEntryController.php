@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Entity\User;
 
 #[Route('/api', name: 'time_entry_')]
 class TimeEntryController extends AbstractController
@@ -46,6 +47,21 @@ class TimeEntryController extends AbstractController
     {
         $entries = $this->repo->findBy(
             ['trackedBy' => $this->getUser()],
+            ['startTime' => 'DESC']
+        );
+
+        return $this->json(array_map(
+            fn(TimeEntry $e) => $this->serialize($e),
+            $entries
+        ));
+    }
+
+    # GET /api/users/{id}/time-entries
+    #[Route('/users/{id}/time-entries', name: 'by_any_user', methods: ['GET'])]
+    public function byAnyUser(User $user): JsonResponse
+    {
+        $entries = $this->repo->findBy(
+            ['trackedBy' => $user],
             ['startTime' => 'DESC']
         );
 

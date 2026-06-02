@@ -17,7 +17,7 @@
 
         <!-- Column headers -->
         <div
-            class="grid grid-cols-[1fr_1fr_auto_44px] px-6 py-1.5 text-xs font-semibold uppercase tracking-widest text-slate-500 bg-[#cdd4e3]">
+            class="grid grid-cols-[1fr_1fr_auto_44px] px-6 py-1.5 text-xs font-semibold uppercase tracking-widest text-slate-500 bg-[#cdd4e3] dark:bg-slate-700/50 dark:text-orange-50">
             <span>{{ t('nav.projectSettings.name') }}</span>
             <span>{{ t('nav.projectSettings.email') }}</span>
             <span>{{ t('nav.projectSettings.role') }}</span>

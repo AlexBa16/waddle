@@ -1,8 +1,8 @@
 <template>
-    <div class="mt-5 w-6/12 bg-[#dde3ef] dark:bg-slate-600 rounded-2xl overflow-hidden shadow-md shadow-black/10">
+    <div class="mt-5 w-full md:w-8/12 lg:w-6/12 bg-[#dde3ef] dark:bg-slate-600 rounded-2xl overflow-hidden shadow-md shadow-black/10">
 
         <!-- Header -->
-        <div class="flex justify-between gap-5 px-6 py-4">
+        <div class="flex justify-between items-center gap-5 px-6 py-4">
             <div class="flex items-center gap-3 shrink-0">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-700 dark:text-orange-50" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -12,11 +12,11 @@
             </div>
 
             <input v-model="searchQuery" type="text" :placeholder="t('entries.search')"
-                class="flex-1 px-4 py-2 text-sm font-medium transition-colors duration-150 border border-indigo-300 outline-none rounded-xl bg-orange-50 text-slate-700 placeholder-slate-400 focus:ring-1 focus:ring-indigo-400 dark:bg-slate-500 dark:border-slate-400 dark:placeholder-indigo-50" />
+                class="flex-1 max-w-xs px-4 py-2 text-sm font-medium transition-colors duration-150 border border-indigo-300 dark:border-slate-400 outline-none rounded-xl bg-orange-50 dark:bg-slate-500 text-slate-700 dark:text-orange-50 placeholder-slate-400 dark:placeholder-indigo-50 focus:ring-1 focus:ring-indigo-400" />
         </div>
 
         <!-- Column headers -->
-        <div class="grid grid-cols-[1fr_1fr_2fr_44px] px-6 py-1.5 text-xs font-semibold uppercase tracking-widest text-slate-500 bg-[#cdd4e3]">
+        <div class="grid grid-cols-[1fr_1fr_2fr_44px] px-6 py-2 text-xs font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-300 bg-[#cdd4e3] dark:bg-slate-700/50">
             <span>{{ t('entries.date') }}</span>
             <span>{{ t('entries.duration') }}</span>
             <span>{{ t('entries.description') }}</span>
@@ -24,27 +24,27 @@
         </div>
 
         <!-- List body -->
-        <div class="bg-[#d4dae8] min-h-16">
+        <div class="bg-[#d4dae8] dark:bg-slate-500/40 min-h-16 divide-y divide-[#cdd4e3] dark:divide-slate-600/60">
 
             <!-- Loading skeletons -->
             <template v-if="entryStore.loading">
                 <div v-for="n in 4" :key="n"
-                    class="grid grid-cols-[1fr_1fr_2fr_44px] items-center px-6 py-[18px] border-b border-slate-300/50 gap-3">
-                    <div class="h-3 rounded-md bg-slate-300/70 animate-pulse" style="width:55%" />
-                    <div class="h-3 rounded-md bg-slate-300/70 animate-pulse" style="width:40%" />
-                    <div class="h-3 rounded-md bg-slate-300/70 animate-pulse" style="width:70%" />
+                    class="grid grid-cols-[1fr_1fr_2fr_44px] items-center px-6 py-[18px] gap-3">
+                    <div class="h-3 rounded-md bg-slate-300/70 dark:bg-slate-600/70 animate-pulse" style="width:55%" />
+                    <div class="h-3 rounded-md bg-slate-300/70 dark:bg-slate-600/70 animate-pulse" style="width:40%" />
+                    <div class="h-3 rounded-md bg-slate-300/70 dark:bg-slate-600/70 animate-pulse" style="width:70%" />
                     <div />
                 </div>
             </template>
 
             <!-- Error -->
-            <div v-else-if="entryStore.error" class="px-6 py-6 text-sm text-center text-red-500">
+            <div v-else-if="entryStore.error" class="px-6 py-8 text-sm text-center text-red-500 dark:text-red-400">
                 {{ entryStore.error }}
             </div>
 
             <!-- Empty -->
             <div v-else-if="filteredEntries.length === 0"
-                class="flex flex-col items-center gap-3 px-6 py-16 text-sm text-slate-400 dark:text-slate-50">
+                class="flex flex-col items-center gap-3 px-6 py-16 text-sm text-slate-400 dark:text-orange-50/60">
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="opacity-40">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -53,11 +53,13 @@
             </div>
 
             <!-- Rows -->
-            <TransitionGroup v-else name="row" tag="div">
-                <div v-for="entry in filteredEntries" :key="entry.id">
+            <TransitionGroup v-else name="row" tag="div" class="divide-y divide-slate-300/40 dark:divide-slate-600/60">
+                <div v-for="entry in filteredEntries" :key="entry.id" 
+                    class="transition-all duration-200 pl-4 border-l-4"
+                    :class="[editingId === entry.id ? 'bg-slate-300/30 dark:bg-slate-700/30 border-indigo-400 dark:border-indigo-400' : 'border-transparent']">
 
-                    <!-- Collapsed row -->
-                    <div class="grid grid-cols-[1fr_1fr_2fr_44px] items-center px-6 py-[18px] border-b border-slate-300/50 last:border-b-0 hover:bg-slate-300/30 dark:bg-slate-500 dark:hover:bg-slate-500/90 transition-colors duration-150">
+                    <!-- Collapsed row layout -->
+                    <div class="grid grid-cols-[1fr_1fr_2fr_44px] items-center pr-6 py-[18px] hover:bg-slate-300/20 dark:hover:bg-slate-600/30 transition-colors duration-150">
                         <span class="text-sm font-semibold text-slate-800 dark:text-orange-50">{{ formatDate(entry.startTime) }}</span>
                         <span class="font-mono text-xs text-slate-500 dark:text-orange-50/60">{{ calcDuration(entry.startTime, entry.endTime) }}</span>
                         <span class="pr-4 mr-8 text-sm truncate text-slate-500 dark:text-orange-50/60">{{ entry.description || '—' }}</span>
@@ -65,13 +67,14 @@
                         <!-- Actions -->
                         <div class="flex items-center gap-0.5 justify-end">
                             <button @click="toggleEdit(entry)" :title="t('entries.edit')"
-                                class="cursor-pointer flex items-center justify-center p-1.5 rounded-lg transition-colors duration-150 text-slate-500 dark:text-orange-50/60 hover:bg-slate-300/50 dark:hover:bg-slate-400/30">
+                                :class="[editingId === entry.id ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-100/60 dark:bg-slate-600/80' : 'text-slate-500 dark:text-orange-50/60 hover:bg-slate-300/50 dark:hover:bg-slate-600/50']"
+                                class="cursor-pointer flex items-center justify-center p-1.5 rounded-lg transition-colors duration-150">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                 </svg>
                             </button>
                             <button @click="deleteEntry(entry)" :title="t('entries.delete')"
-                                class="cursor-pointer flex items-center justify-center p-1.5 rounded-lg transition-colors duration-150 text-red-400 hover:bg-red-100/50 dark:hover:bg-red-900/20">
+                                class="cursor-pointer flex items-center justify-center p-1.5 rounded-lg transition-colors duration-150 text-red-400 hover:bg-red-100/40 dark:hover:bg-red-950/20">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                 </svg>
@@ -79,42 +82,48 @@
                         </div>
                     </div>
 
-                    <!-- Expanded edit panel -->
+                    <!-- Beautiful Grouped Contextual Edit Panel -->
                     <Transition name="expand">
-                        <div v-if="editingId === entry.id"
-                            class="px-6 pb-6 border-b border-slate-300/50 bg-[#cdd4e3] dark:bg-slate-700/50">
-
-                            <div class="flex items-center justify-between py-3 mb-4">
-                                <span class="text-xs font-semibold tracking-widest uppercase text-slate-400">{{ t('entries.editing') }}</span>
-                                <button @click="saveEntry(entry)"
-                                    class="px-5 py-2 text-sm font-semibold text-white transition-colors duration-150 bg-indigo-400 shadow-sm cursor-pointer hover:bg-indigo-500 rounded-xl">
-                                    {{ t('entries.save') }}
-                                </button>
-                            </div>
-
-                            <!-- Date + Zeitraum -->
-                            <div class="flex flex-wrap items-center gap-6 mb-5">
-                                <div class="flex items-center gap-3">
-                                    <label class="text-xs font-semibold tracking-widest uppercase text-slate-500">{{ t('entries.date') }}:</label>
-                                    <input type="date" v-model="draft.date"
-                                        class="px-3 py-2 text-sm border border-indigo-300 outline-none rounded-xl bg-orange-50 text-slate-700 focus:ring-1 focus:ring-indigo-400 dark:bg-slate-500 dark:text-orange-50 dark:border-slate-400" />
+                        <div v-if="editingId === entry.id" class="pr-6 pb-5">
+                            <div class="bg-orange-50/60 dark:bg-slate-700/40 rounded-xl border border-indigo-200 dark:border-slate-500/40 shadow-sm p-4 space-y-4">
+                                
+                                <div class="flex items-center justify-between pb-2 border-b border-indigo-100 dark:border-slate-600/60">
+                                    <span class="text-xs font-bold tracking-wider uppercase text-indigo-500 dark:text-indigo-300 flex items-center gap-1.5">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"></span>
+                                        {{ t('entries.editing') }}
+                                    </span>
+                                    <button @click="saveEntry(entry)"
+                                        class="px-4 py-1.5 text-xs font-semibold text-white transition-colors duration-150 bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600 shadow-sm cursor-pointer rounded-lg">
+                                        {{ t('entries.save') }}
+                                    </button>
                                 </div>
-                                <div class="flex items-center gap-3">
-                                    <label class="text-xs font-semibold tracking-widest uppercase text-slate-500">{{ t('entries.timeRange') }}:</label>
-                                    <input type="time" v-model="draft.startTime"
-                                        class="px-3 py-2 text-sm border border-indigo-300 outline-none rounded-xl bg-orange-50 text-slate-700 focus:ring-1 focus:ring-indigo-400 dark:bg-slate-500 dark:text-orange-50 dark:border-slate-400" />
-                                    <span class="text-slate-400">—</span>
-                                    <input type="time" v-model="draft.endTime"
-                                        class="px-3 py-2 text-sm border border-indigo-300 outline-none rounded-xl bg-orange-50 text-slate-700 focus:ring-1 focus:ring-indigo-400 dark:bg-slate-500 dark:text-orange-50 dark:border-slate-400" />
-                                </div>
-                            </div>
 
-                            <!-- Description -->
-                            <div>
-                                <label class="block mb-2 text-xs font-semibold tracking-widest uppercase text-slate-500">{{ t('entries.description') }}</label>
-                                <textarea v-model="draft.description" rows="3"
-                                    :placeholder="entry.description || t('entries.descriptionPlaceholder')"
-                                    class="w-full px-4 py-3 text-sm border border-indigo-300 outline-none resize-none rounded-xl bg-orange-50 text-slate-700 focus:ring-1 focus:ring-indigo-400 placeholder:text-slate-400 dark:bg-slate-500 dark:text-orange-50 dark:border-slate-400 dark:placeholder-indigo-50" />
+                                <!-- Field Inputs -->
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div class="flex flex-col gap-1.5">
+                                        <label class="text-[10px] font-bold tracking-widest uppercase text-slate-500 dark:text-slate-300">{{ t('entries.date') }}</label>
+                                        <input type="date" v-model="draft.date"
+                                            class="w-full px-3 py-2 text-sm border border-indigo-200 dark:border-slate-500 outline-none rounded-xl bg-orange-50 dark:bg-slate-500 text-slate-700 dark:text-orange-50 focus:ring-1 focus:ring-indigo-400" />
+                                    </div>
+                                    <div class="flex flex-col gap-1.5">
+                                        <label class="text-[10px] font-bold tracking-widest uppercase text-slate-500 dark:text-slate-300">{{ t('entries.timeRange') }}</label>
+                                        <div class="flex items-center gap-2">
+                                            <input type="time" v-model="draft.startTime"
+                                                class="flex-1 px-3 py-2 text-sm border border-indigo-200 dark:border-slate-500 outline-none rounded-xl bg-orange-50 dark:bg-slate-500 text-slate-700 dark:text-orange-50 focus:ring-1 focus:ring-indigo-400" />
+                                            <span class="text-slate-400 dark:text-slate-300">—</span>
+                                            <input type="time" v-model="draft.endTime"
+                                                class="flex-1 px-3 py-2 text-sm border border-indigo-200 dark:border-slate-500 outline-none rounded-xl bg-orange-50 dark:bg-slate-500 text-slate-700 dark:text-orange-50 focus:ring-1 focus:ring-indigo-400" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Description Textarea -->
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-[10px] font-bold tracking-widest uppercase text-slate-500 dark:text-slate-300">{{ t('entries.description') }}</label>
+                                    <textarea v-model="draft.description" rows="2"
+                                        :placeholder="entry.description || t('entries.descriptionPlaceholder')"
+                                        class="w-full px-4 py-2.5 text-sm border border-indigo-200 dark:border-slate-500 outline-none resize-none rounded-xl bg-orange-50 dark:bg-slate-500 text-slate-700 dark:text-orange-50 placeholder:text-slate-400 dark:placeholder:indigo-100/50 focus:ring-1 focus:ring-indigo-400" />
+                                </div>
                             </div>
                         </div>
                     </Transition>
@@ -123,9 +132,9 @@
         </div>
 
         <!-- Footer -->
-        <div class="flex items-center justify-between px-6 py-2 bg-[#cdd4e3] text-xs text-slate-500 dark:bg-slate-700/50 dark:text-orange-50">
-            <span>{{ statusText }}</span>
-            <button class="px-2 py-1 transition-colors duration-150 rounded cursor-pointer text-slate-600 hover:bg-slate-300/50 dark:text-orange-50 dark:hover:bg-slate-500/50"
+        <div class="flex items-center justify-between px-6 py-2.5 bg-slate-400/20 dark:bg-slate-700/40 text-xs text-slate-500 dark:text-orange-50 border-t border-slate-300/30 dark:border-slate-600/40">
+            <span class="font-medium">{{ statusText }}</span>
+            <button class="px-2.5 py-1 font-medium transition-colors duration-150 rounded-lg cursor-pointer text-slate-600 dark:text-orange-50 hover:bg-slate-300/40 dark:hover:bg-slate-600/50"
                 @click="refresh">
                 {{ t('entries.refresh') }}
             </button>
@@ -201,7 +210,6 @@ function toggleEdit(entry) {
 }
 
 async function saveEntry(entry) {
-    // Aus date + time wieder ISO zusammenbauen
     const startISO = new Date(`${draft.date}T${draft.startTime}:00`).toISOString()
     const endISO = new Date(`${draft.date}T${draft.endTime}:00`).toISOString()
     await entryStore.update(entry.id, {
@@ -227,9 +235,9 @@ onMounted(refresh)
 <style scoped>
 .expand-enter-active,
 .expand-leave-active {
-    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+    transition: max-height 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
     overflow: hidden;
-    max-height: 400px;
+    max-height: 350px;
 }
 .expand-enter-from,
 .expand-leave-to {

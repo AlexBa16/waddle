@@ -128,22 +128,22 @@ onUnmounted(() => window.removeEventListener('resize', onResize))
 const navItems = computed(() => {
     if (!projectStore.selectedId) return []
     return [
-        { label: t('nav.tracker'), iconPathLight: TrackerIconLight, iconPathDark: TrackerIconDark, to: '/tracker' },
-        { label: t('nav.entrys'), iconPathLight: EntryIconLight, iconPathDark: EntryIconDark, to: '/entrys' },
-        { label: t('nav.reports.label'), iconPathLight: ReportIconLight, iconPathDark: ReportIconDark, to: '/reports' },
-        { label: t('nav.projectSettings.description'), iconPathLight: ProjectSettingsIconLight, iconPathDark: ProjectSettingsIconDark, to: '/project-settings' },
+        { label: t('nav.tracker'), iconPathLight: TrackerIconLight, iconPathDark: TrackerIconDark, to: '/dashboard/tracker' },
+        { label: t('nav.entrys'), iconPathLight: EntryIconLight, iconPathDark: EntryIconDark, to: '/dashboard/entrys' },
+        { label: t('nav.reports'), iconPathLight: ReportIconLight, iconPathDark: ReportIconDark, to: '/dashboard/reports' },
+        { label: t('nav.projectSettings.description'), iconPathLight: ProjectSettingsIconLight, iconPathDark: ProjectSettingsIconDark, to: '/dashboard/project-settings' },
     ]
 })
 
 const personalNavItems = computed(() => [
-    { label: t('nav.inbox.description'), iconPathLight: InboxIconLight, iconPathDark: InboxIconDark, to: '/inbox', badge: hasPendingInvitations.value },
-    { label: t('nav.settings.description'), iconPathLight: SettingsIconLight, iconPathDark: SettingsIconDark, to: '/settings' },
+    { label: t('nav.inbox.description'), iconPathLight: InboxIconLight, iconPathDark: InboxIconDark, to: '/dashboard/inbox', badge: hasPendingInvitations.value },
+    { label: t('nav.settings.description'), iconPathLight: SettingsIconLight, iconPathDark: SettingsIconDark, to: '/dashboard/settings' },
 ])
 
 async function handleCreate(formData) {
     try {
         await projectStore.createProject(formData)
-        router.push('/tracker')
+        router.push('/dashboard/tracker')
     } catch (e) {
         console.error(t('nav.createProject.error'), e.message)
     }
@@ -174,24 +174,16 @@ watch(
 watch(
     () => projectStore.selectedId,
     (id) => {
-        if (id) localStorage.setItem('lastSelectedProjectId', id)
-    }
-)
-
-const showOnboarding = computed(
-    () => !onboardingDismissed.value && !projectStore.loading && !projectStore.error && projectStore.projects.length === 0
-)
-
-const onboardingDismissed = ref(false)
-
-watch(
-    showOnboarding,
-    (value) => {
-        if (value) {
-            router.push('/onboarding')
+        if (id) {
+            localStorage.setItem('lastSelectedProjectId', id)
+            // Falls der User noch auf der Onboarding-Route steht, schicken wir ihn direkt zum Tracker
+            if (router.currentRoute.value.path === '/dashboard/onboarding') {
+                router.push('/dashboard/tracker')
+            }
+        } else {
+            localStorage.removeItem('lastSelectedProjectId')
         }
-    },
-    { immediate: true }
+    }
 )
 </script>
 

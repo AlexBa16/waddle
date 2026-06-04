@@ -4,6 +4,7 @@ import { useAuthStore } from '@/stores/auth'
 
 export const useTimeEntryStore = defineStore('timeEntry', () => {
     const entries = ref([])
+    const myEntries = ref([])
     const loading = ref(false)
     const error = ref(null)
 
@@ -35,7 +36,7 @@ export const useTimeEntryStore = defineStore('timeEntry', () => {
         error.value = null
         try {
             const res = await fetch('https://localhost/api/time-entries', { headers: authHeaders() })
-            entries.value = await handleResponse(res)
+            myEntries.value = await handleResponse(res)
         } catch (e) {
             error.value = e.message
         } finally {
@@ -103,5 +104,5 @@ export const useTimeEntryStore = defineStore('timeEntry', () => {
         }
     }
 
-    return { entries, loading, error, fetchByUser, fetchByProject, save, update, remove }
+    return { entries, myEntries, loading, error, fetchByUser, fetchByProject, save, update, remove }
 })

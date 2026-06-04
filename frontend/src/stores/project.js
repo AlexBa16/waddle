@@ -124,12 +124,29 @@ export const useProjectStore = defineStore("project", () => {
         selectedId.value = id;
     }
 
+    const members = ref([])
+
+    async function fetchMembers(projectId) {
+    error.value = null
+    try {
+        const res = await fetch(`https://localhost/api/projects/${projectId}/members`, {
+            headers: authHeaders(),
+        })
+        members.value = await handleResponse(res)
+        return members.value
+    } catch (e) {
+        error.value = e.message
+    }
+}
+
     return {
         projects,
         selectedId,
         selected,
         loading,
         error,
+        members,
+        fetchMembers,
         loadProjects,
         createProject,
         removeProject,

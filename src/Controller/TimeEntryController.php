@@ -139,7 +139,11 @@ class TimeEntryController extends AbstractController
             'createdAt'   => $entry->getCreatedAt()?->format(\DateTimeInterface::ATOM),
             'project'     => [
                 'id'   => $entry->getProject()?->getId(),
-                'name' => $entry->getProject()?->getAdmin(),
+                'name' => $entry->getProject()?->getProjectName(),
+            ],
+            'trackedBy' => [
+                'id'       => $entry->getTrackedBy()?->getId(),
+                'username' => $entry->getTrackedBy()?->getUsername(),
             ],
         ];
     }

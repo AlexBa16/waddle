@@ -166,8 +166,8 @@ const draftTouched = ref(false)
 
 const filteredEntries = computed(() => {
     const q = searchQuery.value.toLowerCase().trim()
-    if (!q) return entryStore.entries
-    return entryStore.entries.filter(e =>
+    if (!q) return entryStore.myEntries  // ← was entryStore.entries
+    return entryStore.myEntries.filter(e =>  // ← was entryStore.entries
         e.description?.toLowerCase().includes(q) || formatDate(e.startTime).includes(q)
     )
 })
@@ -175,7 +175,7 @@ const filteredEntries = computed(() => {
 const statusText = computed(() => {
     if (entryStore.loading) return t('entries.loading')
     if (entryStore.error) return t('entries.errorLoading')
-    const total = entryStore.entries.length
+    const total = entryStore.myEntries.length  
     const shown = filteredEntries.value.length
     if (searchQuery.value && shown !== total)
         return `${shown} von ${total} ${t('entries.count')}`

@@ -1,25 +1,20 @@
 <template>
     <div class="flex flex-col justify-center items-center w-full max-w-3xl mx-auto pt-6">
-        <div class="flex flex-col sm:flex-row gap-4 items-center w-full justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
+        <div
+            class="flex flex-col sm:flex-row gap-4 items-center w-full justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
             <div class="flex gap-2">
                 <TabButton :isActive="activeTab === 'me'" @click="activeTab = 'me'">
                     {{ t('nav.reports.me') }}
                 </TabButton>
-                <TabButton :isActive="activeTab === 'team'" @click="activeTab = 'team'">
+                <TabButton v-if="isAdmin" :isActive="activeTab === 'team'" @click="activeTab = 'team'">
                     {{ t('nav.reports.team') }}
                 </TabButton>
             </div>
-            
+
             <div v-if="activeTab === 'team'" class="w-full sm:w-64">
-                <Dropdown 
-                    v-model="selectedMemberId" 
-                    :options="members"
-                    label-key="name"
-                    value-key="id" 
-                    searchable
+                <Dropdown v-model="selectedMemberId" :options="members" label-key="name" value-key="id" searchable
                     :search-placeholder="t('nav.reports.searchMemberPlaceholder', 'Name eingeben...')"
-                    :placeholder="t('nav.reports.selectMember', 'Mitglied filtern')" 
-                />
+                    :placeholder="t('nav.reports.selectMember', 'Mitglied filtern')" />
             </div>
         </div>
 
@@ -36,8 +31,8 @@
 import { ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useProjectStore } from '@/stores/project'
-import { useInvitationStore } from '@/stores/invitation'
 import { useAuthStore } from '@/stores/auth'
+import { useInvitationStore } from '@/stores/invitation'
 
 import TabButton from '@/components/TabButton.vue'
 import Me from '@/components/Me.vue'
@@ -56,49 +51,28 @@ const members = ref([])
 const loading = ref(false)
 const error = ref(null)
 
-// Lädt die Mitglieder und filtert den aktuellen User direkt heraus
+const currentUsername = authStore.getUsername()
+const me = members.value.find(m => m.name === currentUsername)
+const isAdmin = ref(false)
+
 async function loadMembers() {
-    if (!projectStore.selected) {
-        members.value = []
-        return
-    }
+    const data = await invitationStore.fetchMembers(projectStore.selected.id)
+    const allMembers = data || []
+    const currentUsername = authStore.getUsername()
     
-    loading.value = true
-    error.value = null
-    try {
-        const data = await invitationStore.fetchMembers(projectStore.selected.id)
-        const allMembers = data || []
-        
-        // Holt den aktuell eingeloggten Usernamen aus deinem Auth-Store
-        const currentUsername = authStore.getUsername() 
-        
-        // FILTER-LOGIK: Wir behalten nur Mitglieder, deren Name NICHT dem eigenen Usernamen entspricht
-        // (Sollte deine API ein Feld 'username' im Member-Objekt haben, kannst du auch m.username !== currentUsername nutzen)
-        members.value = allMembers.filter(m => m.name !== currentUsername)
-        
-        // Vorauswahl treffen: Setze das Dropdown automatisch auf das erste ANDERE Team-Mitglied, 
-        // sofern vorhanden, damit der Team-Tab nicht komplett leer startet.
-        if (members.value.length > 0) {
-            selectedMemberId.value = members.value[0].id
-        } else {
-            selectedMemberId.value = null
-        }
-        
-    } catch (err) {
-        error.value = err.message
-        members.value = []
-    } finally {
-        loading.value = false
-    }
+    const me = allMembers.find(m => m.name === currentUsername)
+    isAdmin.value = me?.isAdmin ?? false  // ← hier setzen, während alle Members noch drin sind
+
+    members.value = allMembers.filter(m => m.name !== currentUsername && !m.pending)
 }
 
 // Reagiert sofort auf Projektwechsel
 watch(
-    () => projectStore.selected, 
+    () => projectStore.selected,
     () => {
-        selectedMemberId.value = null 
+        selectedMemberId.value = null
         loadMembers()
-    }, 
+    },
     { immediate: true }
 )
 

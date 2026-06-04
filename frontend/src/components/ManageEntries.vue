@@ -54,7 +54,7 @@
 
             <!-- Rows -->
             <TransitionGroup v-else name="row" tag="div" class="divide-y divide-slate-300/40 dark:divide-slate-600/60">
-                <div v-for="entry in filteredEntries" :key="entry.id" 
+                <div v-for="entry in filteredEntries" :key="entry.id"
                     class="transition-all duration-200 pl-4 border-l-4"
                     :class="[editingId === entry.id ? 'bg-slate-300/30 dark:bg-slate-700/30 border-indigo-400 dark:border-indigo-400' : 'border-transparent']">
 
@@ -82,18 +82,19 @@
                         </div>
                     </div>
 
-                    <!-- Beautiful Grouped Contextual Edit Panel -->
+                    <!-- Edit Panel -->
                     <Transition name="expand">
                         <div v-if="editingId === entry.id" class="pr-6 pb-5">
                             <div class="bg-orange-50/60 dark:bg-slate-700/40 rounded-xl border border-indigo-200 dark:border-slate-500/40 shadow-sm p-4 space-y-4">
-                                
+
                                 <div class="flex items-center justify-between pb-2 border-b border-indigo-100 dark:border-slate-600/60">
                                     <span class="text-xs font-bold tracking-wider uppercase text-indigo-500 dark:text-indigo-300 flex items-center gap-1.5">
                                         <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"></span>
                                         {{ t('entries.editing') }}
                                     </span>
                                     <button @click="saveEntry(entry)"
-                                        class="px-4 py-1.5 text-xs font-semibold text-white transition-colors duration-150 bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600 shadow-sm cursor-pointer rounded-lg">
+                                        :disabled="draftTouched && !!draftTimeError"
+                                        class="px-4 py-1.5 text-xs font-semibold text-white transition-colors duration-150 bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600 shadow-sm cursor-pointer rounded-lg disabled:opacity-50 disabled:cursor-not-allowed">
                                         {{ t('entries.save') }}
                                     </button>
                                 </div>
@@ -108,11 +109,12 @@
                                     <div class="flex flex-col gap-1.5">
                                         <label class="text-[10px] font-bold tracking-widest uppercase text-slate-500 dark:text-slate-300">{{ t('entries.timeRange') }}</label>
                                         <div class="flex items-center gap-2">
-                                            <input type="time" v-model="draft.startTime"
+                                            <input type="time" v-model="draft.startTime" @change="draftTouched = true"
                                                 class="flex-1 px-3 py-2 text-sm border border-indigo-200 dark:border-slate-500 outline-none rounded-xl bg-orange-50 dark:bg-slate-500 text-slate-700 dark:text-orange-50 focus:ring-1 focus:ring-indigo-400" />
-                                            <span class="text-slate-400 dark:text-slate-300">—</span>
-                                            <input type="time" v-model="draft.endTime"
-                                                class="flex-1 px-3 py-2 text-sm border border-indigo-200 dark:border-slate-500 outline-none rounded-xl bg-orange-50 dark:bg-slate-500 text-slate-700 dark:text-orange-50 focus:ring-1 focus:ring-indigo-400" />
+                                            <span class="text-slate-400 dark:text-slate-300 shrink-0">—</span>
+                                            <input type="time" v-model="draft.endTime" @change="draftTouched = true"
+                                                class="flex-1 px-3 py-2 text-sm border border-indigo-200 dark:border-slate-500 outline-none rounded-xl bg-orange-50 dark:bg-slate-500 text-slate-700 dark:text-orange-50 focus:ring-1 focus:ring-indigo-400"
+                                                :class="{ 'border-red-400 dark:border-red-400 focus:ring-red-400': draftTouched && draftTimeError }" />
                                         </div>
                                     </div>
                                 </div>
@@ -124,6 +126,11 @@
                                         :placeholder="entry.description || t('entries.descriptionPlaceholder')"
                                         class="w-full px-4 py-2.5 text-sm border border-indigo-200 dark:border-slate-500 outline-none resize-none rounded-xl bg-orange-50 dark:bg-slate-500 text-slate-700 dark:text-orange-50 placeholder:text-slate-400 dark:placeholder:indigo-100/50 focus:ring-1 focus:ring-indigo-400" />
                                 </div>
+
+                                <!-- Time validation error -->
+                                <p v-if="draftTouched && draftTimeError" class="text-sm text-red-500 dark:text-red-400 -mt-2">
+                                    {{ draftTimeError }}
+                                </p>
                             </div>
                         </div>
                     </Transition>
@@ -155,6 +162,7 @@ const projectStore = useProjectStore()
 const searchQuery = ref('')
 const editingId = ref(null)
 const draft = reactive({ date: '', startTime: '', endTime: '', description: '' })
+const draftTouched = ref(false)
 
 const filteredEntries = computed(() => {
     const q = searchQuery.value.toLowerCase().trim()
@@ -172,6 +180,12 @@ const statusText = computed(() => {
     if (searchQuery.value && shown !== total)
         return `${shown} von ${total} ${t('entries.count')}`
     return `${total} ${t('entries.count')}`
+})
+
+const draftTimeError = computed(() => {
+    if (draft.endTime < draft.startTime) return 'End time cannot be before start time'
+    if (draft.endTime === draft.startTime) return 'Start and end time cannot be the same'
+    return null
 })
 
 function formatDate(iso) {
@@ -201,15 +215,23 @@ function toDateInput(iso) {
 }
 
 function toggleEdit(entry) {
-    if (editingId.value === entry.id) { editingId.value = null; return }
+    if (editingId.value === entry.id) {
+        editingId.value = null
+        draftTouched.value = false
+        return
+    }
     editingId.value = entry.id
     draft.date = toDateInput(entry.startTime)
     draft.startTime = toTimeInput(entry.startTime)
     draft.endTime = toTimeInput(entry.endTime)
     draft.description = entry.description ?? ''
+    draftTouched.value = false
 }
 
 async function saveEntry(entry) {
+    draftTouched.value = true
+    if (draftTimeError.value) return
+
     const startISO = new Date(`${draft.date}T${draft.startTime}:00`).toISOString()
     const endISO = new Date(`${draft.date}T${draft.endTime}:00`).toISOString()
     await entryStore.update(entry.id, {
@@ -218,6 +240,7 @@ async function saveEntry(entry) {
         endTime: endISO,
     })
     editingId.value = null
+    draftTouched.value = false
 }
 
 async function deleteEntry(entry) {

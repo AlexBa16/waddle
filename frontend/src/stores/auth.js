@@ -70,6 +70,10 @@ export const useAuthStore = defineStore("auth", () => {
         return await handleResponse(res); // null (204)
     }
 
+    function getUsername() {
+        return username.value;
+    }
+
     return {
         token,
         username,
@@ -79,5 +83,6 @@ export const useAuthStore = defineStore("auth", () => {
         logout,
         updateUsername,
         updatePassword,
+        getUsername,
     };
 });

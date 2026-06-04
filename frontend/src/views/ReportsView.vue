@@ -1,32 +1,112 @@
 <template>
-    <div class="flex flex-col justify-center items-center">
-        <!-- Reports Navigation -->
-        <div class="flex gap-5">
-            <TabButton :isActive="activeTab === 'me'" @click="activeTab = 'me'">{{ t('nav.reports.me') }}</TabButton>
-            <TabButton :isActive="activeTab === 'team'" @click="activeTab = 'team'">{{ t('nav.reports.team') }}</TabButton>
+    <div class="flex flex-col justify-center items-center w-full max-w-3xl mx-auto pt-6">
+        <div class="flex flex-col sm:flex-row gap-4 items-center w-full justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
+            <div class="flex gap-2">
+                <TabButton :isActive="activeTab === 'me'" @click="activeTab = 'me'">
+                    {{ t('nav.reports.me') }}
+                </TabButton>
+                <TabButton :isActive="activeTab === 'team'" @click="activeTab = 'team'">
+                    {{ t('nav.reports.team') }}
+                </TabButton>
+            </div>
+            
+            <div v-if="activeTab === 'team'" class="w-full sm:w-64">
+                <Dropdown 
+                    v-model="selectedMemberId" 
+                    :options="members"
+                    label-key="name"
+                    value-key="id" 
+                    searchable
+                    :search-placeholder="t('nav.reports.searchMemberPlaceholder', 'Name eingeben...')"
+                    :placeholder="t('nav.reports.selectMember', 'Mitglied filtern')" 
+                />
+            </div>
         </div>
-        
-        <!-- Reports Content -->
-        <div class="mt-10">
-            <component :is="currentTabComponent" />
+
+        <div v-if="loading" class="text-sm text-slate-500 mt-6 animate-pulse">Mitglieder werden geladen...</div>
+        <div v-else-if="error" class="text-sm text-red-500 mt-6">{{ error }}</div>
+
+        <div class="mt-10 w-full">
+            <component :is="currentTabComponent" :member-id="selectedMemberId" />
         </div>
     </div>
 </template>
 
 <script setup>
-import TabButton from '@/components/TabButton.vue';
-import Me from '@/components/Me.vue';
-import Team from '@/components/Team.vue';
+import { ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { ref, computed } from 'vue'
+import { useProjectStore } from '@/stores/project'
+import { useInvitationStore } from '@/stores/invitation'
+import { useAuthStore } from '@/stores/auth'
+
+import TabButton from '@/components/TabButton.vue'
+import Me from '@/components/Me.vue'
+import Team from '@/components/Team.vue'
+import Dropdown from '@/components/Dropdown.vue'
 
 const { t } = useI18n()
-const activeTab = ref('me');
+const projectStore = useProjectStore()
+const invitationStore = useInvitationStore()
+const authStore = useAuthStore()
 
+const activeTab = ref('me')
+const selectedMemberId = ref(null)
+
+const members = ref([])
+const loading = ref(false)
+const error = ref(null)
+
+// Lädt die Mitglieder und filtert den aktuellen User direkt heraus
+async function loadMembers() {
+    if (!projectStore.selected) {
+        members.value = []
+        return
+    }
+    
+    loading.value = true
+    error.value = null
+    try {
+        const data = await invitationStore.fetchMembers(projectStore.selected.id)
+        const allMembers = data || []
+        
+        // Holt den aktuell eingeloggten Usernamen aus deinem Auth-Store
+        const currentUsername = authStore.getUsername() 
+        
+        // FILTER-LOGIK: Wir behalten nur Mitglieder, deren Name NICHT dem eigenen Usernamen entspricht
+        // (Sollte deine API ein Feld 'username' im Member-Objekt haben, kannst du auch m.username !== currentUsername nutzen)
+        members.value = allMembers.filter(m => m.name !== currentUsername)
+        
+        // Vorauswahl treffen: Setze das Dropdown automatisch auf das erste ANDERE Team-Mitglied, 
+        // sofern vorhanden, damit der Team-Tab nicht komplett leer startet.
+        if (members.value.length > 0) {
+            selectedMemberId.value = members.value[0].id
+        } else {
+            selectedMemberId.value = null
+        }
+        
+    } catch (err) {
+        error.value = err.message
+        members.value = []
+    } finally {
+        loading.value = false
+    }
+}
+
+// Reagiert sofort auf Projektwechsel
+watch(
+    () => projectStore.selected, 
+    () => {
+        selectedMemberId.value = null 
+        loadMembers()
+    }, 
+    { immediate: true }
+)
+
+// Tab Switch Logik
 const tabComponents = {
     me: Me,
     team: Team
 }
 
-const currentTabComponent = computed(() => tabComponents[activeTab.value]);
+const currentTabComponent = computed(() => tabComponents[activeTab.value])
 </script>

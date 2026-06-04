@@ -46,7 +46,7 @@
 
                 <Dropdown :model-value="projectStore.selectedId" :options="projectStore.projects"
                     @update:model-value="projectStore.selectProject($event)" @create="showCreateForm = true"
-                    :placeholder="t('nav.selectProject')" />
+                    :placeholder="t('nav.selectProject')" show-create-button />
 
                 <!-- Replace your existing CreateProjectForm with this -->
                 <CreateProjectForm v-model="showCreateForm" @create="handleCreate" />

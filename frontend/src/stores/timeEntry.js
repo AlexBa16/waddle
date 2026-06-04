@@ -54,6 +54,10 @@ export const useTimeEntryStore = defineStore("timeEntry", () => {
                 `https://localhost/api/projects/${projectId}/time-entries`,
                 { headers: authHeaders() },
             );
+            if (res.status === 403) {
+                entries.value = [];
+                return;
+            }
             entries.value = await handleResponse(res);
         } catch (e) {
             error.value = e.message;
@@ -131,7 +135,7 @@ export const useTimeEntryStore = defineStore("timeEntry", () => {
 
             const start = new Date(entry.startTime);
             const end = new Date(entry.endTime);
-            const duration = (end - start) / 1000 / 60 ;
+            const duration = (end - start) / 1000 / 60;
 
             if (!map[uid]) {
                 map[uid] = {

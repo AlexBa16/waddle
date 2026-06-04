@@ -68,11 +68,10 @@ async function loadMembers() {
         isAdmin.value = me?.isAdmin ?? false
 
         members.value = allMembers.filter(m => m.name !== currentUsername && !m.pending)
-
-        // no auto-select → selectedMemberId stays null → team overview renders by default
         selectedMemberId.value = null
     } catch (err) {
-        error.value = err.message
+        // 403 = non-admin, silently ignore — just means team tab stays hidden
+        isAdmin.value = false
         members.value = []
     } finally {
         loading.value = false

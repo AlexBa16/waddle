@@ -54,7 +54,9 @@
             "distribution": "Time distribution",
             "selectMember": "Select member",
             "searchMemberPlaceholder": "Enter name...",
-            "teamTimeline": "Time of all members"
+            "teamTimeline": "Time of all members",
+            "trackedFor": "Tracked time for",
+            "timeEntries": "Time Entries"
         },
         "projectSettings": {
             "description": "Project settings",

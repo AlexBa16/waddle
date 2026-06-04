@@ -82,6 +82,7 @@ export const useInvitationStore = defineStore("invitation", () => {
             `https://localhost/api/projects/${projectId}/members`,
             { headers: authHeaders() },
         );
+        if (res.status === 403) return [];
         return await handleResponse(res);
     }
 

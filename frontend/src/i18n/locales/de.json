@@ -54,7 +54,9 @@
             "distribution": "Zeitverteilung",
             "selectMember": "Mitglied auswählen",
             "searchMemberPlaceholder": "Name eingeben...",
-            "teamTimeline": "Zeit aller Mitglieder"
+            "teamTimeline": "Zeit aller Mitglieder",
+            "trackedFor": "Erfasste Zeit für",
+            "timeEntries": "Zeiteinträge"
         },
         "projectSettings": {
             "description": "Projekteinstellungen",

@@ -6,7 +6,7 @@
                 <TabButton :isActive="activeTab === 'me'" @click="activeTab = 'me'">
                     {{ t('nav.reports.me') }}
                 </TabButton>
-                <TabButton v-if="isAdmin" :isActive="activeTab === 'team'" @click="activeTab = 'team'">
+                <TabButton v-if="isAdmin" :isActive="activeTab === 'team'" @click="activeTab = 'team'; selectedMemberId = null">
                     {{ t('nav.reports.team') }}
                 </TabButton>
             </div>
@@ -14,7 +14,7 @@
             <div v-if="activeTab === 'team'" class="w-full sm:w-64">
                 <Dropdown v-model="selectedMemberId" :options="members" label-key="name" value-key="id" searchable
                     :search-placeholder="t('nav.reports.searchMemberPlaceholder', 'Name eingeben...')"
-                    :placeholder="t('nav.reports.selectMember', 'Mitglied filtern')" />
+                    :placeholder="t('nav.reports.selectMember')" />
             </div>
         </div>
 
@@ -46,27 +46,39 @@ const authStore = useAuthStore()
 
 const activeTab = ref('me')
 const selectedMemberId = ref(null)
-
 const members = ref([])
 const loading = ref(false)
 const error = ref(null)
-
-const currentUsername = authStore.getUsername()
-const me = members.value.find(m => m.name === currentUsername)
 const isAdmin = ref(false)
 
 async function loadMembers() {
-    const data = await invitationStore.fetchMembers(projectStore.selected.id)
-    const allMembers = data || []
-    const currentUsername = authStore.getUsername()
-    
-    const me = allMembers.find(m => m.name === currentUsername)
-    isAdmin.value = me?.isAdmin ?? false  // ← hier setzen, während alle Members noch drin sind
+    if (!projectStore.selected) {
+        members.value = []
+        return
+    }
 
-    members.value = allMembers.filter(m => m.name !== currentUsername && !m.pending)
+    loading.value = true
+    error.value = null
+    try {
+        const data = await invitationStore.fetchMembers(projectStore.selected.id)
+        const allMembers = data || []
+        const currentUsername = authStore.getUsername()
+
+        const me = allMembers.find(m => m.name === currentUsername)
+        isAdmin.value = me?.isAdmin ?? false
+
+        members.value = allMembers.filter(m => m.name !== currentUsername && !m.pending)
+
+        // no auto-select → selectedMemberId stays null → team overview renders by default
+        selectedMemberId.value = null
+    } catch (err) {
+        error.value = err.message
+        members.value = []
+    } finally {
+        loading.value = false
+    }
 }
 
-// Reagiert sofort auf Projektwechsel
 watch(
     () => projectStore.selected,
     () => {

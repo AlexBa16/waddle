@@ -51,7 +51,10 @@
             "thisYear": "Dieses Jahr",
             "team": "Team",
             "myTimeline": "Meine erfasste Zeit",
-            "distribution": "Zeitverteilung"
+            "distribution": "Zeitverteilung",
+            "selectMember": "Mitglied auswählen",
+            "searchMemberPlaceholder": "Name eingeben...",
+            "teamTimeline": "Zeit aller Mitglieder"
         },
         "projectSettings": {
             "description": "Projekteinstellungen",

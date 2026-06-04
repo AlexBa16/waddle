@@ -1,80 +1,82 @@
 <template>
-    <div class="p-4 flex flex-col items-center w-full max-w-3xl mx-auto">
+    <div class="w-full">
+        <!-- If a member is selected in the dropdown, show their individual report -->
+        <Member v-if="selectedMember" :username="selectedMember.name" />
 
-        <!-- Timeline Card -->
-        <div class="w-full mb-6 bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-md shadow-black/5">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-sm font-semibold text-slate-700 dark:text-orange-50 tracking-wide">
-                    {{ t('nav.reports.teamTimeline') }}
+        <!-- Otherwise show the full team overview -->
+        <div v-else class="p-4 flex flex-col items-center w-full max-w-3xl mx-auto">
+
+            <!-- Timeline Card -->
+            <div class="w-full mb-6 bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-md shadow-black/5">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-sm font-semibold text-slate-700 dark:text-orange-50 tracking-wide">
+                        {{ t('nav.reports.teamTimeline') }}
+                    </h3>
+                    <select
+                        v-model="timeframe"
+                        class="text-xs font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-orange-50 px-3 py-1.5 rounded-lg border-none focus:ring-2 focus:ring-indigo-400 cursor-pointer"
+                    >
+                        <option value="week">{{ t('nav.reports.thisWeek') }}</option>
+                        <option value="month">{{ t('nav.reports.thisMonth') }}</option>
+                        <option value="year">{{ t('nav.reports.thisYear') }}</option>
+                    </select>
+                </div>
+
+                <div v-if="timelineChartData.labels.length === 0" class="text-gray-500 dark:text-gray-400 text-sm text-center py-8">
+                    {{ t('nav.reports.noTimeEntries') }}
+                </div>
+                <div v-else class="w-full h-48">
+                    <Bar :data="timelineChartData" :options="timelineChartOptions" />
+                </div>
+            </div>
+
+            <!-- Bottom: Member List + Pie Chart -->
+            <div class="w-full bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-md shadow-black/5">
+                <h3 class="text-sm font-semibold text-slate-700 dark:text-orange-50 tracking-wide mb-6 w-full text-left">
+                    {{ t('nav.reports.distribution') }}
                 </h3>
 
-                <select
-                    v-model="timeframe"
-                    class="text-xs font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-orange-50 px-3 py-1.5 rounded-lg border-none focus:ring-2 focus:ring-indigo-400 cursor-pointer"
-                >
-                    <option value="week">{{ t('nav.reports.thisWeek') }}</option>
-                    <option value="month">{{ t('nav.reports.thisMonth') }}</option>
-                    <option value="year">{{ t('nav.reports.thisYear') }}</option>
-                </select>
-            </div>
+                <div v-if="totalProjectMs === 0" class="text-gray-500 dark:text-gray-400 text-sm py-12 text-center">
+                    {{ t('nav.reports.noTimeEntries') }}
+                </div>
 
-            <div v-if="timelineChartData.labels.length === 0" class="text-gray-500 dark:text-gray-400 text-sm text-center py-8">
-                {{ t('nav.reports.noTimeEntries') }}
-            </div>
-            <div v-else class="w-full h-48">
-                <Bar :data="timelineChartData" :options="timelineChartOptions" />
-            </div>
-        </div>
-
-        <!-- Bottom: Member List + Pie Chart -->
-        <div class="w-full bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-md shadow-black/5">
-            <h3 class="text-sm font-semibold text-slate-700 dark:text-orange-50 tracking-wide mb-6 w-full text-left">
-                {{ t('nav.reports.distribution') }}
-            </h3>
-
-            <div v-if="totalProjectMs === 0" class="text-gray-500 dark:text-gray-400 text-sm py-12 text-center">
-                {{ t('nav.reports.noTimeEntries') }}
-            </div>
-
-            <div v-else class="flex flex-col sm:flex-row gap-8 items-center sm:items-start w-full">
-
-                <!-- Member List (left) -->
-                <div class="flex-1 w-full space-y-3">
-                    <div
-                        v-for="(member, idx) in memberStats"
-                        :key="member.userId"
-                        class="flex items-center gap-3"
-                    >
-                        <span
-                            class="inline-block w-3 h-3 rounded-full shrink-0"
-                            :style="{ background: memberColors[idx % memberColors.length] }"
-                        ></span>
-                        <span class="text-sm text-slate-600 dark:text-slate-300 flex-1 truncate">
-                            {{ member.username }}
-                        </span>
-                        <span class="text-sm font-semibold text-slate-700 dark:text-orange-50 tabular-nums">
-                            {{ formatHours(member.ms) }}
-                        </span>
-                        <div class="w-24 h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
-                            <div
-                                class="h-full rounded-full transition-all duration-500"
-                                :style="{
-                                    width: totalProjectMs > 0 ? `${(member.ms / totalProjectMs) * 100}%` : '0%',
-                                    background: memberColors[idx % memberColors.length]
-                                }"
-                            ></div>
+                <div v-else class="flex flex-col sm:flex-row gap-8 items-center sm:items-start w-full">
+                    <!-- Member List (left) -->
+                    <div class="flex-1 w-full space-y-3">
+                        <div
+                            v-for="(member, idx) in memberStats"
+                            :key="member.userId"
+                            class="flex items-center gap-3"
+                        >
+                            <span
+                                class="inline-block w-3 h-3 rounded-full shrink-0"
+                                :style="{ background: memberColors[idx % memberColors.length] }"
+                            ></span>
+                            <span class="text-sm text-slate-600 dark:text-slate-300 flex-1 truncate">
+                                {{ member.username }}
+                            </span>
+                            <span class="text-sm font-semibold text-slate-700 dark:text-orange-50 tabular-nums">
+                                {{ formatHours(member.ms) }}
+                            </span>
+                            <div class="w-24 h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+                                <div
+                                    class="h-full rounded-full transition-all duration-500"
+                                    :style="{
+                                        width: totalProjectMs > 0 ? `${(member.ms / totalProjectMs) * 100}%` : '0%',
+                                        background: memberColors[idx % memberColors.length]
+                                    }"
+                                ></div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Pie Chart (right) -->
-                <div class="w-52 h-52 shrink-0 flex items-center justify-center">
-                    <Pie :data="pieChartData" :options="pieChartOptions" />
+                    <!-- Pie Chart (right) -->
+                    <div class="w-52 h-52 shrink-0 flex items-center justify-center">
+                        <Pie :data="pieChartData" :options="pieChartOptions" />
+                    </div>
                 </div>
-
             </div>
         </div>
-
     </div>
 </template>
 
@@ -93,21 +95,38 @@ import {
 } from 'chart.js'
 import { useTimeEntryStore } from '@/stores/timeEntry'
 import { useProjectStore } from '@/stores/project'
+import { useInvitationStore } from '@/stores/invitation'
 import { useI18n } from 'vue-i18n'
+
+import Member from '@/components/Member.vue'
 
 const { t } = useI18n()
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale)
 
+const props = defineProps({
+    memberId: {
+        type: [Number, String],
+        default: null
+    }
+})
+
 const timeEntryStore = useTimeEntryStore()
 const projectStore = useProjectStore()
+const invitationStore = useInvitationStore()
 
 const timeframe = ref('week')
+const members = ref([])
 
 const memberColors = [
     '#7f84ff', '#ff7eb3', '#43d9a2', '#ffc764', '#60c3f7',
     '#b97fff', '#ff6b6b', '#4ecdc4', '#f7b731', '#a29bfe'
 ]
+
+// Resolve the full member object from the selected id
+const selectedMember = computed(() =>
+    props.memberId ? members.value.find(m => m.id === props.memberId) ?? null : null
+)
 
 const currentProjectId = computed(() => {
     const idOrObj = projectStore.selectedId
@@ -116,7 +135,18 @@ const currentProjectId = computed(() => {
 
 async function loadData(id) {
     if (!id || id === '[object Object]') return
-    await timeEntryStore.fetchByProject(id)
+    try {
+        await timeEntryStore.fetchByProject(id)
+    } catch {
+        // non-admin: silently ignore
+    }
+
+    try {
+        const data = await invitationStore.fetchMembers(id)
+        members.value = (data || []).filter(m => !m.pending)
+    } catch {
+        members.value = []
+    }
 }
 
 watch(currentProjectId, loadData, { immediate: true })
@@ -152,7 +182,6 @@ const totalProjectMs = computed(() =>
     timeEntryStore.entries.reduce((sum, e) => sum + msFromEntry(e), 0)
 )
 
-// Group entries by trackedBy.id → { userId, username, ms }
 const memberStats = computed(() => {
     const map = {}
     for (const entry of timeEntryStore.entries) {
@@ -184,7 +213,6 @@ const timelineChartData = computed(() => {
     startOfWeek.setHours(0, 0, 0, 0)
 
     const datasets = memberStats.value.map((member, idx) => {
-        // Match entries by trackedBy.id
         const memberEntries = entries.filter(e => e.trackedBy?.id === member.userId)
         const dailyMap = {}
 

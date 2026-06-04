@@ -51,7 +51,10 @@
             "thisYear": "This year",
             "team": "Team",
             "myTimeline": "My tracked time",
-            "distribution": "Time distribution"
+            "distribution": "Time distribution",
+            "selectMember": "Select member",
+            "searchMemberPlaceholder": "Enter name...",
+            "teamTimeline": "Time of all members"
         },
         "projectSettings": {
             "description": "Project settings",

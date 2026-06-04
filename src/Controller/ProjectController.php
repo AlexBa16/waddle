@@ -85,6 +85,10 @@ final class ProjectController extends AbstractController
             $this->em->remove($invitation);
         }
 
+        foreach ($project->getTimeEntries() as $entry) {
+            $this->em->remove($entry);
+        }
+
         $this->em->remove($project);
         $this->em->flush();
 

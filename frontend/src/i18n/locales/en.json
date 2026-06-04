@@ -44,6 +44,8 @@
         "reports": {
             "label": "Reports",
             "me": "Me",
+            "others": "Others",
+            "noTimeEntries": "No time entries found for this project.",
             "team": "Team"
         },
         "projectSettings": {

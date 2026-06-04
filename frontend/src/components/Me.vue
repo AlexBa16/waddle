@@ -1,18 +1,18 @@
 <template>
     <div class="p-4 flex flex-col items-center">
         <div v-if="totalProjectMs === 0" class="text-gray-500 dark:text-gray-400 text-sm mt-8">
-            Keine Zeiteinträge für dieses Projekt vorhanden.
+            {{ t('nav.reports.noTimeEntries') }}
         </div>
         <div v-else class="w-72 h-72">
             <Pie :data="chartData" :options="chartOptions" />
             <div class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400 space-y-1">
                 <div>
                     <span class="inline-block w-3 h-3 rounded-full mr-2" style="background:#7f84ff"></span>
-                    Ich: {{ formatHours(myProjectMs) }}
+                    {{ t('nav.reports.me') }}: {{ formatHours(myProjectMs) }}
                 </div>
                 <div>
                     <span class="inline-block w-3 h-3 rounded-full mr-2" style="background:#e2e3ff"></span>
-                    Andere: {{ formatHours(totalProjectMs - myProjectMs) }}
+                    {{ t('nav.reports.others') }}: {{ formatHours(totalProjectMs - myProjectMs) }}
                 </div>
             </div>
         </div>
@@ -25,6 +25,8 @@ import { Pie } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js'
 import { useTimeEntryStore } from '@/stores/timeEntry'
 import { useProjectStore } from '@/stores/project'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement)
 
@@ -80,7 +82,7 @@ function formatHours(ms) {
 }
 
 const chartData = computed(() => ({
-    labels: ['Ich', 'Andere'],
+    labels: [t('nav.reports.me'), t('nav.reports.others')],
     datasets: [{
         data: [myProjectMs.value, othersMs.value],
         backgroundColor: ['#7f84ff', '#e2e3ff'],

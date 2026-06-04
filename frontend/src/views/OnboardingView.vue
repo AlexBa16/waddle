@@ -51,7 +51,7 @@
                 {{ t('onboarding.configure') }}
             </h2>
             <div class="flex flex-col gap-2">
-                <RouterLink to="/settings"
+                <RouterLink to="/dashboard/settings"
                     class="flex items-center gap-4 px-5 py-4 rounded-xl bg-[#dde3ef] dark:bg-slate-700 hover:bg-[#cdd4e3] dark:hover:bg-slate-600 transition-colors group">
                     <span
                         class="flex items-center justify-center w-8 h-8 text-indigo-500 rounded-lg bg-indigo-400/20 dark:text-indigo-300 shrink-0">
@@ -71,7 +71,7 @@
                     </svg>
                 </RouterLink>
 
-                <RouterLink to="/inbox"
+                <RouterLink to="/dashboard/inbox"
                     class="flex items-center gap-4 px-5 py-4 rounded-xl bg-[#dde3ef] dark:bg-slate-700 hover:bg-[#cdd4e3] dark:hover:bg-slate-600 transition-colors group">
                     <span
                         class="flex items-center justify-center w-8 h-8 text-indigo-500 rounded-lg bg-indigo-400/20 dark:text-indigo-300 shrink-0">

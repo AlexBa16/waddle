@@ -10,8 +10,17 @@ import ProjectSettingsView from "@/views/ProjectSettingsView.vue";
 import InboxView from "@/views/InboxView.vue";
 import OnboardingView from "@/views/OnboardingView.vue";
 
-// Importiere deinen Pinia-Store
 import { useProjectStore } from "@/stores/project";
+
+const PROTECTED_ROUTES = [
+    "/dashboard/tracker",
+    "/dashboard/entrys",
+    "/dashboard/reports",
+    "/dashboard/project-settings",
+    "/dashboard/inbox",
+    "/dashboard/settings",
+    "/dashboard/onboarding",
+];
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,7 +33,7 @@ const router = createRouter({
             component: DashboardView,
             meta: { requiresAuth: true },
             children: [
-                { path: "", name: "dashboard-home", component: { render: () => null } }, 
+                { path: "", name: "dashboard-home", component: { render: () => null } },
                 { path: "onboarding", component: OnboardingView },
                 { path: "tracker", component: TrackerView },
                 { path: "entrys", component: EntryView },
@@ -53,16 +62,25 @@ router.beforeEach(async (to) => {
     if (token) {
         const projectStore = useProjectStore();
 
-        // Projekte noch nicht geladen? Jetzt laden (await!), damit hasProject stimmt.
-        // loadProjects() handled 401 itself — if token is stale it calls logout() + redirect.
-        if (projectStore.projects.length === 0 && !projectStore.loading) {
-            await projectStore.loadProjects();
+        // WICHTIG: Wenn der Store lädt oder noch leer ist, lade die Projekte 
+        // und warte, bis die API-Antwort wirklich im Store angekommen ist.
+        if (projectStore.projects.length === 0) {
+            // Falls noch gar nicht geladen wird, Ladevorgang starten
+            if (!projectStore.loading) {
+                await projectStore.loadProjects();
+            } else {
+                // Falls der Store schon von woanders getriggert wurde und lädt,
+                // warten wir hier, bis "loading" wieder false ist.
+                while (projectStore.loading) {
+                    await new Promise(resolve => setTimeout(resolve, 50));
+                }
+            }
         }
 
-        // Die Wahrheit liegt im Store, nicht im alten LocalStorage!
+        // Erst JETZT, nachdem das `await` komplett durch ist, bestimmen wir den finalen Zustand!
         const hasProject = projectStore.projects && projectStore.projects.length > 0;
 
-        // Falls der LocalStorage lügt (z.B. ID steht noch drin, aber Store ist leer): Löschen!
+        // Falls der LocalStorage lügt: Löschen!
         if (!hasProject && localStorage.getItem("lastSelectedProjectId")) {
             localStorage.removeItem("lastSelectedProjectId");
         }

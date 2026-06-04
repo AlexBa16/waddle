@@ -46,7 +46,12 @@
             "me": "Ich",
             "others": "Andere",
             "noTimeEntries": "Keine Zeiteinträge für dieses Projekt gefunden.",
-            "team": "Team"
+            "thisWeek": "Diese Woche",
+            "thisMonth": "Dieser Monat",
+            "thisYear": "Dieses Jahr",
+            "team": "Team",
+            "myTimeline": "Meine erfasste Zeit",
+            "distribution": "Zeitverteilung"
         },
         "projectSettings": {
             "description": "Projekteinstellungen",

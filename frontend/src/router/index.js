@@ -49,19 +49,14 @@ router.beforeEach(async (to) => {
         return { path: "/login" };
     }
 
-    if (token && (to.path === "/login" || to.path === "/register")) {
-        return { path: "/dashboard" };
-    }
-
     // Logik für eingeloggte User
     if (token) {
         const projectStore = useProjectStore();
 
-        // Falls die Projekte im Store noch gar nicht geladen wurden, warten wir kurz darauf.
-        // Das verhindert, dass beim ersten Seiten-Refresh fälschlicherweise "0 Projekte" angenommen wird.
-        if (!projectStore.projects || projectStore.projects.length === 0 && projectStore.loading) {
-            // Falls du eine fetch-Methode im Store hast, kannst du sie hier awaiten, z.B.:
-            // await projectStore.fetchProjects()
+        // Projekte noch nicht geladen? Jetzt laden (await!), damit hasProject stimmt.
+        // loadProjects() handled 401 itself — if token is stale it calls logout() + redirect.
+        if (projectStore.projects.length === 0 && !projectStore.loading) {
+            await projectStore.loadProjects();
         }
 
         // Die Wahrheit liegt im Store, nicht im alten LocalStorage!

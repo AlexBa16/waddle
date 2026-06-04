@@ -21,12 +21,20 @@ export const useProjectStore = defineStore("project", () => {
     }
 
     async function handleResponse(res) {
+        if (res.status === 401) {
+            // Token is stale/invalid — wipe it and send to login
+            const auth = useAuthStore();
+            auth.logout();
+            // Lazy import to avoid circular dependency
+            const { default: router } = await import("@/router");
+            router.push("/login");
+            throw new Error("Unauthorized");
+        }
+
         if (res.status === 204) return null;
 
         const text = await res.text();
-
         let body = null;
-
         try {
             body = text ? JSON.parse(text) : null;
         } catch {

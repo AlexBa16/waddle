@@ -65,6 +65,7 @@
 
 <script setup>
 import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import BackIcon from '@/assets/Inbox/light/go-back.svg'
 import BackIconDark from '@/assets/Inbox/dark/go-back.svg'
 import Message from '@/components/Message.vue'
@@ -72,16 +73,19 @@ import { useI18n } from 'vue-i18n'
 import { useInvitationStore } from '@/stores/invitation'
 import { useProjectStore } from '@/stores/project'
 
-
 const { t } = useI18n()
+const router = useRouter()
 const invitationStore = useInvitationStore()
 const projectStore = useProjectStore()
 
 onMounted(() => invitationStore.loadReceived())
 
 async function acceptInvitation(id) {
-  await invitationStore.respond(id, 'accept'),
-  await projectStore.loadProjects();
+  await invitationStore.respond(id, 'accept')
+  await projectStore.loadProjects()
+  // Navigate to tracker so the new project context is fully established
+  // before the user visits any view that depends on selectedId (like Reports)
+  router.push('/dashboard/tracker')
 }
 
 async function declineInvitation(id) {

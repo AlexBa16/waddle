@@ -36,12 +36,23 @@ const currentProjectId = computed(() => {
     return idOrObj && typeof idOrObj === 'object' ? idOrObj.id : idOrObj
 })
 
-watch(currentProjectId, (id) => {
+function loadData(id) {
     if (id && id !== '[object Object]') {
         timeEntryStore.fetchByProject(id)
         timeEntryStore.fetchByUser()
     }
-}, { immediate: true })
+}
+
+// Fires when project changes (covers normal navigation)
+watch(currentProjectId, loadData, { immediate: true })
+
+// Fires if Me.vue mounted before selectedId was set (e.g. right after invite accept)
+// Once selectedId appears, load immediately
+watch(() => projectStore.selectedId, (id) => {
+    if (id && timeEntryStore.entries.length === 0) {
+        loadData(typeof id === 'object' ? id.id : id)
+    }
+})
 
 function msFromEntry(entry) {
     const start = new Date(entry.startTime).getTime()
@@ -49,13 +60,10 @@ function msFromEntry(entry) {
     return (!isNaN(start) && !isNaN(end)) ? end - start : 0
 }
 
-// Total time for the whole project (all entries)
 const totalProjectMs = computed(() =>
     timeEntryStore.entries.reduce((sum, e) => sum + msFromEntry(e), 0)
 )
 
-// My time: sum of myEntries that belong to this project
-// fetchByUser returns all my entries across all projects, so filter by current project
 const myProjectMs = computed(() => {
     const projectId = currentProjectId.value
     return timeEntryStore.myEntries

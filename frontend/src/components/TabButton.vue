@@ -7,8 +7,8 @@
       
       // Light Mode & Dark Mode State Logic
       isActive 
-        ? 'bg-[#5b61ff] dark:bg-[#25239a]' // Saturated/Active State
-        : 'bg-[#7f84ff] dark:bg-[#312e93]'  // Standard State (Matching your images)
+        ? 'bg-indigo-600 dark:bg-indigo-800' // Saturated/Active State
+        : 'bg-indigo-400 dark:bg-indigo-700'  // Standard State (Matching your images)
     ]"
     @click="$emit('click')"
   >

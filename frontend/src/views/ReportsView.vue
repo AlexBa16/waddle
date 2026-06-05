@@ -6,7 +6,8 @@
                 <TabButton :isActive="activeTab === 'me'" @click="activeTab = 'me'">
                     {{ t('nav.reports.me') }}
                 </TabButton>
-                <TabButton v-if="isAdmin" :isActive="activeTab === 'team'" @click="activeTab = 'team'; selectedMemberId = null">
+                <TabButton v-if="isAdmin" :isActive="activeTab === 'team'"
+                    @click="activeTab = 'team'; selectedMemberId = null">
                     {{ t('nav.reports.team') }}
                 </TabButton>
             </div>
@@ -24,6 +25,9 @@
         <div class="mt-10 w-full">
             <component :is="currentTabComponent" :member-id="selectedMemberId" />
         </div>
+        <div class="mt-10 flex justify-end w-full text-sm text-slate-500">
+            <Export :is-admin="isAdmin"/>
+        </div>
     </div>
 </template>
 
@@ -38,6 +42,7 @@ import TabButton from '@/components/TabButton.vue'
 import Me from '@/components/Me.vue'
 import Team from '@/components/Team.vue'
 import Dropdown from '@/components/Dropdown.vue'
+import Export from '@/components/Export.vue'
 
 const { t } = useI18n()
 const projectStore = useProjectStore()

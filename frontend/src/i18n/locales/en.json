@@ -56,7 +56,32 @@
             "searchMemberPlaceholder": "Enter name...",
             "teamTimeline": "Time of all members",
             "trackedFor": "Tracked time for",
-            "timeEntries": "Time Entries"
+            "timeEntries": "Time Entries",
+            "exportLabel": "Export as CSV",
+            "exportModal": {
+                "title": "Export as CSV",
+                "timeframe": "Time Range",
+                "week": "Week",
+                "month": "Month",
+                "year": "Year",
+                "custom": "Custom",
+                "from": "From",
+                "to": "To",
+                "scope": "Export Scope",
+                "scopeMe": "My Entries",
+                "scopeTeam": "Entire Team",
+                "scopeMember": "Specific Member",
+                "memberSearchPlaceholder": "Enter name...",
+                "memberPlaceholder": "Select member",
+                "cancel": "Cancel",
+                "export": "Export",
+                "csvDate": "Date",
+                "csvFrom": "From",
+                "csvTo": "To",
+                "csvDuration": "Duration",
+                "csvDescription": "Description",
+                "csvUser": "User"
+            }
         },
         "projectSettings": {
             "description": "Project settings",

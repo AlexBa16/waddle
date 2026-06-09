@@ -36,6 +36,7 @@
             <p v-else-if="timeEntryStore.error" class="text-sm text-red-500 dark:text-red-400">{{ timeEntryStore.error }}</p>
         </div>
     </div>
+    <Toast ref="toast" />
 </template>
 
 <script setup>
@@ -46,6 +47,7 @@ import { useI18n } from 'vue-i18n'
 import { ref, computed } from 'vue'
 import { useTimeEntryStore } from '@/stores/timeEntry'
 import { useProjectStore } from '@/stores/project'
+import Toast from './Toast.vue'
 
 const { t } = useI18n()
 
@@ -62,6 +64,8 @@ const startTime = ref(`${pad(now.getHours())}:${pad(now.getMinutes())}`)
 const endTime = ref(`${pad(now.getHours())}:${pad(now.getMinutes())}`)
 const saving = ref(false)
 const touched = ref(false)
+
+const toast = ref(null)
 
 function onStartChange() {
     touched.value = true
@@ -106,6 +110,7 @@ async function save() {
         const after = new Date()
         startTime.value = `${pad(after.getHours())}:${pad(after.getMinutes())}`
         endTime.value = `${pad(after.getHours())}:${pad(after.getMinutes())}`
+        toast.value.success(t('nav.add.entryAdded'))
     }
 }
 </script>

@@ -33,12 +33,14 @@
             "label": "Tracken",
             "placeholder": "Beschreibe für was du trackst...",
             "start-timer": "Timer starten",
-            "stop-timer": "Timer stoppen"
+            "stop-timer": "Timer stoppen",
+            "timerStopped": "Timer wurde gestoppt und ein Eintrag wurde erstellt"
         },
         "add": {
             "label": "Eintrag hinzufügen",
             "placeholder": "Beschreibe für was du einen Eintrag hinzufügst...",
-            "timeframe": "Zeitraum"
+            "timeframe": "Zeitraum",
+            "entryAdded": "Eintrag wurd hinzugefügt und gespeichert"
         },
         "entrys": "Einträge",
         "reports": {

@@ -28,6 +28,7 @@
             </div>
         </div>
     </div>
+    <Toast ref="toast" />
 </template>
 
 <script setup>
@@ -38,11 +39,13 @@ import { useI18n } from 'vue-i18n'
 import { ref, computed, onUnmounted } from 'vue'
 import { useRunningTimerStore } from '@/stores/runningTimer'
 import { useProjectStore } from '@/stores/project'
+import Toast from '@/components/Toast.vue'
 
 const { t } = useI18n()
 const runningTimerStore = useRunningTimerStore()
 const projectStore = useProjectStore()
-
+const toast = ref(null)
+// Sekunden direkt hochzählen statt computed aus Store
 const displaySeconds = ref(
     runningTimerStore.startTime
         ? Math.floor((Date.now() - new Date(runningTimerStore.startTime).getTime()) / 1000)
@@ -75,6 +78,7 @@ async function toggleTimer() {
         await runningTimerStore.stop()
         displaySeconds.value = 0
         runningTimerStore.description = ''
+        toast.value.success(t('nav.track.timerStopped'))
     } else {
         runningTimerStore.start(runningTimerStore.description, projectStore.selectedId)
         startTicking()

@@ -22,7 +22,7 @@
             "description": "Projekt erstellen",
             "title": "Neues Projekt",
             "placeholder-name": "z.B. Website Relaunch",
-            "label-description": "Abbrechen",
+            "label-description": "Beschreibung",
             "placeholder-description": "Worum geht es in diesem Projekt? ...",
             "label-identifier": "Kennung für Zeiteinträge",
             "info-identifier": "Fügt jedem Zeiteintrag dieses Projekts einen Bezeichner hinzu. Dies kann verwendet werden, um Zeiteinträge in Berichten zu filtern, z.B. durch die Verwendung von #website.",

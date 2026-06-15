@@ -22,7 +22,7 @@
             "description": "Create project",
             "title": "New Project",
             "placeholder-name": "e.g. Website Relaunch",
-            "label-description": "Cancel",
+            "label-description": "Description",
             "placeholder-description": "What is this project about? ...",
             "label-identifier": "Identifier for time entries",
             "info-identifier": "Adds an identifier to each time entry of this project. This can be used to filter time entries in reports, e.g. by using #website.",

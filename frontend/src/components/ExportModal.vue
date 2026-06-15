@@ -300,6 +300,7 @@ function calcDuration(start, end) {
 
 function entriesToCSV(entries) {
     const header = [
+        'ID',
         t('nav.reports.exportModal.csvDate'),
         t('nav.reports.exportModal.csvFrom'),
         t('nav.reports.exportModal.csvTo'),
@@ -307,7 +308,9 @@ function entriesToCSV(entries) {
         t('nav.reports.exportModal.csvDescription'),
         t('nav.reports.exportModal.csvUser'),
     ]
-    const rows = entries.map(e => [
+    const sorted = [...entries].sort((a, b) => new Date(a.startTime) - new Date(b.startTime))
+    const rows = sorted.map((e, i) => [
+        i + 1,
         formatDate(e.startTime),
         formatTime(e.startTime),
         formatTime(e.endTime),

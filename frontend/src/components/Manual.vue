@@ -75,8 +75,8 @@ function onStartChange() {
 }
 
 const timeError = computed(() => {
-    if (endTime.value < startTime.value) return 'End time cannot be before start time'
-    if (endTime.value === startTime.value) return 'Start and end time cannot be the same'
+    if (endTime.value < startTime.value) return t('entries.errors.endBeforeStart')
+    if (endTime.value === startTime.value) return t('entries.errors.sameStartTimeEndTime')
     return null
 })
 

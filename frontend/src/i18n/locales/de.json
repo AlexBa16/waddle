@@ -186,7 +186,7 @@
         "loading": "Laden ...",
         "errors": {
             "endBeforeStart": "Endzeit darf nicht vor der Startzeit liegen",
-            "sameStartEnd": "Start- und Endzeit dürfen nicht gleich sein"
+            "sameStartTimeEndTime": "Start- und Endzeit dürfen nicht gleich sein"
         }
     }
 }

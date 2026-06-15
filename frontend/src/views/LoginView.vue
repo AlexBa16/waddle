@@ -24,6 +24,10 @@
                         <Input v-model="form.username" type="text" :label="t('register.username')" class="w-full" />
                         <Input v-model="form.password" type="password" :label="t('register.password')" class="w-full" />
 
+                        <div v-if="v$.$error" class="text-sm text-red-500">
+                            <p v-if="v$.username.$error">Benutzername ist erforderlich.</p>
+                            <p v-if="v$.password.$error">Passwort ist erforderlich.</p>
+                        </div>
                         <p v-if="error" class="text-sm text-red-500">{{ error }}</p>
 
                         <Button :disabled="loading" class="w-full">
@@ -33,7 +37,7 @@
 
                     <div class="mt-4 text-center">
                         <a href="/register" class="text-sm underline text-slate-600 hover:text-slate-800 dark:text-orange-50 dark:hover:text-blue-100">
-                            {{t('login.registerInfo')}}
+                            {{ t('login.registerInfo') }}
                         </a>
                     </div>
                 </div>
@@ -44,9 +48,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { useRoute } from 'vue-router'
+import { ref, computed, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { useVuelidate } from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
 import { useAuthStore } from '@/stores/auth'
 import { useI18n } from 'vue-i18n'
 import Input from '@/components/Input.vue'
@@ -59,13 +64,19 @@ import MountainsSmallDark from '@/assets/mountain-small-dark.svg'
 import MountainsBigDark from '@/assets/mountain-big-dark.svg'
 import Toast from '@/components/Toast.vue'
 
-
-const {t} = useI18n();
+const { t } = useI18n()
 
 const form = ref({
-    username: '', 
+    username: '',
     password: '',
 })
+
+const rules = computed(() => ({
+    username: { required },
+    password: { required },
+}))
+
+const v$ = useVuelidate(rules, form)
 
 const router = useRouter()
 const route = useRoute()
@@ -76,13 +87,17 @@ const error = ref(null)
 const loading = ref(false)
 
 onMounted(() => {
-  if (route.query.msg === 'saved') {
-    toast.value.success(t('login.savedSettings'))
-  }
+    if (route.query.msg === 'saved') {
+        toast.value.success(t('login.savedSettings'))
+    }
 })
 
 async function login() {
     error.value = null
+
+    const valid = await v$.value.$validate()
+    if (!valid) return
+
     loading.value = true
 
     try {
@@ -102,7 +117,7 @@ async function login() {
 
         const data = await response.json()
         auth.setToken(data.token)
-        auth.setUsername(form.value.username) 
+        auth.setUsername(form.value.username)
         router.push('/dashboard')
 
     } catch (e) {

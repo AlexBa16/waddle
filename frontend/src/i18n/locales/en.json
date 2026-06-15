@@ -176,6 +176,10 @@
         "move": "Move",
         "delete": "Delete",
         "descriptionPlaceholder": "Previous description will be shown here",
-        "loading": "Laden ..."
+        "loading": "Loading ...",
+        "errors": {
+            "endBeforeStart": "End time cannot be before start time",
+            "sameStartEnd": "Start and end time cannot be the same"
+        }
     }
 }

@@ -183,8 +183,8 @@ const statusText = computed(() => {
 })
 
 const draftTimeError = computed(() => {
-    if (draft.endTime < draft.startTime) return 'End time cannot be before start time'
-    if (draft.endTime === draft.startTime) return 'Start and end time cannot be the same'
+    if (draft.endTime < draft.startTime) return t('entries.errors.endBeforeStart')
+    if (draft.endTime === draft.startTime) return t('entries.errors.sameStartEnd')
     return null
 })
 

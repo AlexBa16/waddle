@@ -22,11 +22,12 @@
             "description": "Projekt erstellen",
             "title": "Neues Projekt",
             "placeholder-name": "z.B. Website Relaunch",
-            "label-description": "Beschreibung",
+            "label-description": "Abbrechen",
             "placeholder-description": "Worum geht es in diesem Projekt? ...",
             "label-identifier": "Kennung für Zeiteinträge",
             "info-identifier": "Fügt jedem Zeiteintrag dieses Projekts einen Bezeichner hinzu. Dies kann verwendet werden, um Zeiteinträge in Berichten zu filtern, z.B. durch die Verwendung von #website.",
-            "error": "Projekt konnte nicht erstellt werden:"
+            "error": "Projekt konnte nicht erstellt werden:",
+            "createButton": "Projekt erstellen"
         },
         "tracker": "Tracker",
         "track": {
@@ -111,7 +112,10 @@
             "members": "Mitglieder",
             "deleteProject": {
                 "description": "Projekt permanent löschen",
-                "button": "Projekt löschen"
+                "button": "Projekt löschen",
+                "confirmTitle": "Projekt löschen",
+                "confirmMessage": "Bist du sicher, dass du dieses Projekt löschen möchtest? Dieser Vorgang kann nicht rückgängig gemacht werden.",
+                "cancel": "Abbrechen"
             },
             "invite": "Einladen",
             "noUsersFound": "Keine Benutzer gefunden"
@@ -142,7 +146,10 @@
             "beingSaved": "Wird gespeichert.."
         },
         "profile": {
-            "logout": "Ausloggen"
+            "logout": "Abmelden",
+            "logoutConfirmTitle": "Abmelden",
+            "logoutConfirmMessage": "Bist du sicher, dass du dich abmelden möchtest?",
+            "cancel": "Abbrechen"
         }
     },
     "onboarding": {

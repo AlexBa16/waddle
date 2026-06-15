@@ -7,24 +7,36 @@
         </div>
         <button
             class="font-medium transition-all duration-200 bg-red-500 shadow-lg cursor-pointer text-orange-50 sm:px-5 lg:px-10 sm:py-4 rounded-xl sm:rounded-2xl sm:text-base lg:text-md hover:bg-red-600"
-            @click="handleDelete(projectStore.selectedId)">
+            @click="confirmOpen = true">
             {{ t('nav.projectSettings.deleteProject.button') }}
         </button>
+
+        <ConfirmModal
+            v-model="confirmOpen"
+            :title="t('nav.projectSettings.deleteProject.confirmTitle')"
+            :message="t('nav.projectSettings.deleteProject.confirmMessage')"
+            :confirm-text="t('nav.projectSettings.deleteProject.button')"
+            :cancel-text="t('nav.projectSettings.deleteProject.cancel')"
+            @confirm="handleDelete(projectStore.selectedId)"
+        />
     </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n'
 import { useProjectStore } from '@/stores/project.js';
+import ConfirmModal from './ConfirmModal.vue';
+
 const router = useRouter();
 const projectStore = useProjectStore();
 const { t } = useI18n()
 
-function handleDelete(id) {
-    if (confirm('Bist du sicher, dass du dieses Projekt löschen möchtest? Dieser Vorgang kann nicht rückgängig gemacht werden.')) {
-        projectStore.removeProject(id);
-        router.push('/dashboard');
-    }
+const confirmOpen = ref(false)
+
+async function handleDelete(id) {
+    await projectStore.removeProject(id)
+    router.push('/dashboard')
 }
 </script>

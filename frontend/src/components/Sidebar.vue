@@ -102,12 +102,14 @@ import Profile from '@/components/Profile.vue'
 import CreateProjectForm from '@/components/CreateProjectForm.vue'
 import { useProjectStore } from '@/stores/project'
 import { useInvitationStore } from '@/stores/invitation'
+import { useAuthStore } from '@/stores/auth'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const projectStore = useProjectStore()
 const invitationStore = useInvitationStore()
+const authStore = useAuthStore()
 const showCreateForm = ref(false)
 const isOpen = ref(false)
 const { t } = useI18n()
@@ -116,6 +118,7 @@ const hasPendingInvitations = computed(() => invitationStore.received.length > 0
 // Track if we're on desktop (lg breakpoint = 1024px)
 const windowWidth = ref(window.innerWidth)
 const isDesktop = computed(() => windowWidth.value >= 1024)
+const isAdmin = ref(false)
 
 function onResize() {
     windowWidth.value = window.innerWidth
@@ -125,14 +128,36 @@ function onResize() {
 onMounted(() => window.addEventListener('resize', onResize))
 onUnmounted(() => window.removeEventListener('resize', onResize))
 
+watch(
+    () => projectStore.selected,
+    async (project) => {
+        if (!project) {
+            isAdmin.value = false
+            return
+        }
+        try {
+            const data = await invitationStore.fetchMembers(project.id)
+            const currentUsername = authStore.getUsername()
+            const me = (data || []).find(m => m.name === currentUsername)
+            isAdmin.value = me?.isAdmin ?? false
+        } catch {
+            isAdmin.value = false
+        }
+    },
+    { immediate: true }
+)
+
 const navItems = computed(() => {
     if (!projectStore.selectedId) return []
-    return [
+    const items = [
         { label: t('nav.tracker'), iconPathLight: TrackerIconLight, iconPathDark: TrackerIconDark, to: '/dashboard/tracker' },
         { label: t('nav.entrys'), iconPathLight: EntryIconLight, iconPathDark: EntryIconDark, to: '/dashboard/entrys' },
         { label: t('nav.reports.label'), iconPathLight: ReportIconLight, iconPathDark: ReportIconDark, to: '/dashboard/reports' },
-        { label: t('nav.projectSettings.description'), iconPathLight: ProjectSettingsIconLight, iconPathDark: ProjectSettingsIconDark, to: '/dashboard/project-settings' },
     ]
+    if (isAdmin.value) {
+        items.push({ label: t('nav.projectSettings.description'), iconPathLight: ProjectSettingsIconLight, iconPathDark: ProjectSettingsIconDark, to: '/dashboard/project-settings' })
+    }
+    return items
 })
 
 const personalNavItems = computed(() => [

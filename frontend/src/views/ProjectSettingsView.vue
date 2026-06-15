@@ -170,7 +170,7 @@ async function saveSettings() {
                 form.value.description,
             );
         }
-        successMsg.value = "Einstellungen gespeichert!";
+        successMsg.value = t("nav.settings.saved");
     } catch (e) {
         errorMsg.value = e.message;
     } finally {

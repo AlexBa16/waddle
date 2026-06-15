@@ -99,8 +99,13 @@ export const useTimeEntryStore = defineStore("timeEntry", () => {
                 },
             );
             const updated = await handleResponse(res);
+
             const index = entries.value.findIndex((e) => e.id === id);
             if (index !== -1) entries.value[index] = updated;
+
+            const myIndex = myEntries.value.findIndex((e) => e.id === id); // ← add
+            if (myIndex !== -1) myEntries.value[myIndex] = updated; // ← add
+
             return updated;
         } catch (e) {
             error.value = e.message;
@@ -118,7 +123,9 @@ export const useTimeEntryStore = defineStore("timeEntry", () => {
                 },
             );
             await handleResponse(res);
+
             entries.value = entries.value.filter((e) => e.id !== id);
+            myEntries.value = myEntries.value.filter((e) => e.id !== id); // ← add
         } catch (e) {
             error.value = e.message;
         }

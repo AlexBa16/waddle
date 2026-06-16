@@ -33,7 +33,11 @@ const router = createRouter({
             component: DashboardView,
             meta: { requiresAuth: true },
             children: [
-                { path: "", name: "dashboard-home", component: { render: () => null } },
+                {
+                    path: "",
+                    name: "dashboard-home",
+                    component: { render: () => null },
+                },
                 { path: "onboarding", component: OnboardingView },
                 { path: "tracker", component: TrackerView },
                 { path: "entrys", component: EntryView },
@@ -52,52 +56,46 @@ const router = createRouter({
 
 router.beforeEach(async (to) => {
     const token = localStorage.getItem("token");
-    
-    // 1. Uneingeloggt -> Immer zu Login (außer Register)
+
     if (!token && to.path !== "/login" && to.path !== "/register") {
         return { path: "/login" };
     }
 
-    // Logik für eingeloggte User
     if (token) {
         const projectStore = useProjectStore();
 
-        // WICHTIG: Wenn der Store lädt oder noch leer ist, lade die Projekte 
-        // und warte, bis die API-Antwort wirklich im Store angekommen ist.
         if (projectStore.projects.length === 0) {
-            // Falls noch gar nicht geladen wird, Ladevorgang starten
             if (!projectStore.loading) {
                 await projectStore.loadProjects();
             } else {
-                // Falls der Store schon von woanders getriggert wurde und lädt,
-                // warten wir hier, bis "loading" wieder false ist.
                 while (projectStore.loading) {
-                    await new Promise(resolve => setTimeout(resolve, 50));
+                    await new Promise((resolve) => setTimeout(resolve, 50));
                 }
             }
         }
 
-        // Erst JETZT, nachdem das `await` komplett durch ist, bestimmen wir den finalen Zustand!
-        const hasProject = projectStore.projects && projectStore.projects.length > 0;
+        const hasProject =
+            projectStore.projects && projectStore.projects.length > 0;
 
-        // Falls der LocalStorage lügt: Löschen!
         if (!hasProject && localStorage.getItem("lastSelectedProjectId")) {
             localStorage.removeItem("lastSelectedProjectId");
         }
 
-        // Falls man direkt auf /dashboard landet
         if (to.path === "/dashboard" || to.path === "/dashboard/") {
-            return hasProject 
-                ? { path: "/dashboard/tracker" } 
+            return hasProject
+                ? { path: "/dashboard/tracker" }
                 : { path: "/dashboard/onboarding" };
         }
 
-        // 2. Eingeloggt, aber kein Projekt -> Darf NUR Onboarding, Settings oder Inbox sehen
-        if (!hasProject && to.path !== "/dashboard/onboarding" && to.path !== "/dashboard/settings" && to.path !== "/dashboard/inbox") {
+        if (
+            !hasProject &&
+            to.path !== "/dashboard/onboarding" &&
+            to.path !== "/dashboard/settings" &&
+            to.path !== "/dashboard/inbox"
+        ) {
             return { path: "/dashboard/onboarding" };
         }
 
-        // 3. Eingeloggt und hat Projekt -> Darf nicht mehr aufs Onboarding
         if (hasProject && to.path === "/dashboard/onboarding") {
             return { path: "/dashboard/tracker" };
         }

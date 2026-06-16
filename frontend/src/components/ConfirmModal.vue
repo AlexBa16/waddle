@@ -6,16 +6,13 @@
                 class="fixed inset-0 z-100 flex items-center justify-center"
                 @mousedown.self="cancel"
             >
-                <!-- Backdrop -->
                 <div
                     class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
                 />
 
-                <!-- Panel -->
                 <div
                     class="relative w-full max-w-md mx-4 overflow-hidden bg-white shadow-2xl dark:bg-slate-800 rounded-3xl"
                 >
-                    <!-- Header bar -->
                     <div
                         class="bg-[#7C86FF] px-8 py-6 flex items-center justify-between"
                     >
@@ -55,7 +52,6 @@
                         </button>
                     </div>
 
-                    <!-- Body -->
                     <div class="flex flex-col gap-2 px-8 py-7">
                         <p
                             class="text-sm font-medium leading-relaxed text-slate-600 dark:text-slate-300"

@@ -16,17 +16,17 @@ export const useAuthStore = defineStore("auth", () => {
     }
 
     async function handleResponse(res) {
-    if (res.status === 204) return null;
-    const body = await res.json();
-    if (!res.ok) {
-        if (body?.errors) {
-            const messages = Object.values(body.errors).join(', ')
-            throw new Error(messages)
+        if (res.status === 204) return null;
+        const body = await res.json();
+        if (!res.ok) {
+            if (body?.errors) {
+                const messages = Object.values(body.errors).join(", ");
+                throw new Error(messages);
+            }
+            throw new Error(body?.error ?? `HTTP ${res.status}`);
         }
-        throw new Error(body?.error ?? `HTTP ${res.status}`)
+        return body;
     }
-    return body;
-}
 
     function setToken(newToken) {
         token.value = newToken;

@@ -24,11 +24,11 @@ class Invitation
     #[ORM\JoinColumn(nullable: false)]
     private ?Project $project = null;
 
-    #[ORM\ManyToOne(inversedBy: 'sentInvitations')]      // ← geändert
+    #[ORM\ManyToOne(inversedBy: 'sentInvitations')] 
     #[ORM\JoinColumn(nullable: false)]
     private ?User $invitedBy = null;
 
-    #[ORM\ManyToOne(inversedBy: 'receivedInvitations')]  // ← geändert
+    #[ORM\ManyToOne(inversedBy: 'receivedInvitations')] 
     #[ORM\JoinColumn(nullable: false)]
     private ?User $invitedUser = null;
 

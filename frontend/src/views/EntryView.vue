@@ -5,5 +5,5 @@
 </template>
 
 <script setup>
-import ManageEntries from '@/components/ManageEntries.vue'
+import ManageEntries from "@/components/ManageEntries.vue";
 </script>

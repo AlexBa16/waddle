@@ -1,18 +1,18 @@
 <script setup>
-import { useProjectStore } from '@/stores/project'
-import { useAuthStore }    from '@/stores/auth'
-import { watch } from 'vue'
+import { useProjectStore } from "@/stores/project";
+import { useAuthStore } from "@/stores/auth";
+import { watch } from "vue";
 
-const auth     = useAuthStore()
-const projects = useProjectStore()
+const auth = useAuthStore();
+const projects = useProjectStore();
 
 watch(
     () => auth.isLoggedIn,
     async (loggedIn) => {
-        if (loggedIn) await projects.loadProjects()
+        if (loggedIn) await projects.loadProjects();
     },
-    { immediate: true }
-)
+    { immediate: true },
+);
 </script>
 
 <template>

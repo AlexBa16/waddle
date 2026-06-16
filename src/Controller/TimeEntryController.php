@@ -20,7 +20,6 @@ class TimeEntryController extends AbstractController
         private TimeEntryRepository $repo,
     ) {}
 
-    // POST /api/time-entries
     #[Route('/time-entries', name: 'create', methods: ['POST'])]
     public function create(Request $request): JsonResponse
     {
@@ -41,7 +40,6 @@ class TimeEntryController extends AbstractController
         return $this->json($this->serialize($entry), 201);
     }
 
-    // GET /api/time-entries
     #[Route('/time-entries', name: 'by_user', methods: ['GET'])]
     public function byUser(): JsonResponse
     {
@@ -56,7 +54,6 @@ class TimeEntryController extends AbstractController
         ));
     }
 
-    # GET /api/users/{id}/time-entries
     #[Route('/users/{id}/time-entries', name: 'by_any_user', methods: ['GET'])]
     public function byAnyUser(User $user): JsonResponse
     {
@@ -71,7 +68,6 @@ class TimeEntryController extends AbstractController
         ));
     }
 
-    // GET /api/projects/{id}/time-entries
     #[Route('/projects/{id}/time-entries', name: 'by_project', methods: ['GET'])]
     public function byProject(Project $project): JsonResponse
     {
@@ -90,7 +86,6 @@ class TimeEntryController extends AbstractController
         ));
     }
 
-    // PUT /api/time-entries/{id}
     #[Route('/time-entries/{id}', name: 'update', methods: ['PUT'])]
     public function update(Request $request, TimeEntry $entry): JsonResponse
     {
@@ -115,7 +110,6 @@ class TimeEntryController extends AbstractController
         return $this->json($this->serialize($entry));
     }
 
-    // DELETE /api/time-entries/{id}
     #[Route('/time-entries/{id}', name: 'delete', methods: ['DELETE'])]
     public function delete(TimeEntry $entry): JsonResponse
     {

@@ -1,5 +1,4 @@
 <?php
-// src/Security/AuthenticationSuccessHandler.php
 
 namespace App\Security;
 

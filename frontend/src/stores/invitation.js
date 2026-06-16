@@ -22,7 +22,6 @@ export const useInvitationStore = defineStore("invitation", () => {
         return body;
     }
 
-    // Eigene Einladungen laden (Inbox)
     async function loadReceived() {
         loading.value = true;
         error.value = null;
@@ -38,7 +37,6 @@ export const useInvitationStore = defineStore("invitation", () => {
         }
     }
 
-    // User suchen
     async function searchUsers(query) {
         if (query.length < 2) return [];
         const res = await fetch(
@@ -48,7 +46,6 @@ export const useInvitationStore = defineStore("invitation", () => {
         return await handleResponse(res);
     }
 
-    // Einladung senden
     async function invite(projectId, userId) {
         const res = await fetch(
             `https://localhost/api/projects/${projectId}/invite`,
@@ -61,7 +58,6 @@ export const useInvitationStore = defineStore("invitation", () => {
         return await handleResponse(res);
     }
 
-    // Einladung annehmen oder ablehnen
     async function respond(invitationId, action) {
         const res = await fetch(
             `https://localhost/api/invitations/${invitationId}/respond`,
@@ -72,7 +68,6 @@ export const useInvitationStore = defineStore("invitation", () => {
             },
         );
         const result = await handleResponse(res);
-        // Aus der Liste entfernen nach Antwort
         received.value = received.value.filter((i) => i.id !== invitationId);
         return result;
     }
@@ -106,10 +101,8 @@ export const useInvitationStore = defineStore("invitation", () => {
     async function init() {
         const auth = useAuthStore();
 
-        // don't initialize without token
         if (!auth.token) return;
 
-        // prevent duplicate loads
         if (initialized.value) return;
 
         initialized.value = true;

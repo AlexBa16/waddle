@@ -144,7 +144,6 @@ final class InvitationController extends AbstractController
       'pending' => false,
     ];
 
-    // Einladungen (pending + accepted)
     $invitations = $this->invitationRepository->findBy(['project' => $project]);
     foreach ($invitations as $invitation) {
       if ($invitation->getStatus() === Invitation::STATUS_DECLINED) continue;

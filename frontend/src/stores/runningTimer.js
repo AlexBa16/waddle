@@ -32,7 +32,6 @@ export const useRunningTimerStore = defineStore("runningTimer", () => {
         );
     }
 
-    // Sync description/projectId changes to localStorage while timer runs
     watch([description, projectId], persist);
 
     function restore() {

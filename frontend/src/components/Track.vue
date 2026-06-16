@@ -1,7 +1,6 @@
 <template>
     <div class="mt-5 w-full md:w-8/12 lg:w-6/12 bg-[#dde3ef] dark:bg-slate-600 rounded-2xl overflow-hidden shadow-md shadow-black/10">
 
-        <!-- Header -->
         <div class="flex items-center gap-3 px-6 py-4">
             <img :src="TrackerIconLight" alt="" class="block w-5 h-5 shrink-0 dark:hidden">
             <img :src="TrackerIconDark" alt="" class="hidden w-5 h-5 shrink-0 dark:block">
@@ -10,7 +9,6 @@
             </label>
         </div>
 
-        <!-- Body -->
         <div class="bg-[#d4dae8] dark:bg-slate-500/40 px-6 py-4 space-y-5">
             <textarea :placeholder="t('nav.track.placeholder')" v-model="runningTimerStore.description" rows="4"
                 class="w-full px-4 py-3 text-sm font-medium transition-colors duration-150 border border-indigo-200 outline-none resize-none rounded-xl bg-orange-50 text-slate-700 placeholder-slate-400 dark:bg-slate-500 dark:text-orange-50 dark:placeholder-orange-50 dark:border-slate-400 focus:ring-1 focus:ring-indigo-400" />
@@ -45,7 +43,6 @@ const { t } = useI18n()
 const runningTimerStore = useRunningTimerStore()
 const projectStore = useProjectStore()
 const toast = ref(null)
-// Sekunden direkt hochzählen statt computed aus Store
 const displaySeconds = ref(
     runningTimerStore.startTime
         ? Math.floor((Date.now() - new Date(runningTimerStore.startTime).getTime()) / 1000)

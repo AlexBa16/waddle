@@ -1,106 +1,140 @@
 <template>
     <div class="flex flex-col items-center justify-center gap-4">
-        <IconLabelInput :iconPath="languageIcon" :label="t('nav.settings.changeLanguage')" :select="true" v-model="form.language" @update:modelValue="setLanguage" />
-        <IconLabelInput :iconPath="viewModeIcon" :label="t('nav.settings.mode')" :selectViewMode="true"
-            :modelValue="selectedTheme" @update:modelValue="onThemeChange" />
-        <hr class="w-6/12 dark:border-slate-300 my-5 border-[#cbd4fe] rounded" />
-        <IconLabelInput :iconPath="userIcon" :label="t('nav.settings.changeUsername')" :placeholder="t('nav.settings.newUsername')"
-            v-model="form.username" />
-        <IconLabelInput :iconPath="passwordIcon" :label="t('nav.settings.changePassword')" :placeholder="t('nav.settings.newPassword')"
-            type="password" v-model="form.password" />
-        <IconLabelInput :iconPath="passwordIcon" :label="t('nav.settings.confirmPassword')"
-            :placeholder="t('nav.settings.confirmedPassword')" type="password" v-model="form.passwordConfirm" />
+        <IconLabelInput
+            :iconPath="languageIcon"
+            :label="t('nav.settings.changeLanguage')"
+            :select="true"
+            v-model="form.language"
+            @update:modelValue="setLanguage"
+        />
+        <IconLabelInput
+            :iconPath="viewModeIcon"
+            :label="t('nav.settings.mode')"
+            :selectViewMode="true"
+            :modelValue="selectedTheme"
+            @update:modelValue="onThemeChange"
+        />
+        <hr
+            class="w-6/12 dark:border-slate-300 my-5 border-[#cbd4fe] rounded"
+        />
+        <IconLabelInput
+            :iconPath="userIcon"
+            :label="t('nav.settings.changeUsername')"
+            :placeholder="t('nav.settings.newUsername')"
+            v-model="form.username"
+        />
+        <IconLabelInput
+            :iconPath="passwordIcon"
+            :label="t('nav.settings.changePassword')"
+            :placeholder="t('nav.settings.newPassword')"
+            type="password"
+            v-model="form.password"
+        />
+        <IconLabelInput
+            :iconPath="passwordIcon"
+            :label="t('nav.settings.confirmPassword')"
+            :placeholder="t('nav.settings.confirmedPassword')"
+            type="password"
+            v-model="form.passwordConfirm"
+        />
         <p v-if="errorMsg" class="text-sm text-red-500">{{ errorMsg }}</p>
         <p v-if="successMsg" class="text-sm text-green-500">{{ successMsg }}</p>
         <div class="flex justify-end w-1/2">
             <Button :disabled="loading" @click="saveSettings">
-                {{ loading ? t('nav.settings.beingSaved') : t('nav.settings.saved-user') }}
+                {{
+                    loading
+                        ? t("nav.settings.beingSaved")
+                        : t("nav.settings.saved-user")
+                }}
             </Button>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useAuthStore } from '@/stores/auth'
-import IconLabelInput from '@/components/IconLabelInput.vue'
-import Button from '@/components/Button.vue'
-import userIcon from '@/assets/user-settings/light/user.svg'
-import languageIcon from '@/assets/user-settings/light/language.svg'
-import passwordIcon from '@/assets/user-settings/light/password.svg'
-import viewModeIcon from '@/assets/user-settings/light/viewModeIcon.svg'
-import { useI18n } from 'vue-i18n'
+import { ref } from "vue";
+import { useAuthStore } from "@/stores/auth";
+import IconLabelInput from "@/components/IconLabelInput.vue";
+import Button from "@/components/Button.vue";
+import userIcon from "@/assets/user-settings/light/user.svg";
+import languageIcon from "@/assets/user-settings/light/language.svg";
+import passwordIcon from "@/assets/user-settings/light/password.svg";
+import viewModeIcon from "@/assets/user-settings/light/viewModeIcon.svg";
+import { useI18n } from "vue-i18n";
 
-const {t, locale} = useI18n()
+const { t, locale } = useI18n();
 function setLanguage(lang) {
-    locale.value = lang
-    localStorage.setItem('lang', lang)
+    locale.value = lang;
+    localStorage.setItem("lang", lang);
 }
 
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    if (!localStorage.getItem('theme')) {
-        document.documentElement.classList.toggle('dark', e.matches)
-    }
-})
-import { useRouter } from 'vue-router'
+window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", (e) => {
+        if (!localStorage.getItem("theme")) {
+            document.documentElement.classList.toggle("dark", e.matches);
+        }
+    });
+import { useRouter } from "vue-router";
 const router = useRouter();
 
-const auth = useAuthStore()
+const auth = useAuthStore();
 
-// Dark mode
-const storedTheme = localStorage.getItem('theme') ?? 'system'
-const selectedTheme = ref(storedTheme)
+const storedTheme = localStorage.getItem("theme") ?? "system";
+const selectedTheme = ref(storedTheme);
 
 function onThemeChange(val) {
-    selectedTheme.value = val
+    selectedTheme.value = val;
 
-    if (val === 'dark') {
-        localStorage.setItem('theme', 'dark')
-        document.documentElement.classList.add('dark')
-    } else if (val === 'light') {
-        localStorage.setItem('theme', 'light')
-        document.documentElement.classList.remove('dark')
+    if (val === "dark") {
+        localStorage.setItem("theme", "dark");
+        document.documentElement.classList.add("dark");
+    } else if (val === "light") {
+        localStorage.setItem("theme", "light");
+        document.documentElement.classList.remove("dark");
     } else {
-        localStorage.removeItem('theme')
+        localStorage.removeItem("theme");
         document.documentElement.classList.toggle(
-            'dark',
-            window.matchMedia('(prefers-color-scheme: dark)').matches
-        )
+            "dark",
+            window.matchMedia("(prefers-color-scheme: dark)").matches,
+        );
     }
 }
 
-// Form
 const form = ref({
-    username: auth.username ?? '',
-    password: '',
-    passwordConfirm: '',
-    language: localStorage.getItem('lang') || (navigator.language.startsWith('de') ? 'de' : 'en'),
-})
+    username: auth.username ?? "",
+    password: "",
+    passwordConfirm: "",
+    language:
+        localStorage.getItem("lang") ||
+        (navigator.language.startsWith("de") ? "de" : "en"),
+});
 
-const loading = ref(false)
-const errorMsg = ref(null)
-const successMsg = ref(null)
+const loading = ref(false);
+const errorMsg = ref(null);
+const successMsg = ref(null);
 
 async function saveSettings() {
-    errorMsg.value = null
-    successMsg.value = null
-    loading.value = true
+    errorMsg.value = null;
+    successMsg.value = null;
+    loading.value = true;
     try {
         if (form.value.password) {
-            await auth.updatePassword(form.value.password, form.value.passwordConfirm)
+            await auth.updatePassword(
+                form.value.password,
+                form.value.passwordConfirm,
+            );
         }
 
         if (form.value.username && form.value.username !== auth.username) {
-            await auth.updateUsername(form.value.username)
+            await auth.updateUsername(form.value.username);
         }
 
-        // Nach jeder Änderung ausloggen → neu einloggen mit neuen Daten
-        auth.logout()
-        router.push({ path: '/login', query: { msg: 'saved' } })
-
+        auth.logout();
+        router.push({ path: "/login", query: { msg: "saved" } });
     } catch (e) {
-        errorMsg.value = e.message
-        loading.value = false  // nur bei Fehler, sonst logout übernimmt
+        errorMsg.value = e.message;
+        loading.value = false;
     }
 }
 </script>

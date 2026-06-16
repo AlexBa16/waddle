@@ -35,7 +35,7 @@ final class UserController extends AbstractController
         $user->setEmail($data["email"] ?? "");
         $user->setPlainPassword($data["password"] ?? "");
 
-        $errors = $this->validator->validate($user, null, ['Default', 'registration']); // ← geändert
+        $errors = $this->validator->validate($user, null, ['Default', 'registration']);
         if (count($errors) > 0) {
             $errorList = [];
             foreach ($errors as $error) {
@@ -69,7 +69,7 @@ final class UserController extends AbstractController
         $user = $this->getUser();
         $user->setUsername(trim($data["username"]));
 
-        $errors = $this->validator->validate($user, null, ['Default']); // ← geändert
+        $errors = $this->validator->validate($user, null, ['Default']);
         if (count($errors) > 0) {
             $errorList = [];
             foreach ($errors as $error) {
@@ -105,7 +105,7 @@ final class UserController extends AbstractController
         $user = $this->getUser();
         $user->setPlainPassword($data["password"]);
 
-        $errors = $this->validator->validate($user, null, ['Default', 'password']); // ← geändert
+        $errors = $this->validator->validate($user, null, ['Default', 'password']);
         if (count($errors) > 0) {
             $errorList = [];
             foreach ($errors as $error) {

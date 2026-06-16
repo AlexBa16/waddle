@@ -17,7 +17,6 @@
             class="w-6/12 dark:border-slate-300 my-5 border-[#cbd4fe] rounded"
         />
 
-        <!-- Mitglieder einladen -->
         <div
             class="flex w-1/2 gap-6 px-6 py-5 mt-5 mb-3 bg-[#dde3ef] dark:bg-slate-600 rounded-2xl shadow-md shadow-black/10 flex-row items-center justify-between"
         >
@@ -47,7 +46,6 @@
                     class="w-full px-4 py-2 text-sm font-medium transition-colors duration-150 border border-indigo-300 outline-none rounded-xl bg-orange-50 text-slate-700 dark:bg-slate-500 dark:text-orange-50 dark:border-slate-400 placeholder-slate-400 focus:ring-1 focus:ring-indigo-400"
                 />
 
-                <!-- Suchergebnisse Dropdown -->
                 <div
                     v-if="searchResults.length > 0"
                     class="absolute z-50 w-full mt-1 overflow-hidden bg-white border border-indigo-200 shadow-lg dark:bg-slate-700 dark:border-slate-500 rounded-xl"
@@ -92,7 +90,6 @@
         />
 
         <DeleteProject />
-        
 
         <p v-if="errorMsg" class="text-sm text-red-500">{{ errorMsg }}</p>
         <p v-if="successMsg" class="text-sm text-green-500">{{ successMsg }}</p>
@@ -123,7 +120,7 @@ import { useI18n } from "vue-i18n";
 import { useProjectStore } from "@/stores/project";
 import { useInvitationStore } from "@/stores/invitation";
 
-const manageMembersRef = ref(null)
+const manageMembersRef = ref(null);
 
 const { t } = useI18n();
 const projectStore = useProjectStore();
@@ -178,27 +175,28 @@ async function saveSettings() {
     }
 }
 
-// Mitglieder einladen
 const searchQuery = ref("");
 const searchResults = ref([]);
 const inviteMsg = ref(null);
 const inviteError = ref(false);
 let searchTimeout = null;
 
-const searching = ref(false)
+const searching = ref(false);
 
 function onSearchInput() {
-    clearTimeout(searchTimeout)
-    inviteMsg.value = null
+    clearTimeout(searchTimeout);
+    inviteMsg.value = null;
     if (searchQuery.value.length < 2) {
-        searchResults.value = []
-        return
+        searchResults.value = [];
+        return;
     }
     searchTimeout = setTimeout(async () => {
-        searching.value = true
-        searchResults.value = await invitationStore.searchUsers(searchQuery.value)
-        searching.value = false
-    }, 300)
+        searching.value = true;
+        searchResults.value = await invitationStore.searchUsers(
+            searchQuery.value,
+        );
+        searching.value = false;
+    }, 300);
 }
 
 async function inviteUser(user) {
@@ -209,7 +207,7 @@ async function inviteUser(user) {
     try {
         await invitationStore.invite(projectStore.selected.id, user.id);
         inviteMsg.value = `${user.username} wurde eingeladen.`;
-        manageMembersRef.value?.loadMembers()
+        manageMembersRef.value?.loadMembers();
     } catch (e) {
         inviteError.value = true;
         inviteMsg.value = e.message;

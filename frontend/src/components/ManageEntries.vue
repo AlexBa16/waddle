@@ -15,7 +15,6 @@
                 class="flex-1 max-w-xs px-4 py-2 text-sm font-medium transition-colors duration-150 border border-indigo-300 dark:border-slate-400 outline-none rounded-xl bg-orange-50 dark:bg-slate-500 text-slate-700 dark:text-orange-50 placeholder-slate-400 dark:placeholder-indigo-50 focus:ring-1 focus:ring-indigo-400" />
         </div>
 
-        <!-- Column headers -->
         <div class="grid grid-cols-[1fr_1fr_2fr_44px] px-6 py-2 text-xs font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-300 bg-[#cdd4e3] dark:bg-slate-700/50">
             <span>{{ t('entries.date') }}</span>
             <span>{{ t('entries.duration') }}</span>
@@ -23,10 +22,8 @@
             <span />
         </div>
 
-        <!-- List body -->
         <div class="bg-[#d4dae8] dark:bg-slate-500/40 min-h-16 divide-y divide-[#cdd4e3] dark:divide-slate-600/60">
 
-            <!-- Loading skeletons -->
             <template v-if="entryStore.loading">
                 <div v-for="n in 4" :key="n"
                     class="grid grid-cols-[1fr_1fr_2fr_44px] items-center px-6 py-[18px] gap-3">
@@ -37,7 +34,6 @@
                 </div>
             </template>
 
-            <!-- Error -->
             <div v-else-if="entryStore.error" class="px-6 py-8 text-sm text-center text-red-500 dark:text-red-400">
                 {{ entryStore.error }}
             </div>
@@ -52,19 +48,16 @@
                 <p>{{ t('entries.noEntries') }}</p>
             </div>
 
-            <!-- Rows -->
             <TransitionGroup v-else name="row" tag="div" class="divide-y divide-slate-300/40 dark:divide-slate-600/60">
                 <div v-for="entry in filteredEntries" :key="entry.id"
                     class="transition-all duration-200 pl-4 border-l-4"
                     :class="[editingId === entry.id ? 'bg-slate-300/30 dark:bg-slate-700/30 border-indigo-400 dark:border-indigo-400' : 'border-transparent']">
 
-                    <!-- Collapsed row layout -->
                     <div class="grid grid-cols-[1fr_1fr_2fr_44px] items-center pr-6 py-[18px] hover:bg-slate-300/20 dark:hover:bg-slate-600/30 transition-colors duration-150">
                         <span class="text-sm font-semibold text-slate-800 dark:text-orange-50">{{ formatDate(entry.startTime) }}</span>
                         <span class="font-mono text-xs text-slate-500 dark:text-orange-50/60">{{ calcDuration(entry.startTime, entry.endTime) }}</span>
                         <span class="pr-4 mr-8 text-sm truncate text-slate-500 dark:text-orange-50/60">{{ entry.description || '—' }}</span>
 
-                        <!-- Actions -->
                         <div class="flex items-center gap-0.5 justify-end">
                             <button @click="toggleEdit(entry)" :title="t('entries.edit')"
                                 :class="[editingId === entry.id ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-100/60 dark:bg-slate-600/80' : 'text-slate-500 dark:text-orange-50/60 hover:bg-slate-300/50 dark:hover:bg-slate-600/50']"
@@ -82,7 +75,6 @@
                         </div>
                     </div>
 
-                    <!-- Edit Panel -->
                     <Transition name="expand">
                         <div v-if="editingId === entry.id" class="pr-6 pb-5">
                             <div class="bg-orange-50/60 dark:bg-slate-700/40 rounded-xl border border-indigo-200 dark:border-slate-500/40 shadow-sm p-4 space-y-4">
@@ -99,7 +91,6 @@
                                     </button>
                                 </div>
 
-                                <!-- Field Inputs -->
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div class="flex flex-col gap-1.5">
                                         <label class="text-[10px] font-bold tracking-widest uppercase text-slate-500 dark:text-slate-300">{{ t('entries.date') }}</label>
@@ -119,7 +110,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Description Textarea -->
                                 <div class="flex flex-col gap-1.5">
                                     <label class="text-[10px] font-bold tracking-widest uppercase text-slate-500 dark:text-slate-300">{{ t('entries.description') }}</label>
                                     <textarea v-model="draft.description" rows="2"
@@ -127,7 +117,6 @@
                                         class="w-full px-4 py-2.5 text-sm border border-indigo-200 dark:border-slate-500 outline-none resize-none rounded-xl bg-orange-50 dark:bg-slate-500 text-slate-700 dark:text-orange-50 placeholder:text-slate-400 dark:placeholder:indigo-100/50 focus:ring-1 focus:ring-indigo-400" />
                                 </div>
 
-                                <!-- Time validation error -->
                                 <p v-if="draftTouched && draftTimeError" class="text-sm text-red-500 dark:text-red-400 -mt-2">
                                     {{ draftTimeError }}
                                 </p>
@@ -138,7 +127,6 @@
             </TransitionGroup>
         </div>
 
-        <!-- Footer -->
         <div class="flex items-center justify-between px-6 py-2.5 bg-slate-400/20 dark:bg-slate-700/40 text-xs text-slate-500 dark:text-orange-50 border-t border-slate-300/30 dark:border-slate-600/40">
             <span class="font-medium">{{ statusText }}</span>
             <button class="px-2.5 py-1 font-medium transition-colors duration-150 rounded-lg cursor-pointer text-slate-600 dark:text-orange-50 hover:bg-slate-300/40 dark:hover:bg-slate-600/50"
@@ -166,8 +154,8 @@ const draftTouched = ref(false)
 
 const filteredEntries = computed(() => {
     const q = searchQuery.value.toLowerCase().trim()
-    if (!q) return entryStore.myEntries  // ← was entryStore.entries
-    return entryStore.myEntries.filter(e =>  // ← was entryStore.entries
+    if (!q) return entryStore.myEntries
+    return entryStore.myEntries.filter(e =>
         e.description?.toLowerCase().includes(q) || formatDate(e.startTime).includes(q)
     )
 })

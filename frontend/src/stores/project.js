@@ -22,10 +22,8 @@ export const useProjectStore = defineStore("project", () => {
 
     async function handleResponse(res) {
         if (res.status === 401) {
-            // Token is stale/invalid — wipe it and send to login
             const auth = useAuthStore();
             auth.logout();
-            // Lazy import to avoid circular dependency
             const { default: router } = await import("@/router");
             router.push("/login");
             throw new Error("Unauthorized");
@@ -124,20 +122,23 @@ export const useProjectStore = defineStore("project", () => {
         selectedId.value = id;
     }
 
-    const members = ref([])
+    const members = ref([]);
 
     async function fetchMembers(projectId) {
-    error.value = null
-    try {
-        const res = await fetch(`https://localhost/api/projects/${projectId}/members`, {
-            headers: authHeaders(),
-        })
-        members.value = await handleResponse(res)
-        return members.value
-    } catch (e) {
-        error.value = e.message
+        error.value = null;
+        try {
+            const res = await fetch(
+                `https://localhost/api/projects/${projectId}/members`,
+                {
+                    headers: authHeaders(),
+                },
+            );
+            members.value = await handleResponse(res);
+            return members.value;
+        } catch (e) {
+            error.value = e.message;
+        }
     }
-}
 
     return {
         projects,

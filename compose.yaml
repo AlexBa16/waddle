@@ -39,17 +39,17 @@ services:
     links:
       - database
     
-  frontend:
-    build: ./frontend
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    ports:
-      - "5173:5173"
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-    depends_on:
-      - php
+#  frontend:
+#    build: ./frontend
+#    volumes:
+#      - ./frontend:/app
+#      - /app/node_modules
+#    ports:
+#      - "5173:5173"
+#    environment:
+#      - CHOKIDAR_USEPOLLING=true
+#    depends_on:
+#      - php
 
 # Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
 ###> symfony/mercure-bundle ###

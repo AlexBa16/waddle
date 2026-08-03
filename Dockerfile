@@ -70,6 +70,14 @@ COPY --link frankenphp/conf.d/20-app.dev.ini $PHP_INI_DIR/app.conf.d/
 
 CMD [ "frankenphp", "run", "--config", "/etc/frankenphp/Caddyfile", "--watch" ]
 
+# --- Frontend build stage ---
+FROM node:22-alpine AS frontend_build
+WORKDIR /app
+COPY frontend/package*.json ./
+RUN npm ci
+COPY frontend/ ./
+RUN npm run build
+
 # Prod FrankenPHP image
 FROM frankenphp_base AS frankenphp_prod
 
@@ -86,6 +94,7 @@ RUN set -eux; \
 
 # copy sources
 COPY --link --exclude=frankenphp/ . ./
+COPY --from=frontend_build /app/dist /app/frontend-dist
 
 RUN set -eux; \
 	mkdir -p var/cache var/log var/share; \

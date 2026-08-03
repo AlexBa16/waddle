@@ -11,16 +11,16 @@ security:
 
     firewalls:
         login:
-            pattern: ^/login
+            pattern: ^/api/auth/login
             stateless: true
             json_login:
-                check_path: /login
+                check_path: /api/auth/login
                 username_path: username
                 password_path: password
                 success_handler: App\Security\AuthenticationSuccessHandler
 
         register:
-            pattern: ^/register
+            pattern: ^/api/auth/register
             stateless: true
             security: false
 
@@ -30,6 +30,6 @@ security:
             jwt: ~
 
     access_control:
-        - { path: ^/login, roles: PUBLIC_ACCESS }
-        - { path: ^/register, roles: PUBLIC_ACCESS }
+        - { path: ^/api/auth/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/auth/register, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: ROLE_USER }

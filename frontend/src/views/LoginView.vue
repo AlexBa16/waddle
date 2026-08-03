@@ -116,6 +116,7 @@ import MountainsBigLight from "@/assets/mountain-big-light.svg";
 import MountainsSmallDark from "@/assets/mountain-small-dark.svg";
 import MountainsBigDark from "@/assets/mountain-big-dark.svg";
 import Toast from "@/components/Toast.vue";
+import {apiFetch} from "@/lib/api.js";
 
 const { t } = useI18n();
 
@@ -144,6 +145,7 @@ onMounted(() => {
         toast.value.success(t("login.savedSettings"));
     }
 });
+const BASE_URL = import.meta.env.VITE_API_URL ?? "";
 
 async function login() {
     error.value = null;
@@ -154,7 +156,7 @@ async function login() {
     loading.value = true;
 
     try {
-        const response = await fetch("https://localhost/login", {
+        const response = await fetch(`${BASE_URL}/api/auth/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

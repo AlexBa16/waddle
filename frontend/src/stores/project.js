@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
-import { useAuthStore } from "@/stores/auth";
+// import { useAuthStore } from "@/stores/auth";
+import {apiFetch} from "@/lib/api.js";
 
 export const useProjectStore = defineStore("project", () => {
     const projects = ref([]);
@@ -12,48 +13,52 @@ export const useProjectStore = defineStore("project", () => {
         () => projects.value.find((p) => p.id === selectedId.value) ?? null,
     );
 
-    function authHeaders() {
-        const auth = useAuthStore();
-        return {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${auth.token}`,
-        };
-    }
-
-    async function handleResponse(res) {
-        if (res.status === 401) {
-            const auth = useAuthStore();
-            auth.logout();
-            const { default: router } = await import("@/router");
-            router.push("/login");
-            throw new Error("Unauthorized");
-        }
-
-        if (res.status === 204) return null;
-
-        const text = await res.text();
-        let body = null;
-        try {
-            body = text ? JSON.parse(text) : null;
-        } catch {
-            body = text;
-        }
-
-        if (!res.ok) {
-            throw new Error(body?.error ?? body ?? `HTTP ${res.status}`);
-        }
-
-        return body;
-    }
+    // function authHeaders() {
+    //     const auth = useAuthStore();
+    //     return {
+    //         "Content-Type": "application/json",
+    //         Authorization: `Bearer ${auth.token}`,
+    //     };
+    // }
+    //
+    // async function handleResponse(res) {
+    //     if (res.status === 401) {
+    //         const auth = useAuthStore();
+    //         auth.logout();
+    //         const { default: router } = await import("@/router");
+    //         router.push("/login");
+    //         throw new Error("Unauthorized");
+    //     }
+    //
+    //     if (res.status === 204) return null;
+    //
+    //     const text = await res.text();
+    //     let body = null;
+    //     try {
+    //         body = text ? JSON.parse(text) : null;
+    //     } catch {
+    //         body = text;
+    //     }
+    //
+    //     if (!res.ok) {
+    //         throw new Error(body?.error ?? body ?? `HTTP ${res.status}`);
+    //     }
+    //
+    //     return body;
+    // }
 
     async function loadProjects() {
         loading.value = true;
         error.value = null;
         try {
-            const res = await fetch("https://localhost/api/projects", {
-                headers: authHeaders(),
+            // const res = await fetch("https://localhost/api/projects", {
+            //     headers: authHeaders(),
+            // });
+            // projects.value = await handleResponse(res);
+            projects.value = await apiFetch("/api/projects", {
+                method: "GET",
             });
-            projects.value = await handleResponse(res);
+
             if (!selectedId.value && projects.value.length > 0) {
                 selectedId.value = projects.value[0].id;
             }
@@ -66,12 +71,17 @@ export const useProjectStore = defineStore("project", () => {
 
     async function createProject(formData) {
         error.value = null;
-        const res = await fetch("https://localhost/api/projects", {
+        // const res = await fetch("https://localhost/api/projects", {
+        //     method: "POST",
+        //     headers: authHeaders(),
+        //     body: JSON.stringify(formData),
+        // });
+        // const created = await handleResponse(res);
+        const created = await apiFetch("/api/projects", {
             method: "POST",
-            headers: authHeaders(),
             body: JSON.stringify(formData),
         });
-        const created = await handleResponse(res);
+
         projects.value.unshift(created);
         selectedId.value = created.id;
         return created;
@@ -79,12 +89,17 @@ export const useProjectStore = defineStore("project", () => {
 
     async function updateProjectName(id, name) {
         error.value = null;
-        const res = await fetch(`https://localhost/api/projects/${id}/name`, {
+        // const res = await fetch(`https://localhost/api/projects/${id}/name`, {
+        //     method: "PATCH",
+        //     headers: authHeaders(),
+        //     body: JSON.stringify({ name }),
+        // });
+        // const updated = await handleResponse(res);
+        const updated = await apiFetch(`/api/projects/${id}/name`, {
             method: "PATCH",
-            headers: authHeaders(),
             body: JSON.stringify({ name }),
         });
-        const updated = await handleResponse(res);
+
         const idx = projects.value.findIndex((p) => p.id === id);
         if (idx !== -1) projects.value[idx] = updated;
         return updated;
@@ -92,26 +107,35 @@ export const useProjectStore = defineStore("project", () => {
 
     async function updateProjectDescription(id, description) {
         error.value = null;
-        const res = await fetch(
-            `https://localhost/api/projects/${id}/description`,
-            {
-                method: "PATCH",
-                headers: authHeaders(),
-                body: JSON.stringify({ description }),
-            },
-        );
-        const updated = await handleResponse(res);
+        // const res = await fetch(
+        //     `https://localhost/api/projects/${id}/description`,
+        //     {
+        //         method: "PATCH",
+        //         headers: authHeaders(),
+        //         body: JSON.stringify({ description }),
+        //     },
+        // );
+        // const updated = await handleResponse(res);
+        const updated = await apiFetch(`/api/projects/${id}/description`, {
+            method: "PATCH",
+            body: JSON.stringify({ description }),
+        });
+
         const idx = projects.value.findIndex((p) => p.id === id);
         if (idx !== -1) projects.value[idx] = updated;
         return updated;
     }
 
     async function removeProject(id) {
-        const res = await fetch(`https://localhost/api/projects/${id}`, {
+        // const res = await fetch(`https://localhost/api/projects/${id}`, {
+        //     method: "DELETE",
+        //     headers: authHeaders(),
+        // });
+        // await handleResponse(res);
+        await apiFetch(`/api/projects/${id}`, {
             method: "DELETE",
-            headers: authHeaders(),
         });
-        await handleResponse(res);
+
         projects.value = projects.value.filter((p) => p.id !== id);
         if (selectedId.value === id) {
             selectedId.value = projects.value[0]?.id ?? null;
@@ -127,13 +151,16 @@ export const useProjectStore = defineStore("project", () => {
     async function fetchMembers(projectId) {
         error.value = null;
         try {
-            const res = await fetch(
-                `https://localhost/api/projects/${projectId}/members`,
-                {
-                    headers: authHeaders(),
-                },
-            );
-            members.value = await handleResponse(res);
+            // const res = await fetch(
+            //     `https://localhost/api/projects/${projectId}/members`,
+            //     {
+            //         headers: authHeaders(),
+            //     },
+            // );
+            // members.value = await handleResponse(res);
+            members.value = await apiFetch(`/api/projects/${projectId}/members`, {
+                method: "DELETE",
+            });
             return members.value;
         } catch (e) {
             error.value = e.message;

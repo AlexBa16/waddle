@@ -63,7 +63,7 @@ export const useTimeEntryStore = defineStore("timeEntry", () => {
             //     return;
             // }
             // entries.value = await handleResponse(res);
-            entries.value = await apiFetch("/api/projects/${projectId}/time-entries", {
+            entries.value = await apiFetch(`/api/projects/${projectId}/time-entries`, {
                 method: "GET",
             });
         } catch (e) {

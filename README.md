@@ -22,9 +22,20 @@ with [FrankenPHP](https://frankenphp.dev) and [Caddy](https://caddyserver.com/) 
 
 ## Run in prod
 ```bash
+# 1. Pull latest code
+git pull origin main
+# 2. Rebuild images
 docker compose -f compose.yaml -f compose.prod.yaml build --pull
+# 3. Apply DB migrations before swapping traffic to new code
+docker compose -f compose.yaml -f compose.prod.yaml run --rm php bin/console doctrine:migrations:migrate --no-interaction
+# 4. Recreate containers with the new images
 docker compose --env-file .env.local -f compose.yaml -f compose.prod.yaml up -d --remove-orphans
+# 5. Regenerate JWT-Keypair
 docker exec waddle-php-1 php bin/console lexik:jwt:generate-keypair --overwrite
+# 6. Warm/clear cache
+docker compose -f compose.yaml -f compose.prod.yaml exec php bin/console cache:clear --env=prod --no-debug
+# 7. Sanity check
+docker compose -f compose.yaml -f compose.prod.yaml exec php bin/console debug:router --env=prod | head
 ```
 
 ## Features

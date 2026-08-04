@@ -14,4 +14,3 @@
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
 /node_modules
-/database_data

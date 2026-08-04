@@ -11,7 +11,7 @@ echo "4. Recreate containers with the new images"
 docker compose --env-file .env.local -f compose.yaml -f compose.prod.yaml up -d --remove-orphans
 
 echo "5. Regenerate JWT-Keypair"
-docker exec waddle-php-1 php bin/console lexik:jwt:generate-keypair --overwrite
+docker exec waddle-app php bin/console lexik:jwt:generate-keypair --overwrite
 
 echo "6. Warm/clear cache"
 docker compose -f compose.yaml -f compose.prod.yaml exec php bin/console cache:clear --env=prod --no-debug

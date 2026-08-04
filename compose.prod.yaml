@@ -11,6 +11,8 @@ services:
       APP_SECRET: ${APP_SECRET}
       MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
       MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
+      DEFAULT_URI: 'https://waddle.alexanderbachinger.com'
+      MERCURE_PUBLIC_URL: 'https://waddle.alexanderbachinger.com/.well-known/mercure'
     networks:
       - default
       - nginxproxymanager_frontend

@@ -11,6 +11,8 @@ services:
       APP_SECRET: ${APP_SECRET}
       MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
       MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
+      SERVER_NAME: ':80'
+      TRUSTED_PROXIES: '172.0.0.0/8'
     networks:
       - default
       - nginxproxymanager_frontend

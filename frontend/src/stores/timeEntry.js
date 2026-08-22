@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { useAuthStore } from "@/stores/auth";
+// import { useAuthStore } from "@/stores/auth";
+import {apiFetch} from "@/lib/api.js";
 
 export const useTimeEntryStore = defineStore("timeEntry", () => {
     const entries = ref([]);
@@ -8,37 +9,40 @@ export const useTimeEntryStore = defineStore("timeEntry", () => {
     const loading = ref(false);
     const error = ref(null);
 
-    function authHeaders() {
-        const auth = useAuthStore();
-        return {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${auth.token}`,
-        };
-    }
-
-    async function handleResponse(res) {
-        if (res.status === 204) return null;
-        const text = await res.text();
-        let body = null;
-        try {
-            body = text ? JSON.parse(text) : null;
-        } catch {
-            body = text;
-        }
-        if (!res.ok) {
-            throw new Error(body?.error ?? body ?? `HTTP ${res.status}`);
-        }
-        return body;
-    }
+    // function authHeaders() {
+    //     const auth = useAuthStore();
+    //     return {
+    //         "Content-Type": "application/json",
+    //         Authorization: `Bearer ${auth.token}`,
+    //     };
+    // }
+    //
+    // async function handleResponse(res) {
+    //     if (res.status === 204) return null;
+    //     const text = await res.text();
+    //     let body = null;
+    //     try {
+    //         body = text ? JSON.parse(text) : null;
+    //     } catch {
+    //         body = text;
+    //     }
+    //     if (!res.ok) {
+    //         throw new Error(body?.error ?? body ?? `HTTP ${res.status}`);
+    //     }
+    //     return body;
+    // }
 
     async function fetchByUser() {
         loading.value = true;
         error.value = null;
         try {
-            const res = await fetch("https://localhost/api/time-entries", {
-                headers: authHeaders(),
+            // const res = await fetch("https://localhost/api/time-entries", {
+            //     headers: authHeaders(),
+            // });
+            // myEntries.value = await handleResponse(res);
+            myEntries.value = await apiFetch("/api/time-entries", {
+                method: "GET",
             });
-            myEntries.value = await handleResponse(res);
         } catch (e) {
             error.value = e.message;
         } finally {
@@ -50,15 +54,18 @@ export const useTimeEntryStore = defineStore("timeEntry", () => {
         loading.value = true;
         error.value = null;
         try {
-            const res = await fetch(
-                `https://localhost/api/projects/${projectId}/time-entries`,
-                { headers: authHeaders() },
-            );
-            if (res.status === 403) {
-                entries.value = [];
-                return;
-            }
-            entries.value = await handleResponse(res);
+            // const res = await fetch(
+            //     `https://localhost/api/projects/${projectId}/time-entries`,
+            //     { headers: authHeaders() },
+            // );
+            // if (res.status === 403) {
+            //     entries.value = [];
+            //     return;
+            // }
+            // entries.value = await handleResponse(res);
+            entries.value = await apiFetch(`/api/projects/${projectId}/time-entries`, {
+                method: "GET",
+            });
         } catch (e) {
             error.value = e.message;
         } finally {
@@ -85,9 +92,19 @@ export const useTimeEntryStore = defineStore("timeEntry", () => {
     async function save(projectId, description, startTime, endTime) {
         error.value = null;
         try {
-            const res = await fetch("https://localhost/api/time-entries", {
+            // const res = await fetch("https://localhost/api/time-entries", {
+            //     method: "POST",
+            //     headers: authHeaders(),
+            //     body: JSON.stringify({
+            //         projectId,
+            //         description,
+            //         startTime,
+            //         endTime,
+            //     }),
+            // });
+            // const entry = await handleResponse(res);
+            const entry = await apiFetch("/api/time-entries", {
                 method: "POST",
-                headers: authHeaders(),
                 body: JSON.stringify({
                     projectId,
                     description,
@@ -95,7 +112,6 @@ export const useTimeEntryStore = defineStore("timeEntry", () => {
                     endTime,
                 }),
             });
-            const entry = await handleResponse(res);
             entries.value.unshift(entry);
             return entry;
         } catch (e) {
@@ -106,15 +122,19 @@ export const useTimeEntryStore = defineStore("timeEntry", () => {
     async function update(id, data) {
         error.value = null;
         try {
-            const res = await fetch(
-                `https://localhost/api/time-entries/${id}`,
-                {
-                    method: "PUT",
-                    headers: authHeaders(),
-                    body: JSON.stringify(data),
-                },
-            );
-            const updated = await handleResponse(res);
+            // const res = await fetch(
+            //     `https://localhost/api/time-entries/${id}`,
+            //     {
+            //         method: "PUT",
+            //         headers: authHeaders(),
+            //         body: JSON.stringify(data),
+            //     },
+            // );
+            // const updated = await handleResponse(res);
+            const updated = await apiFetch(`/api/time-entries/${id}`, {
+                method: "PUT",
+                body: JSON.stringify(data),
+            });
 
             const index = entries.value.findIndex((e) => e.id === id);
             if (index !== -1) entries.value[index] = updated;
@@ -131,14 +151,17 @@ export const useTimeEntryStore = defineStore("timeEntry", () => {
     async function remove(id) {
         error.value = null;
         try {
-            const res = await fetch(
-                `https://localhost/api/time-entries/${id}`,
-                {
-                    method: "DELETE",
-                    headers: authHeaders(),
-                },
-            );
-            await handleResponse(res);
+            // const res = await fetch(
+            //     `https://localhost/api/time-entries/${id}`,
+            //     {
+            //         method: "DELETE",
+            //         headers: authHeaders(),
+            //     },
+            // );
+            // await handleResponse(res);
+            await apiFetch(`/api/time-entries/${id}`, {
+                method: "DELETE",
+            });
 
             entries.value = entries.value.filter((e) => e.id !== id);
             myEntries.value = myEntries.value.filter((e) => e.id !== id); // ← add

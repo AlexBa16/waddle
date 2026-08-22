@@ -47,8 +47,7 @@
                     />
                     <span
                         class="text-3xl font-bold pop-reg text-slate-700 dark:text-orange-50"
-                        >Waddle</span
-                    >
+                    >Waddle</span>
                 </div>
                 <button
                     @click="isOpen = false"
@@ -155,45 +154,6 @@
 </template>
 
 <script setup>
-<<<<<<< HEAD
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
-import LogoLight from '@/assets/logo-light.svg'
-import LogoDark from '@/assets/logo-dark.svg'
-import TrackerIconLight from '@/assets/SidebarIcons/light/tracker.svg'
-import TrackerIconDark from '@/assets/SidebarIcons/dark/tracker.svg'
-import EntryIconLight from '@/assets/SidebarIcons/light/entry.svg'
-import EntryIconDark from '@/assets/SidebarIcons/dark/entry.svg'
-import ReportIconLight from '@/assets/SidebarIcons/light/report.svg'
-import ReportIconDark from '@/assets/SidebarIcons/dark/report.svg'
-import ProjectSettingsIconLight from '@/assets/SidebarIcons/light/project-settings.svg'
-import ProjectSettingsIconDark from '@/assets/SidebarIcons/dark/project-settings.svg'
-import InboxIconLight from '@/assets/SidebarIcons/light/inbox.svg'
-import InboxIconDark from '@/assets/SidebarIcons/dark/inbox.svg'
-import SettingsIconLight from '@/assets/SidebarIcons/light/settings.svg'
-import SettingsIconDark from '@/assets/SidebarIcons/dark/settings.svg'
-import Dropdown from '@/components/Dropdown.vue'
-import Profile from '@/components/Profile.vue'
-import CreateProjectForm from '@/components/CreateProjectForm.vue'
-import { useProjectStore } from '@/stores/project'
-import { useInvitationStore } from '@/stores/invitation'
-import { useAuthStore } from '@/stores/auth'
-import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-const projectStore = useProjectStore()
-const invitationStore = useInvitationStore()
-const authStore = useAuthStore()
-const showCreateForm = ref(false)
-const isOpen = ref(false)
-const { t } = useI18n()
-const hasPendingInvitations = computed(() => invitationStore.received.length > 0)
-
-// Track if we're on desktop (lg breakpoint = 1024px)
-const windowWidth = ref(window.innerWidth)
-const isDesktop = computed(() => windowWidth.value >= 1024)
-const isAdmin = ref(false)
-=======
 import { ref, computed, onMounted, onUnmounted, watch } from "vue";
 import LogoLight from "@/assets/logo-light.svg";
 import LogoDark from "@/assets/logo-dark.svg";
@@ -214,12 +174,14 @@ import Profile from "@/components/Profile.vue";
 import CreateProjectForm from "@/components/CreateProjectForm.vue";
 import { useProjectStore } from "@/stores/project";
 import { useInvitationStore } from "@/stores/invitation";
+import { useAuthStore } from "@/stores/auth";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 const projectStore = useProjectStore();
 const invitationStore = useInvitationStore();
+const authStore = useAuthStore();
 const showCreateForm = ref(false);
 const isOpen = ref(false);
 const { t } = useI18n();
@@ -229,7 +191,7 @@ const hasPendingInvitations = computed(
 
 const windowWidth = ref(window.innerWidth);
 const isDesktop = computed(() => windowWidth.value >= 1024);
->>>>>>> 3350558 (final changes)
+const isAdmin = ref(false);
 
 function onResize() {
     windowWidth.value = window.innerWidth;

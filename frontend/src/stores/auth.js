@@ -1,6 +1,7 @@
-import { defineStore } from "pinia";
-import { ref, computed } from "vue";
-import { useInvitationStore } from "@/stores/invitation";
+import {defineStore} from "pinia";
+import {ref, computed} from "vue";
+import {useInvitationStore} from "@/stores/invitation";
+import {apiFetch} from "@/lib/api";
 
 export const useAuthStore = defineStore("auth", () => {
     const token = ref(localStorage.getItem("token") ?? null);
@@ -8,25 +9,25 @@ export const useAuthStore = defineStore("auth", () => {
 
     const isLoggedIn = computed(() => !!token.value);
 
-    function authHeaders() {
-        return {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token.value}`,
-        };
-    }
-
-    async function handleResponse(res) {
-        if (res.status === 204) return null;
-        const body = await res.json();
-        if (!res.ok) {
-            if (body?.errors) {
-                const messages = Object.values(body.errors).join(", ");
-                throw new Error(messages);
-            }
-            throw new Error(body?.error ?? `HTTP ${res.status}`);
-        }
-        return body;
-    }
+    // function authHeaders() {
+    //     return {
+    //         "Content-Type": "application/json",
+    //         Authorization: `Bearer ${token.value}`,
+    //     };
+    // }
+    //
+    // async function handleResponse(res) {
+    //     if (res.status === 204) return null;
+    //     const body = await res.json();
+    //     if (!res.ok) {
+    //         if (body?.errors) {
+    //             const messages = Object.values(body.errors).join(", ");
+    //             throw new Error(messages);
+    //         }
+    //         throw new Error(body?.error ?? `HTTP ${res.status}`);
+    //     }
+    //     return body;
+    // }
 
     function setToken(newToken) {
         token.value = newToken;
@@ -51,23 +52,26 @@ export const useAuthStore = defineStore("auth", () => {
     }
 
     async function updateUsername(newUsername) {
-        const res = await fetch("https://localhost/api/user/username", {
+        const updated = await apiFetch("/api/user/username", {
             method: "PATCH",
-            headers: authHeaders(),
-            body: JSON.stringify({ username: newUsername }),
+            body: JSON.stringify({username: newUsername}),
         });
-        const updated = await handleResponse(res);
         setUsername(updated.username);
         return updated;
     }
 
     async function updatePassword(password, passwordConfirm) {
-        const res = await fetch("https://localhost/api/user/password", {
+        // const res = await fetch("https://localhost/api/user/password", {
+        //     method: "PATCH",
+        //     headers: authHeaders(),
+        //     body: JSON.stringify({password, passwordConfirm}),
+        // });
+        // return await handleResponse(res); // null (204)
+
+        return await apiFetch("/api/user/password", {
             method: "PATCH",
-            headers: authHeaders(),
-            body: JSON.stringify({ password, passwordConfirm }),
+            body: JSON.stringify({password, passwordConfirm}),
         });
-        return await handleResponse(res); // null (204)
     }
 
     function getUsername() {

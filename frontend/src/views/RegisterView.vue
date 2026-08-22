@@ -119,6 +119,7 @@ import LogoLight from "@/assets/logo-light.svg";
 import LogoDark from "@/assets/logo-dark.svg";
 import MountainsLight from "@/assets/mountains-light.svg";
 import MountainsDark from "@/assets/mountains-dark.svg";
+import {apiFetch} from "@/lib/api.js";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -145,6 +146,8 @@ const v$ = useVuelidate(rules, form);
 const generalError = ref(null);
 const loading = ref(false);
 
+const BASE_URL = import.meta.env.VITE_API_URL ?? "";
+
 async function register() {
     generalError.value = null;
 
@@ -154,7 +157,8 @@ async function register() {
     loading.value = true;
 
     try {
-        const response = await fetch("https://localhost:443/register", {
+        const response = await fetch(`${BASE_URL}/api/auth/register`, {
+
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

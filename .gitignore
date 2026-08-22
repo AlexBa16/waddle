@@ -1,4 +1,5 @@
 
+.idea
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -13,3 +14,7 @@
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
 node_modules/
+
+### prod
+/waddle-backups
+/backup-log

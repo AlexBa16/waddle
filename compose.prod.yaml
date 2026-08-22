@@ -5,7 +5,18 @@ services:
     build:
       context: .
       target: frankenphp_prod
+    env_file:
+      - .env.local
     environment:
       APP_SECRET: ${APP_SECRET}
       MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
       MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
+      DEFAULT_URI: ${DEFAULT_URI}
+      MERCURE_PUBLIC_URL: ${DEFAULT_URI}/.well-known/mercure
+    networks:
+      - default
+      - nginxproxymanager_frontend
+
+networks:
+  nginxproxymanager_frontend:
+#    external: true

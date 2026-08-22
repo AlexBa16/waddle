@@ -2,6 +2,7 @@
 services:
   php:
     image: ${IMAGES_PREFIX:-}app-php
+    container_name: waddle-app
     restart: unless-stopped
     depends_on:          
       database:
@@ -28,18 +29,13 @@ services:
         target: 80
         published: ${HTTP_PORT:-80}
         protocol: tcp
-      - name: https
-        target: 443
-        published: ${HTTPS_PORT:-443}
-        protocol: tcp
-      - name: http3
-        target: 443
-        published: ${HTTP3_PORT:-443}
-        protocol: udp
     links:
       - database
     
   frontend:
+    container_name: waddle-dev-frontend
+    profiles:
+      - dev
     build: ./frontend
     volumes:
       - ./frontend:/app
@@ -58,6 +54,8 @@ services:
 ###> doctrine/doctrine-bundle ###
   database:
     image: postgres:${POSTGRES_VERSION:-16}-alpine
+    container_name: waddle-db
+    restart: unless-stopped
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-app}
       # You should definitely change the password in production

@@ -21,7 +21,7 @@ final class UserController extends AbstractController
         private ValidatorInterface $validator
     ) {}
 
-    #[Route("/register", name: "app_register", methods: ["POST"])]
+    #[Route("/api/auth/register", name: "app_register", methods: ["POST"])]
     public function register(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);

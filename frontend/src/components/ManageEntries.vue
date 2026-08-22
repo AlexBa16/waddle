@@ -236,7 +236,8 @@ async function deleteEntry(entry) {
 }
 
 async function refresh() {
-    await entryStore.fetchByUser()
+    if (!projectStore.selected?.id) return
+    await entryStore.fetchByUserAndProject(projectStore.selected.id)
 }
 
 watch(() => projectStore.selected, refresh, { immediate: true })

@@ -73,6 +73,25 @@ export const useTimeEntryStore = defineStore("timeEntry", () => {
         }
     }
 
+    async function fetchByUserAndProject(projectId) {
+        loading.value = true;
+        error.value = null;
+        try {
+            // const res = await fetch(
+            //     `https://localhost/api/projects/${projectId}/time-entries/mine`,
+            //     { headers: authHeaders() },
+            // );
+            // myEntries.value = await handleResponse(res);
+            myEntries.value = await apiFetch(`/api/projects/${projectId}/time-entries/mine`, {
+                method: "GET",
+            });
+        } catch (e) {
+            error.value = e.message;
+        } finally {
+            loading.value = false;
+        }
+    }
+
     async function save(projectId, description, startTime, endTime) {
         error.value = null;
         try {
@@ -193,6 +212,7 @@ export const useTimeEntryStore = defineStore("timeEntry", () => {
         fetchByUser,
         fetchByProject,
         fetchProjectSummary,
+        fetchByUserAndProject,
         save,
         update,
         remove,

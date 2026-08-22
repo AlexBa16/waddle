@@ -11,4 +11,4 @@ echo "4. Warm/clear cache"
 docker compose -f compose.yaml -f compose.prod.yaml exec php bin/console cache:clear --env=prod --no-debug
 
 echo "5. Sanity check"
-docker compose -f compose.yaml -f compose.prod.yaml exec php bin/console debug:router --env=prod | head
+docker compose -f compose.yaml -f compose.prod.yaml exec php bin/console debug:router --env=prod

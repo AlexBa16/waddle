@@ -77,11 +77,14 @@ export const useTimeEntryStore = defineStore("timeEntry", () => {
         loading.value = true;
         error.value = null;
         try {
-            const res = await fetch(
-                `https://localhost/api/projects/${projectId}/time-entries/mine`,
-                { headers: authHeaders() },
-            );
-            myEntries.value = await handleResponse(res);
+            // const res = await fetch(
+            //     `https://localhost/api/projects/${projectId}/time-entries/mine`,
+            //     { headers: authHeaders() },
+            // );
+            // myEntries.value = await handleResponse(res);
+            myEntries.value = await apiFetch(`/api/projects/${projectId}/time-entries/mine`, {
+                method: "GET",
+            });
         } catch (e) {
             error.value = e.message;
         } finally {

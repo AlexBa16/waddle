@@ -18,7 +18,8 @@ class TimeEntryController extends AbstractController
     public function __construct(
         private EntityManagerInterface $em,
         private TimeEntryRepository $repo,
-    ) {}
+    ) {
+    }
 
     #[Route('/time-entries', name: 'create', methods: ['POST'])]
     public function create(Request $request): JsonResponse
@@ -86,6 +87,23 @@ class TimeEntryController extends AbstractController
         ));
     }
 
+    #[Route('/projects/{id}/time-entries/mine', name: 'by_user_and_project', methods: ['GET'])]
+    public function byUserAndProject(Project $project): JsonResponse
+    {
+        $entries = $this->repo->findBy(
+            [
+                'project' => $project,
+                'trackedBy' => $this->getUser(),
+            ],
+            ['startTime' => 'DESC']
+        );
+
+        return $this->json(array_map(
+            fn(TimeEntry $e) => $this->serialize($e),
+            $entries
+        ));
+    }
+
     #[Route('/time-entries/{id}', name: 'update', methods: ['PUT'])]
     public function update(Request $request, TimeEntry $entry): JsonResponse
     {
@@ -126,17 +144,17 @@ class TimeEntryController extends AbstractController
     private function serialize(TimeEntry $entry): array
     {
         return [
-            'id'          => $entry->getId(),
+            'id' => $entry->getId(),
             'description' => $entry->getDescription(),
-            'startTime'   => $entry->getStartTime()?->format(\DateTimeInterface::ATOM),
-            'endTime'     => $entry->getEndTime()?->format(\DateTimeInterface::ATOM),
-            'createdAt'   => $entry->getCreatedAt()?->format(\DateTimeInterface::ATOM),
-            'project'     => [
-                'id'   => $entry->getProject()?->getId(),
+            'startTime' => $entry->getStartTime()?->format(\DateTimeInterface::ATOM),
+            'endTime' => $entry->getEndTime()?->format(\DateTimeInterface::ATOM),
+            'createdAt' => $entry->getCreatedAt()?->format(\DateTimeInterface::ATOM),
+            'project' => [
+                'id' => $entry->getProject()?->getId(),
                 'name' => $entry->getProject()?->getProjectName(),
             ],
             'trackedBy' => [
-                'id'       => $entry->getTrackedBy()?->getId(),
+                'id' => $entry->getTrackedBy()?->getId(),
                 'username' => $entry->getTrackedBy()?->getUsername(),
             ],
         ];

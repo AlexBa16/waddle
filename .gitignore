@@ -13,6 +13,8 @@
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
-/node_modules
+node_modules/
+
+### prod
 /waddle-backups
 /backup-log
